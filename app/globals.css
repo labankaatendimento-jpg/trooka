@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-purple-glow: #ff5e00;
+  --color-purple-dark: #b33600;
+  --color-bg-black: #000000;
+  --color-bg-deep: #080808;
+  --color-bg-card: rgba(13, 13, 13, 0.6);
+  --color-border-card: rgba(255, 255, 255, 0.08);
+  --color-border-purple: rgba(255, 94, 0, 0.35);
+  
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --animate-marquee: marquee 20s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg-black);
+  color: #f5f5f7;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom glow utility classes */
+.purple-glow-text {
+  text-shadow: 0 0 20px rgba(255, 94, 0, 0.6), 0 0 40px rgba(255, 94, 0, 0.3);
+}
+
+.purple-glow-box {
+  box-shadow: 0 0 30px rgba(255, 94, 0, 0.15);
+}
+
+.glass-card {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-selected {
+  background: rgba(255, 94, 0, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 94, 0, 0.45);
+  box-shadow: 0 0 25px rgba(255, 94, 0, 0.15);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+/* Ambient glow backgrounds */
+.ambient-glow-purple {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 94, 0, 0.08) 0%, rgba(255, 94, 0, 0) 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-neon-lines {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: 
+    radial-gradient(circle at 80% 30%, rgba(255, 94, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(255, 94, 0, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Apple Spotlight scroll styles */
+.search-results-scroll {
+  mask-image: linear-gradient(to bottom, transparent, black 15px, black 90%, transparent);
+}

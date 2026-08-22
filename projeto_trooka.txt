@@ -1,0 +1,2637 @@
+Projeto Trooka
+
+# PROMPT MESTRE - PARTE 1
+
+# TROOKA - Plataforma Inteligente de Upgrade de iPhones
+
+## IMPORTANTE
+
+Este projeto **NÃO é um MVP**.
+
+Este projeto deve ser desenvolvido como um produto de nível internacional, comparável a startups como Airbnb, Uber, Nubank, Linear e Apple.
+
+Todo o código deve ser escalável, limpo, reutilizável e preparado para milhares de usuários simultâneos.
+
+Todo o sistema deve ser desenvolvido pensando em longo prazo.
+
+---
+
+# REGRA MAIS IMPORTANTE
+
+## O layout enviado como referência é a fonte oficial do design.
+
+É proibido:
+
+* alterar a identidade visual
+* mudar o posicionamento dos elementos
+* inventar novas telas
+* substituir componentes
+* criar outra experiência
+
+O objetivo é reproduzir fielmente o layout enviado.
+
+A sensação do produto deve ser:
+
+* premium
+* minimalista
+* extremamente moderno
+* elegante
+* rápido
+* intuitivo
+* sofisticado
+
+O usuário deve sentir que está utilizando um produto criado pela Apple.
+
+---
+
+# Objetivo do Trooka
+
+O Trooka NÃO é um marketplace.
+
+O Trooka NÃO vende celulares.
+
+O Trooka conecta pessoas que querem fazer upgrade com lojistas especializados.
+
+O Trooka faz apenas três coisas.
+
+1. Descobre qual aparelho o cliente possui.
+
+2. Calcula uma estimativa inteligente do valor do aparelho.
+
+3. Envia a solicitação para lojistas reais.
+
+Todo o restante da negociação acontece diretamente entre cliente e loja.
+
+---
+
+# Missão
+
+Existe uma pergunta que milhões de pessoas fazem diariamente.
+
+> Quanto preciso colocar para trocar meu iPhone?
+
+O Trooka existe para responder essa pergunta em menos de 30 segundos.
+
+---
+
+# Público
+
+Inicialmente:
+
+Somente iPhones.
+
+Nada de Android.
+
+Nada de notebooks.
+
+Nada de tablets.
+
+Nada de videogames.
+
+Todo o sistema será construído exclusivamente para iPhone.
+
+No futuro será expandido.
+
+---
+
+# Filosofia do produto
+
+O Trooka deve ser tão simples que:
+
+uma criança de oito anos consiga utilizar
+
+e
+
+uma senhora de sessenta anos consiga utilizar sem precisar pedir ajuda.
+
+Toda decisão de UX deve seguir essa filosofia.
+
+Se existir uma forma mais simples de fazer algo, ela deve ser utilizada.
+
+---
+
+# Estilo visual
+
+Referências obrigatórias.
+
+Apple
+
+Airbnb
+
+Linear
+
+Arc Browser
+
+Nothing
+
+Todo o design deve transmitir calma.
+
+Nada deve parecer pesado.
+
+Nada deve parecer técnico.
+
+Nada deve parecer complicado.
+
+---
+
+# Sensação desejada
+
+O usuário não deve sentir que está preenchendo um formulário.
+
+Ele deve sentir que está conversando.
+
+Essa diferença muda completamente a experiência.
+
+---
+
+# Fluxo
+
+Entrou no site.
+
+↓
+
+A IA pergunta.
+
+↓
+
+Usuário responde.
+
+↓
+
+IA pergunta novamente.
+
+↓
+
+Usuário responde.
+
+↓
+
+Resultado.
+
+↓
+
+Solicitar ofertas.
+
+Tudo extremamente natural.
+
+---
+
+# IA
+
+A IA chama-se:
+
+## IA da Trooka
+
+Ela nunca fala como robô.
+
+Ela fala como uma pessoa.
+
+Exemplo.
+
+Olá 👋
+
+Que bom ter você aqui.
+
+Vamos descobrir quanto pode valer seu iPhone.
+
+Leva menos de um minuto.
+
+---
+
+Depois.
+
+Qual iPhone você usa hoje?
+
+---
+
+Depois.
+
+Agora me conta...
+
+Qual modelo você quer pegar?
+
+---
+
+Depois.
+
+Perfeito.
+
+Agora preciso entender rapidamente o estado do seu aparelho.
+
+---
+
+Depois.
+
+Prontinho.
+
+Estou calculando uma estimativa...
+
+---
+
+Sempre mensagens curtas.
+
+Nunca textos grandes.
+
+---
+
+# A IA nunca faz perguntas fora do contexto.
+
+Nunca.
+
+Ela existe apenas para descobrir:
+
+modelo atual
+
+modelo desejado
+
+estado
+
+cidade
+
+Nada além disso.
+
+---
+
+# Regras da IA
+
+Nunca inventar respostas.
+
+Nunca conversar sobre política.
+
+Nunca conversar sobre futebol.
+
+Nunca responder dúvidas gerais.
+
+Nunca responder perguntas aleatórias.
+
+Caso o usuário tente fugir do assunto.
+
+Responder.
+
+Posso ajudar apenas com sua simulação de upgrade 😊
+
+Vamos continuar?
+
+---
+
+# Cálculo
+
+A IA NÃO calcula valores.
+
+Quem calcula é o sistema.
+
+O cálculo será baseado em:
+
+Banco de dados
+
+*
+
+Regras
+
+A IA apenas apresenta o resultado.
+
+---
+
+# Banco de dados inicial
+
+Os valores serão abastecidos manualmente.
+
+Posteriormente existirá uma IA responsável por pesquisar o mercado diariamente.
+
+Mas isso NÃO será desenvolvido agora.
+
+A estrutura apenas deve estar preparada.
+
+---
+
+# Objetivo do resultado
+
+O resultado nunca representa um valor definitivo.
+
+Representa apenas uma estimativa.
+
+O valor definitivo será informado pela loja após avaliação presencial.
+
+Essa informação deve aparecer discretamente abaixo do resultado.
+
+---
+
+# Resultado
+
+O usuário verá.
+
+Seu aparelho pode valer até
+
+R$ 2.450
+
+Logo abaixo.
+
+Estimativa baseada nas informações fornecidas.
+
+O valor poderá variar após avaliação presencial.
+
+---
+
+# O verdadeiro produto
+
+O Trooka NÃO vende avaliação.
+
+O Trooka vende uma resposta.
+
+Quanto falta para eu conseguir o iPhone que eu quero?
+
+Toda a plataforma deve girar em torno dessa pergunta.
+
+---
+
+# Diferença do Upgrade
+
+Depois da estimativa.
+
+Mostrar.
+
+Valor estimado do seu aparelho
+
+↓
+
+Preço médio do aparelho desejado
+
+↓
+
+Diferença estimada
+
+Essa informação é tão importante quanto a estimativa.
+
+---
+
+# Solicitação de ofertas
+
+Depois do resultado.
+
+Botão.
+
+Solicitar ofertas
+
+Ao clicar.
+
+Perguntar.
+
+Escolha sua cidade.
+
+↓
+
+Escolha seu estado.
+
+Depois disso.
+
+Verificar.
+
+Existem lojistas cadastrados nessa cidade?
+
+---
+
+Se SIM.
+
+Enviar solicitação.
+
+---
+
+Se NÃO.
+
+Mostrar.
+
+Ainda não temos lojas parceiras na sua cidade.
+
+Assim que houver, avisaremos pelo WhatsApp.
+
+---
+
+# WhatsApp
+
+O usuário NÃO cria conta.
+
+Nunca.
+
+Todo contato acontece pelo WhatsApp.
+
+---
+
+Quando escolher uma oferta.
+
+O Trooka envia.
+
+Nome da loja.
+
+Telefone.
+
+Endereço.
+
+Link do WhatsApp.
+
+A partir desse momento.
+
+A negociação deixa de ser responsabilidade do Trooka.
+
+---
+
+# Login
+
+Somente lojistas possuem login.
+
+Clientes nunca possuem login.
+
+---
+
+# Cadastro do cliente
+
+Não existe.
+
+---
+
+# Histórico
+
+Não existe.
+
+Cada simulação começa do zero.
+
+---
+
+# Lojistas
+
+Inicialmente.
+
+Cadastro gratuito.
+
+No futuro.
+
+Sistema de créditos.
+
+Cada vez que um cliente escolher conversar com um lojista.
+
+Será descontado um crédito.
+
+Toda arquitetura deve nascer preparada para isso.
+
+Mesmo que inicialmente esteja desativado.
+
+---
+
+# Performance
+
+O sistema deve abrir em menos de dois segundos.
+
+As animações devem ocorrer em 60 FPS.
+
+As imagens devem ser otimizadas.
+
+Todo carregamento deve ser lazy loading.
+
+---
+
+# Responsividade
+
+O Mobile é prioridade absoluta.
+
+Desktop deve ser impecável.
+
+Tablet também.
+
+Mas todas as decisões devem ser tomadas pensando primeiro no smartphone.
+
+---
+
+## Instrução final para o Antigravity
+
+> **Você não está criando apenas um sistema. Está criando um produto que deve se tornar a principal referência em simulação de upgrades de iPhone no Brasil. Cada decisão de design, arquitetura, UX e código deve refletir essa ambição. A simplicidade é um requisito absoluto. Se existir uma solução mais simples, mais elegante e mais intuitiva, ela deve ser escolhida. O usuário deve conseguir concluir toda a simulação em menos de um minuto e sair com a sensação de que utilizou um produto premium, confiável e extremamente moderno.**
+
+---
+
+Perfeito. Agora vamos entrar na parte mais importante: **a experiência do usuário**. Esta parte é a que vai impedir o Antigravity de criar telas diferentes das que você imaginou.
+
+---
+
+# PROMPT MESTRE - PARTE 2
+
+# Interface do Cliente (UI/UX)
+
+## REGRA ABSOLUTA
+
+A interface deve seguir fielmente a imagem de referência enviada.
+
+Ela NÃO deve ser reinterpretada.
+
+Ela NÃO deve ser simplificada.
+
+Ela NÃO deve ser modificada.
+
+Ela deve ser reproduzida visualmente com fidelidade máxima.
+
+O objetivo é que, ao olhar para a aplicação pronta, ela seja praticamente idêntica ao conceito aprovado.
+
+---
+
+# Primeira impressão
+
+O usuário deve sentir isso nos primeiros 3 segundos:
+
+> "Nossa... isso é diferente."
+
+Não deve parecer:
+
+* um formulário
+* um marketplace
+* um comparador de preços
+* um site de loja
+
+Deve parecer um produto criado por uma empresa de tecnologia.
+
+---
+
+# Hero da página
+
+A tela inicial ocupa praticamente toda a primeira dobra.
+
+### Lado esquerdo
+
+Logo Trooka.
+
+Botão pequeno:
+
+**✨ Simulador Inteligente**
+
+Título principal:
+
+> Descubra quanto vale seu upgrade.
+
+A palavra **upgrade** deve possuir destaque em gradiente laranja.
+
+Subtítulo:
+
+> Nossa IA faz algumas perguntas rápidas e encontra uma estimativa inteligente para seu upgrade.
+
+Abaixo:
+
+Indicador social.
+
++250 mil simulações realizadas
+
+(componente elegante)
+
+Botão principal.
+
+**Começar Simulação**
+
+---
+
+## Lado direito
+
+Imagem premium do iPhone.
+
+Sempre ocupar aproximadamente metade da tela.
+
+Não utilizar mockups simples.
+
+Utilizar render de alta qualidade.
+
+O fundo deve utilizar o mesmo conceito visual do wallpaper do iPhone 17 Pro Max.
+
+Linhas neon.
+
+Poucos elementos.
+
+Muito espaço negativo.
+
+---
+
+# Fundo
+
+Nunca utilizar fundo completamente preto.
+
+Utilizar:
+
+preto profundo
+
+*
+
+gradiente
+
+*
+
+linhas neon
+
+*
+
+blur
+
+*
+
+glow suave
+
+Tudo extremamente elegante.
+
+---
+
+# Conversa
+
+A conversa acontece abaixo do Hero.
+
+Não abrir outra página.
+
+Não abrir modal.
+
+Tudo acontece na mesma tela.
+
+O usuário apenas continua descendo.
+
+---
+
+# Chat
+
+O chat deve parecer extremamente moderno.
+
+Bolhas grandes.
+
+Cantos arredondados.
+
+Animações suaves.
+
+Fade.
+
+Slide.
+
+Digitando...
+
+Tudo muito fluido.
+
+---
+
+# Primeira mensagem
+
+IA:
+
+Olá 👋
+
+Sou a IA da Trooka.
+
+Vou descobrir quanto pode valer seu iPhone.
+
+Leva menos de um minuto.
+
+---
+
+Depois de 600ms.
+
+Qual iPhone você usa hoje?
+
+---
+
+# Resposta do usuário
+
+Não utilizar dropdown.
+
+Jamais.
+
+Dropdown transmite sensação antiga.
+
+Em vez disso.
+
+Ao clicar.
+
+Abrir um Bottom Sheet elegante.
+
+Pesquisar.
+
+Pesquisar iPhone...
+
+Enquanto digita.
+
+Os modelos aparecem automaticamente.
+
+Como no Spotlight da Apple.
+
+Como no Airbnb.
+
+Como no iOS.
+
+---
+
+Lista.
+
+iPhone 11
+
+iPhone 11 Pro
+
+iPhone 12
+
+iPhone 12 Pro
+
+...
+
+Tudo pesquisável.
+
+Nada de listas enormes.
+
+---
+
+Após selecionar.
+
+A resposta aparece como bolha do usuário.
+
+Exemplo.
+
+iPhone 13 Pro Max
+
+com animação.
+
+---
+
+IA responde.
+
+Excelente escolha.
+
+Agora...
+
+Qual modelo você quer comprar?
+
+---
+
+# Modelo desejado
+
+Aqui pode utilizar cartões.
+
+Como no conceito aprovado.
+
+Mostrar somente modelos mais populares.
+
+iPhone 17
+
+iPhone 17 Air
+
+iPhone 17 Pro
+
+iPhone 17 Pro Max
+
+*
+
+Outro modelo
+
+Ao clicar.
+
+Seleciona.
+
+Animação.
+
+Glow.
+
+Escala.
+
+Nada exagerado.
+
+---
+
+# IA
+
+Depois.
+
+Perfeito.
+
+Agora preciso entender rapidamente como está seu aparelho.
+
+---
+
+# Estado
+
+Apenas quatro opções.
+
+Sem imagens.
+
+Sem ilustrações.
+
+Somente cartões elegantes.
+
+---
+
+Excelente
+
+Sem riscos.
+
+Sem amassados.
+
+Nunca foi aberto.
+
+Bateria acima de 85%.
+
+---
+
+Bom
+
+Pequenos sinais de uso.
+
+Funcionando normalmente.
+
+Bateria acima de 80%.
+
+---
+
+Marcas visíveis
+
+Riscos.
+
+Amassados.
+
+Desgaste visível.
+
+Funcionando normalmente.
+
+---
+
+Tela quebrada ou defeitos
+
+Tela quebrada.
+
+Problemas visíveis.
+
+Falhas.
+
+---
+
+Apenas um clique.
+
+Nada mais.
+
+---
+
+Depois.
+
+IA.
+
+Só mais uma pergunta.
+
+Seu aparelho já passou por manutenção?
+
+---
+
+Sim.
+
+Não.
+
+Não sei.
+
+---
+
+Fim.
+
+---
+
+# Loading
+
+Depois.
+
+A IA escreve.
+
+Perfeito.
+
+Estou analisando as informações...
+
+Aparece.
+
+•••
+
+Animação.
+
+Nunca spinner comum.
+
+Nunca loading tradicional.
+
+Tudo deve parecer conversa.
+
+Tempo.
+
+2 segundos.
+
+Depois.
+
+Resultado.
+
+---
+
+# Card do resultado
+
+Este é o componente mais importante do sistema.
+
+Lado direito.
+
+Card premium.
+
+Vidro.
+
+Glow.
+
+Blur.
+
+---
+
+Título.
+
+Sua estimativa de troca
+
+---
+
+Texto.
+
+Seu aparelho pode valer até
+
+---
+
+Valor.
+
+R$ 2.450
+
+Fonte grande.
+
+Destaque.
+
+---
+
+Depois.
+
+Para usar no upgrade do
+
+iPhone 17 Pro Max 256GB
+
+---
+
+Depois.
+
+Linha fina.
+
+---
+
+Informação.
+
+Estimativa baseada nas respostas fornecidas.
+
+O valor final será confirmado pela loja após avaliação presencial.
+
+Fonte pequena.
+
+Discreta.
+
+---
+
+## Diferença estimada
+
+Logo abaixo do valor do aparelho.
+
+Mostrar.
+
+Preço médio do modelo desejado
+
+↓
+
+R$ 5.990
+
+↓
+
+Diferença aproximada
+
+↓
+
+Entre
+
+R$ 3.300
+
+e
+
+R$ 3.700
+
+Esta informação deve ser muito clara.
+
+Pois é exatamente o que o usuário procura.
+
+---
+
+# Botão
+
+Solicitar ofertas
+
+Grande.
+
+Laranja.
+
+Glow suave.
+
+Hover elegante.
+
+---
+
+# Clique
+
+Ao clicar.
+
+Abrir Bottom Sheet.
+
+Nunca modal central.
+
+---
+
+Pergunta.
+
+Em qual cidade você deseja receber ofertas?
+
+---
+
+Estado.
+
+Campo pesquisável.
+
+Cidade.
+
+Campo pesquisável.
+
+---
+
+Depois.
+
+Buscar.
+
+---
+
+# Se houver lojas
+
+Mostrar.
+
+Encontramos
+
+5 lojas parceiras
+
+na sua cidade.
+
+Deseja solicitar ofertas?
+
+Botão.
+
+Sim.
+
+---
+
+Enviar.
+
+---
+
+Animação.
+
+Sucesso.
+
+---
+
+Mensagem.
+
+Perfeito.
+
+Sua solicitação foi enviada.
+
+Agora nossos lojistas irão analisar seu aparelho.
+
+Assim que recebermos propostas reais enviaremos tudo para seu WhatsApp.
+
+---
+
+Botão.
+
+Concluir.
+
+---
+
+# Caso não exista loja
+
+Mensagem.
+
+Ainda não temos parceiros ativos nesta cidade.
+
+Assim que uma loja entrar para a plataforma avisaremos você pelo WhatsApp.
+
+---
+
+# Rodapé
+
+Muito minimalista.
+
+Sem excesso de links.
+
+Itens:
+
+Como funciona
+
+Para lojistas
+
+Privacidade
+
+Termos
+
+Contato
+
+Instagram
+
+---
+
+# Microinterações
+
+Todas obrigatórias.
+
+Hover.
+
+Glow.
+
+Fade.
+
+Scale.
+
+Slide.
+
+Blur.
+
+Digitando.
+
+Ripple.
+
+Focus.
+
+Nenhuma animação pode parecer chamativa.
+
+Tudo extremamente elegante.
+
+---
+
+# Tipografia
+
+Utilizar uma fonte moderna, limpa e altamente legível (por exemplo, Inter ou SF Pro Display, conforme disponibilidade).
+
+Hierarquia visual muito clara.
+
+Poucas variações de peso.
+
+Muito espaço em branco.
+
+---
+
+# Acessibilidade
+
+Todos os componentes devem ser navegáveis por teclado.
+
+Contraste adequado.
+
+Estados de foco visíveis.
+
+Áreas de toque confortáveis no mobile.
+
+---
+
+## Instrução final da Parte 2
+
+> **A experiência do usuário deve parecer uma conversa natural, não um formulário. Em nenhum momento o usuário deve sentir que está preenchendo dados. Cada interação deve ser rápida, intuitiva e prazerosa. O objetivo é concluir a simulação em menos de um minuto, transmitindo confiança e uma sensação premium em cada detalhe.**
+
+---
+
+# PROMPT MESTRE - PARTE 3
+
+# Painel do Lojista + Painel Administrativo
+
+---
+
+# Filosofia
+
+O painel do lojista deve seguir exatamente o mesmo conceito visual do site.
+
+Nada de aparência de sistema antigo.
+
+Nada de tabelas enormes.
+
+Nada de menus complicados.
+
+O painel deve parecer um produto da Apple.
+
+Minimalista.
+
+Escuro.
+
+Premium.
+
+Rápido.
+
+---
+
+# Login
+
+Apenas lojistas possuem login.
+
+Campos:
+
+Email
+
+Senha
+
+Botão Entrar
+
+Esqueci minha senha
+
+---
+
+Após login.
+
+Ir para Dashboard.
+
+---
+
+# Dashboard
+
+Ao entrar.
+
+Mostrar apenas quatro cards.
+
+Solicitações recebidas
+
+Ofertas enviadas
+
+Créditos disponíveis
+
+Avaliação média
+
+Nada além disso.
+
+Abaixo.
+
+Lista de solicitações.
+
+---
+
+# Menu lateral
+
+Bem pequeno.
+
+Apenas ícones.
+
+Dashboard
+
+Solicitações
+
+Meu Perfil
+
+Tabela de Preços
+
+Créditos
+
+Configurações
+
+Sair
+
+Nada mais.
+
+---
+
+# Solicitações
+
+Esta é a tela mais importante.
+
+Cada solicitação aparece como um card.
+
+Nunca tabela.
+
+Cada card possui.
+
+---
+
+Nome do aparelho do cliente
+
+iPhone atual
+
+↓
+
+Modelo desejado
+
+↓
+
+Estado informado
+
+↓
+
+Cidade
+
+↓
+
+Data
+
+↓
+
+Status
+
+---
+
+Exemplo.
+
+iPhone 13 Pro Max
+
+↓
+
+iPhone 17 Pro Max
+
+↓
+
+Bom
+
+↓
+
+Campinas/SP
+
+↓
+
+Recebido há 4 minutos
+
+---
+
+Botão.
+
+Fazer proposta
+
+---
+
+Ao clicar.
+
+Abrir um painel lateral.
+
+Nunca modal.
+
+---
+
+Mostrar.
+
+Resumo do cliente.
+
+Modelo atual
+
+Modelo desejado
+
+Estado informado
+
+Estimativa apresentada pelo Trooka
+
+---
+
+Campo.
+
+Quanto você oferece pelo aparelho?
+
+Campo moeda.
+
+---
+
+Campo.
+
+Valor do aparelho novo
+
+Campo moeda.
+
+---
+
+Sistema calcula automaticamente.
+
+Diferença
+
+---
+
+Exemplo.
+
+Aparelho usado
+
+R$ 2.500
+
+Novo
+
+R$ 5.990
+
+Diferença
+
+R$ 3.490
+
+---
+
+Campo.
+
+Observação
+
+Opcional.
+
+Exemplo.
+
+Valor sujeito à confirmação após avaliação presencial.
+
+---
+
+Botão.
+
+Enviar proposta
+
+---
+
+Ao enviar.
+
+Status muda para.
+
+Oferta enviada.
+
+---
+
+# Importante
+
+O lojista NÃO conversa diretamente.
+
+O cliente NÃO vê o WhatsApp da loja.
+
+Ainda não.
+
+---
+
+Todas as propostas ficam armazenadas.
+
+---
+
+# Cliente escolhe
+
+Quando escolher uma.
+
+O sistema faz.
+
+---
+
+Status
+
+Cliente escolheu sua proposta.
+
+---
+
+Agora sim.
+
+Liberar.
+
+Telefone
+
+WhatsApp
+
+Nome da loja
+
+Endereço
+
+---
+
+A partir daí.
+
+A negociação sai do Trooka.
+
+---
+
+# Créditos
+
+Inicialmente.
+
+Grátis.
+
+Mas toda estrutura deve existir.
+
+---
+
+Cada proposta aceita consome.
+
+1 crédito.
+
+---
+
+Se créditos chegarem a zero.
+
+Botão.
+
+Comprar créditos
+
+---
+
+Não implementar pagamento agora.
+
+Apenas preparar.
+
+---
+
+# Perfil da Loja
+
+Campos.
+
+Nome fantasia
+
+Razão social
+
+CNPJ
+
+Telefone
+
+WhatsApp
+
+Email
+
+Cidade
+
+Estado
+
+Endereço
+
+Horário
+
+Instagram
+
+Logo
+
+Foto da fachada
+
+Descrição
+
+---
+
+# Fotos
+
+Cada loja pode cadastrar.
+
+Logo.
+
+Foto da fachada.
+
+Foto interna.
+
+Essas imagens aparecerão quando o cliente escolher a proposta.
+
+---
+
+# Avaliações
+
+Depois da negociação.
+
+Cliente recebe mensagem.
+
+Como foi sua experiência?
+
+★★★★★
+
+Comentário opcional.
+
+---
+
+Essa nota aparece no perfil.
+
+---
+
+# Tempo médio
+
+Mostrar.
+
+Responde em média em 12 minutos.
+
+---
+
+# Painel Administrativo
+
+Separado.
+
+Apenas administrador.
+
+---
+
+Dashboard.
+
+Total de simulações
+
+Hoje
+
+Semana
+
+Mês
+
+Ano
+
+---
+
+Total de lojas
+
+Ativas
+
+Pendentes
+
+Bloqueadas
+
+---
+
+Total de propostas
+
+---
+
+Taxa de conversão
+
+---
+
+Solicitações aguardando
+
+---
+
+# Cadastro de modelos
+
+Administrador consegue cadastrar.
+
+Marca
+
+Modelo
+
+Armazenamento
+
+Preço médio
+
+Valor base de troca
+
+Ano
+
+Tudo manualmente.
+
+---
+
+# Regras
+
+Administrador consegue editar.
+
+Peso do estado do aparelho.
+
+---
+
+Exemplo.
+
+Excelente
+
+100%
+
+Bom
+
+92%
+
+Marcas
+
+84%
+
+Tela quebrada
+
+70%
+
+Peças trocadas
+
+60%
+
+Esses percentuais poderão ser alterados.
+
+---
+
+# Banco de preços
+
+Tela exclusiva.
+
+Cadastrar.
+
+Modelo.
+
+Preço novo.
+
+Preço usado.
+
+Preço médio.
+
+Atualização.
+
+Origem.
+
+---
+
+Tudo preparado para futuramente receber atualização automática por IA.
+
+---
+
+# Lojas
+
+Administrador consegue.
+
+Aprovar.
+
+Suspender.
+
+Editar.
+
+Excluir.
+
+---
+
+# Sistema de cidades
+
+Ao cadastrar loja.
+
+Ela fica automaticamente disponível naquela cidade.
+
+---
+
+Quando cliente solicitar ofertas.
+
+Buscar apenas.
+
+Cidade.
+
+Estado.
+
+Nunca país inteiro.
+
+---
+
+# Ordem das ofertas
+
+A princípio.
+
+Primeira loja que responder aparece primeiro.
+
+No futuro.
+
+Adicionar algoritmo.
+
+Considerando.
+
+Avaliação.
+
+Tempo de resposta.
+
+Plano.
+
+Distância.
+
+---
+
+# Notificações
+
+Quando chegar uma solicitação.
+
+Notificação em tempo real.
+
+Som discreto.
+
+Badge.
+
+Push.
+
+---
+
+# WhatsApp
+
+Assim que chegar solicitação.
+
+Enviar para lojista.
+
+Você recebeu uma nova oportunidade.
+
+---
+
+Quando cliente escolher.
+
+Enviar.
+
+Parabéns!
+
+Sua proposta foi escolhida.
+
+---
+
+# Segurança
+
+Todo painel protegido.
+
+JWT.
+
+Refresh Token.
+
+Rate Limit.
+
+Logs.
+
+Criptografia.
+
+HTTPS obrigatório.
+
+---
+
+# Performance
+
+Todas as telas.
+
+Instantâneas.
+
+Utilizar cache.
+
+Lazy Loading.
+
+Paginação infinita.
+
+Busca instantânea.
+
+---
+
+# Escalabilidade
+
+Sistema preparado para.
+
+100
+
+1.000
+
+10.000
+
+100.000
+
+lojistas.
+
+Sem necessidade de reescrever arquitetura.
+
+---
+
+# UX
+
+Nunca utilizar.
+
+Tabelas gigantes.
+
+Formulários longos.
+
+Menus complicados.
+
+Tudo deve ser resolvido em poucos cliques.
+
+---
+
+# Princípio mais importante
+
+Um lojista ocupado deve conseguir:
+
+Entrar.
+
+↓
+
+Ver nova solicitação.
+
+↓
+
+Enviar proposta.
+
+↓
+
+Sair.
+
+Em menos de **40 segundos**.
+
+Esse objetivo deve orientar todo o design do painel.
+
+---
+
+## 💡 Uma melhoria estratégica que eu acrescentaria
+
+Aqui vai uma ideia que **não tínhamos discutido**, mas que acredito aumentar muito o valor do Trooka:
+
+### Campo "Estoque disponível"
+
+Cada lojista pode marcar quais modelos ele possui disponíveis no momento.
+
+Exemplo:
+
+* ✅ iPhone 15 Pro
+* ✅ iPhone 15 Pro Max
+* ❌ iPhone 16
+* ✅ iPhone 16 Pro
+* ❌ iPhone 17 Air
+
+Quando o cliente solicitar um iPhone 17 Pro Max, **apenas lojas que informaram ter esse modelo em estoque recebem a solicitação**.
+
+Isso traz três vantagens:
+
+* o cliente recebe propostas realmente viáveis;
+* o lojista não perde tempo respondendo pedidos que não consegue atender;
+* a taxa de conversão da plataforma tende a aumentar.
+
+---
+
+# PROMPT MESTRE — PARTE 4
+
+# Arquitetura, Banco de Dados, IA e Infraestrutura
+
+---
+
+# Filosofia da Arquitetura
+
+O projeto deve ser desenvolvido como um SaaS profissional.
+
+Todo o código deve seguir princípios SOLID.
+
+Utilizar arquitetura modular.
+
+Cada funcionalidade deve ser independente.
+
+Evitar código duplicado.
+
+Todo componente deve ser reutilizável.
+
+Todo o sistema deve ser preparado para crescer durante muitos anos.
+
+---
+
+# Tecnologias
+
+O Antigravity deve utilizar tecnologias modernas.
+
+Frontend
+
+* React
+* Next.js
+* TypeScript
+* TailwindCSS
+* Framer Motion
+
+Backend
+
+* Supabase
+
+Banco
+
+* PostgreSQL
+
+Autenticação
+
+* Supabase Auth
+
+Storage
+
+* Supabase Storage
+
+Tempo Real
+
+* Supabase Realtime
+
+---
+
+# Estrutura do Projeto
+
+/client
+
+/dashboard-lojista
+
+/admin
+
+/components
+
+/lib
+
+/hooks
+
+/services
+
+/database
+
+/types
+
+/utils
+
+/assets
+
+/public
+
+---
+
+# Banco de Dados
+
+## Tabela
+
+iphone_models
+
+Campos
+
+id
+
+marca
+
+modelo
+
+armazenamento
+
+ano
+
+preco_medio_novo
+
+preco_medio_usado
+
+valor_base_upgrade
+
+imagem
+
+status
+
+created_at
+
+updated_at
+
+---
+
+## Tabela
+
+stores
+
+id
+
+nome
+
+cnpj
+
+telefone
+
+whatsapp
+
+email
+
+cidade
+
+estado
+
+endereco
+
+instagram
+
+descricao
+
+logo
+
+fachada
+
+status
+
+creditos
+
+avaliacao_media
+
+tempo_resposta
+
+created_at
+
+---
+
+## Tabela
+
+stock
+
+id
+
+store_id
+
+iphone_model_id
+
+quantidade
+
+ativo
+
+---
+
+## Tabela
+
+upgrade_requests
+
+id
+
+modelo_atual
+
+modelo_desejado
+
+estado_aparelho
+
+cidade
+
+estado
+
+valor_estimado
+
+diferenca_estimada
+
+status
+
+telefone_cliente
+
+created_at
+
+---
+
+## Tabela
+
+offers
+
+id
+
+request_id
+
+store_id
+
+valor_aparelho
+
+valor_novo
+
+diferenca
+
+observacao
+
+status
+
+created_at
+
+---
+
+## Tabela
+
+credits
+
+id
+
+store_id
+
+tipo
+
+quantidade
+
+descricao
+
+created_at
+
+---
+
+## Tabela
+
+price_rules
+
+id
+
+nome
+
+percentual
+
+status
+
+---
+
+# Regras de Avaliação
+
+O sistema nunca utiliza IA para calcular.
+
+A estimativa deve seguir regras.
+
+Exemplo.
+
+Preço médio usado
+
+↓
+
+Aplicar peso conforme estado.
+
+---
+
+Excelente
+
+100%
+
+---
+
+Bom
+
+94%
+
+---
+
+Marcas visíveis
+
+88%
+
+---
+
+Tela quebrada
+
+72%
+
+---
+
+Já passou por reparo
+
+85%
+
+*(Esses valores são exemplos. Devem ser configuráveis pelo administrador.)*
+
+Todos esses pesos devem ser editáveis pelo painel administrativo.
+
+---
+
+# IA da Trooka
+
+A IA não utiliza conhecimento aberto.
+
+Ela não conversa livremente.
+
+Ela possui contexto fechado.
+
+Ela apenas conduz a simulação.
+
+Ela nunca responde assuntos externos.
+
+---
+
+Prompt interno da IA
+
+Você é a IA oficial da Trooka.
+
+Sua única função é ajudar usuários a simular upgrades de iPhone.
+
+Nunca responda perguntas fora deste contexto.
+
+Nunca forneça opiniões.
+
+Nunca invente preços.
+
+Nunca informe valores diferentes dos recebidos pelo sistema.
+
+Sempre fale de maneira amigável.
+
+Sempre utilize frases curtas.
+
+Sempre mantenha o usuário dentro da conversa.
+
+---
+
+# Fluxo da IA
+
+Mensagem
+
+↓
+
+Resposta
+
+↓
+
+Sistema
+
+↓
+
+Nova pergunta
+
+↓
+
+Resposta
+
+↓
+
+Sistema
+
+↓
+
+Resultado
+
+---
+
+# WhatsApp
+
+Toda comunicação ocorre pelo WhatsApp oficial da Trooka.
+
+O cliente nunca precisa criar conta.
+
+---
+
+Fluxo
+
+Solicitação criada
+
+↓
+
+Lojistas respondem
+
+↓
+
+Cliente recebe mensagem
+
+↓
+
+Cliente escolhe proposta
+
+↓
+
+Sistema libera contato da loja
+
+↓
+
+Fim
+
+---
+
+Mensagem automática
+
+Olá!
+
+Recebemos uma nova proposta para seu upgrade.
+
+Toque abaixo para visualizar.
+
+---
+
+# Escolha da Loja
+
+O sistema não escolhe automaticamente.
+
+O cliente escolhe.
+
+Apenas após essa escolha o contato é liberado.
+
+---
+
+# Sistema de Créditos
+
+Inicialmente.
+
+Modo gratuito.
+
+Mas toda lógica pronta.
+
+Quando ativado.
+
+Oferta aceita
+
+↓
+
+-1 crédito
+
+---
+
+Sem créditos
+
+↓
+
+Não pode responder solicitações.
+
+---
+
+# Sistema de Estoque
+
+Cada loja informa.
+
+Tenho
+
+iPhone 15
+
+iPhone 16 Pro
+
+iPhone 17 Pro
+
+etc.
+
+---
+
+Quando cliente solicitar.
+
+Enviar apenas para lojas compatíveis.
+
+---
+
+# SEO
+
+Cada página deve possuir.
+
+Title
+
+Description
+
+Open Graph
+
+Twitter Card
+
+Schema.org
+
+Canonical
+
+Sitemap
+
+Robots
+
+---
+
+# Performance
+
+Nota acima de 95 no Lighthouse.
+
+---
+
+CLS mínimo.
+
+---
+
+Lazy Loading obrigatório.
+
+---
+
+Compressão automática.
+
+---
+
+Imagens WebP.
+
+---
+
+# Segurança
+
+HTTPS
+
+JWT
+
+Rate Limit
+
+Logs
+
+Sanitização
+
+Proteção contra SQL Injection
+
+Proteção XSS
+
+Proteção CSRF
+
+---
+
+# Acessibilidade
+
+WCAG AA
+
+ARIA
+
+Navegação teclado
+
+Contraste
+
+Labels
+
+---
+
+# Analytics
+
+Preparar estrutura para.
+
+Google Analytics
+
+Meta Pixel
+
+Google Tag Manager
+
+PostHog
+
+Sem implementar.
+
+Apenas arquitetura.
+
+---
+
+# Sistema Administrativo
+
+Administrador consegue.
+
+Cadastrar modelos
+
+Editar preços
+
+Editar pesos
+
+Cadastrar lojas
+
+Suspender lojas
+
+Ver estatísticas
+
+Exportar dados
+
+Gerenciar créditos
+
+---
+
+# Logs
+
+Toda ação importante deve gerar log.
+
+Login.
+
+Oferta enviada.
+
+Oferta aceita.
+
+Crédito consumido.
+
+Cadastro alterado.
+
+---
+
+# API
+
+Toda lógica deve utilizar API organizada.
+
+Nada diretamente no frontend.
+
+Separar.
+
+Controllers
+
+Services
+
+Repositories
+
+---
+
+# Código
+
+Todo código comentado.
+
+Organizado.
+
+Escalável.
+
+Sem gambiarras.
+
+---
+
+# Animações
+
+Utilizar Framer Motion.
+
+Transições suaves.
+
+Nunca exageradas.
+
+60 FPS.
+
+---
+
+# Dark Mode
+
+O sistema será apenas Dark Mode.
+
+Não criar modo claro.
+
+---
+
+# Foco Mobile
+
+Todo componente deve nascer pensando no celular.
+
+Desktop apenas adapta.
+
+---
+
+# Escalabilidade futura
+
+Preparar arquitetura para:
+
+✔ Android
+
+✔ iOS
+
+✔ Aplicativo React Native
+
+✔ IA de pesquisa automática de preços
+
+✔ Integração com Mercado Livre
+
+✔ Facebook Marketplace
+
+✔ OLX
+
+✔ Sistema de notificações Push
+
+✔ Ranking de lojas
+
+✔ Sistema de assinatura Premium
+
+✔ Cashback
+
+✔ Histórico do cliente
+
+✔ Conta do cliente
+
+✔ Programa de indicação
+
+Mesmo que nenhuma dessas funcionalidades seja implementada agora.
+
+A arquitetura deve permitir evolução sem refatoração profunda.
+
+---
+
+# O PRINCÍPIO MAIS IMPORTANTE DO TROOKA
+
+Adicionar esta instrução ao final do projeto:
+
+> **O Trooka não é um simulador de preços. O Trooka é um assistente inteligente que ajuda pessoas a descobrir quanto falta para conquistar o próximo iPhone e conecta essas pessoas às melhores lojas da sua cidade. Toda decisão de UX, UI, arquitetura e desenvolvimento deve reforçar essa missão. O sucesso do produto depende da simplicidade. Se uma funcionalidade adicionar complexidade sem aumentar significativamente o valor para o usuário, ela deve ser descartada.**
+
