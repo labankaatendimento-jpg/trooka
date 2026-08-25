@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, Lock, ShieldCheck, Zap, Star, Recycle, Handshake, Info, Shield, Headphones, CircleDollarSign, Menu, X, ChevronRight } from 'lucide-react';
 import { IphoneModel } from '@/lib/mockData';
 import { EstimateResult } from '@/utils/calculateEstimate';
@@ -10,6 +11,7 @@ import LocationOfferSheet from '@/components/chat/LocationOfferSheet';
 
 export default function Home() {
   const [simulationState, setSimulationState] = useState<{
+    flowType: 'sell' | 'upgrade' | null;
     currentModel: IphoneModel | null;
     desiredModel: IphoneModel | null;
     condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null;
@@ -17,12 +19,13 @@ export default function Home() {
     estimate: EstimateResult | null;
     step: number;
   }>({
+    flowType: null,
     currentModel: null,
     desiredModel: null,
     condition: null,
     hasRepaired: null,
     estimate: null,
-    step: 1
+    step: 0
   });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -88,8 +91,8 @@ export default function Home() {
           {/* Overlay Mobile: Sombra extra + blur */}
           <div className="block lg:hidden absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-          {/* Overlay Desktop: Gradiente com sombra */}
-          <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#050505] via-black/80 to-transparent pointer-events-none" />
+          {/* Overlay Desktop: Gradiente com sombra e blur fosco */}
+          <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#050505] via-black/80 to-transparent backdrop-blur-sm pointer-events-none" />
         </div>
       </div>
 
@@ -167,16 +170,16 @@ export default function Home() {
                 <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">Para o Consumidor</h3>
                 <ul className="space-y-1">
                   <li>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <Link href="/como-funciona" className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       Como funciona
                       <ChevronRight className="w-4 h-4 text-neutral-600" />
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <Link href="/faq" className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       Dúvidas frequentes (FAQ)
                       <ChevronRight className="w-4 h-4 text-neutral-600" />
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -186,16 +189,16 @@ export default function Home() {
                 <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">Para Lojista / Parceiros</h3>
                 <ul className="space-y-1">
                   <li>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <Link href="/lojista/login" className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       Área do lojista / Entrar
                       <ChevronRight className="w-4 h-4 text-neutral-600" />
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <Link href="/lojista/cadastro" className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       Cadastrar sua loja
                       <ChevronRight className="w-4 h-4 text-neutral-600" />
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -205,7 +208,7 @@ export default function Home() {
                 <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">Suporte & Contato</h3>
                 <ul className="space-y-1">
                   <li>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between py-2 text-sm text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       Falar no Whatsapp
                       <ChevronRight className="w-4 h-4 text-neutral-600" />
                     </a>
@@ -287,47 +290,69 @@ export default function Home() {
             <div className="space-y-5">
               
               {/* MAIN HIGHLIGHT: DIFFERENCE */}
-              <div className="flex flex-col">
-                <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu novo iPhone a partir de</p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                    {simulationState.estimate?.diferencaMin 
-                      ? `R$ ${simulationState.estimate.diferencaMin.toLocaleString('pt-BR')}`
-                      : 'R$ 3.540'}
-                  </span>
-                </div>
-                
-                <div className="mt-3">
-                  <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-purple-200">
-                    <ArrowRight className="w-3 h-3 text-purple-400" /> Na troca pelo {displayModel}
+              {simulationState.flowType !== 'sell' && (
+                <div className="flex flex-col">
+                  <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu upgrade a partir de</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                      {simulationState.estimate?.diferencaMin 
+                        ? `R$ ${simulationState.estimate.diferencaMin.toLocaleString('pt-BR')}`
+                        : 'R$ 3.540'}
+                    </span>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-purple-200">
+                      <ArrowRight className="w-3 h-3 text-purple-400" /> Na troca pelo {displayModel}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* MAIN HIGHLIGHT: SELL VALUE */}
+              {simulationState.flowType === 'sell' && (
+                <div className="flex flex-col">
+                  <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu aparelho vale até</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-emerald-100 to-emerald-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                      {displayValue}
+                    </span>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-200">
+                      <CircleDollarSign className="w-3 h-3 text-emerald-400" /> Valor estimado
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* SECONDARY INFO: DEVICE VALUE */}
-              <div className="bg-neutral-950/60 border border-neutral-800/60 rounded-2xl p-4 flex flex-col gap-3 backdrop-blur-md shadow-inner">
-                
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                      <CircleDollarSign className="w-3.5 h-3.5 text-emerald-400" />
+              {simulationState.flowType !== 'sell' && (
+                <div className="bg-neutral-950/60 border border-neutral-800/60 rounded-2xl p-4 flex flex-col gap-3 backdrop-blur-md shadow-inner">
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                        <CircleDollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                      </div>
+                      <span className="text-[13px] text-neutral-300 font-medium">Seu usado vale até</span>
                     </div>
-                    <span className="text-[13px] text-neutral-300 font-medium">Seu usado vale até</span>
+                    <span className="text-base text-emerald-400 font-bold sm:text-right">
+                      {displayValue}
+                    </span>
                   </div>
-                  <span className="text-base text-emerald-400 font-bold sm:text-right">
-                    {displayValue}
-                  </span>
-                </div>
 
-                <div className="h-[1px] w-full bg-neutral-800/50" />
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-[12px] text-neutral-500 font-medium">Valor médio do novo</span>
-                  <span className="text-[12px] text-neutral-400 font-medium">
-                    R$ {simulationState.estimate?.precoDesejado.toLocaleString('pt-BR') || '5.990'}
-                  </span>
+                  <div className="h-[1px] w-full bg-neutral-800/50" />
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-[12px] text-neutral-500 font-medium">Valor médio do novo</span>
+                    <span className="text-[12px] text-neutral-400 font-medium">
+                      R$ {simulationState.estimate?.precoDesejado?.toLocaleString('pt-BR') || '5.990'}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <hr className="border-neutral-900 my-2 sm:my-4" />
 
@@ -344,7 +369,7 @@ export default function Home() {
                 onClick={handleOpenLocationSheet}
                 className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-purple-500 to-purple-400 hover:from-purple-400 hover:to-purple-300 text-white font-semibold py-3 sm:py-4 rounded-xl flex items-center justify-center gap-2 transition-all group text-sm sm:text-base"
               >
-                <span>Ver ofertas disponíveis</span>
+                <span>Ofertas imperdíveis</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -459,10 +484,20 @@ export default function Home() {
             <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
               <p className="shrink-0 opacity-60">© {new Date().getFullYear()} Trooka. Todos os direitos reservados.</p>
               <div className="flex flex-row items-center justify-center gap-6 shrink-0 w-full lg:w-auto">
-                {['Privacidade', 'Termos', 'Contato'].map(link => (
-                  <a key={link} href="#" className="hover:text-neutral-300 transition-colors whitespace-nowrap">
-                    {link}
-                  </a>
+                {[
+                  { label: 'Privacidade', path: '/privacidade' },
+                  { label: 'Termos', path: '/termos' },
+                  { label: 'Contato', path: 'https://wa.me/5511999999999' }
+                ].map(link => (
+                  link.path.startsWith('http') ? (
+                    <a key={link.label} href={link.path} target="_blank" rel="noopener noreferrer" className="hover:text-neutral-300 transition-colors whitespace-nowrap">
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link key={link.label} href={link.path} className="hover:text-neutral-300 transition-colors whitespace-nowrap">
+                      {link.label}
+                    </Link>
+                  )
                 ))}
               </div>
             </div>

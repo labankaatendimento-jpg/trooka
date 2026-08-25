@@ -9,6 +9,7 @@ import DeviceSearchSheet from './DeviceSearchSheet';
 
 interface SimulatorChatProps {
   onStateChange: (state: {
+    flowType: 'sell' | 'upgrade' | null;
     currentModel: IphoneModel | null;
     desiredModel: IphoneModel | null;
     condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null;
@@ -23,16 +24,17 @@ interface ChatMessage {
   id: string;
   sender: 'ia' | 'user';
   text?: string;
-  type?: 'text' | 'options-models' | 'options-condition' | 'options-repair' | 'loading';
+  type?: 'text' | 'options-intent' | 'options-models' | 'options-condition' | 'options-repair' | 'loading';
   timestamp: string;
 }
 
 export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: SimulatorChatProps) {
+  const [flowType, setFlowType] = useState<'sell' | 'upgrade' | null>(null);
   const [currentModel, setCurrentModel] = useState<IphoneModel | null>(null);
   const [desiredModel, setDesiredModel] = useState<IphoneModel | null>(null);
   const [condition, setCondition] = useState<'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null>(null);
   const [hasRepaired, setHasRepaired] = useState<'sim' | 'nao' | 'nao_sei' | null>(null);
-  const [step, setStep] = useState(1); // 1: current, 2: desired, 3: condition, 4: repair, 5: loading, 6: done
+  const [step, setStep] = useState(0); // 0: intent, 1: current, 2: desired, 3: condition, 4: repair, 5: loading, 6: done
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTarget, setSearchTarget] = useState<'current' | 'desired'>('current');
@@ -40,9 +42,9 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
 
   // Trigger parent state update on changes
   useEffect(() => {
-    const estimate = currentModel && desiredModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired) : null;
-    onStateChange({ currentModel, desiredModel, condition, hasRepaired, estimate, step });
-  }, [currentModel, desiredModel, condition, hasRepaired, step, onStateChange]);
+    const estimate = currentModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired) : null;
+    onStateChange({ flowType, currentModel, desiredModel, condition, hasRepaired, estimate, step });
+  }, [flowType, currentModel, desiredModel, condition, hasRepaired, step, onStateChange]);
 
   // Handle chat messages progression based on steps
   useEffect(() => {
@@ -51,18 +53,49 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
-    if (step === 1 && messages.length === 0) {
-      // Step 1: Init IA greeting
+    if (step === 0 && messages.length === 0) {
+      // Step 0: Init IA greeting
       setMessages([
         {
           id: 'welcome',
           sender: 'ia',
-          text: 'Olá! 👋 Sou a IA da Trooka. Qual iPhone você usa hoje?',
+          text: 'Olá! 👋 Sou a IA da Trooka. O que você gostaria de descobrir hoje?',
+          type: 'options-intent',
           timestamp: formatTime(),
         },
       ]);
     }
   }, [step, messages.length]);
+
+  const selectIntent = (intent: 'sell' | 'upgrade') => {
+    setFlowType(intent);
+    
+    const userTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const nextTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `user-intent-${intent}`,
+        sender: 'user',
+        text: intent === 'sell' ? 'O valor do meu iPhone' : 'A diferença para um novo',
+        timestamp: userTime,
+      },
+    ]);
+
+    setStep(1);
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: 'ask-current',
+          sender: 'ia',
+          text: 'Entendido! Primeiro, me conte qual iPhone você usa hoje?',
+          timestamp: nextTime,
+        },
+      ]);
+    }, 600);
+  };
 
   // Scroll to bottom smoothly when a new message arrives, keeping it nicely in view
   useEffect(() => {
@@ -92,18 +125,31 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
     ]);
 
     // Delay next AI message
-    setStep(2);
+    setStep(flowType === 'upgrade' ? 2 : 3);
     setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        {
-          id: 'ask-desired',
-          sender: 'ia',
-          text: 'Ótimo! E qual modelo você deseja pegar?',
-          type: 'options-models',
-          timestamp: nextTime,
-        },
-      ]);
+      if (flowType === 'upgrade') {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: 'ask-desired',
+            sender: 'ia',
+            text: 'Ótimo! E qual modelo você deseja pegar?',
+            type: 'options-models',
+            timestamp: nextTime,
+          },
+        ]);
+      } else {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: 'ask-condition',
+            sender: 'ia',
+            text: 'Perfeito! Como está o estado do seu aparelho?',
+            type: 'options-condition',
+            timestamp: nextTime,
+          },
+        ]);
+      }
     }, 600);
   };
 
@@ -233,11 +279,12 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   };
 
   const resetChat = () => {
+    setFlowType(null);
     setCurrentModel(null);
     setDesiredModel(null);
     setCondition(null);
     setHasRepaired(null);
-    setStep(1);
+    setStep(0);
     setMessages([]);
     localStorage.removeItem('trooka_chat_state');
   };
@@ -250,7 +297,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   return (
     <div className="flex flex-col flex-1 max-w-2xl mx-auto px-4 pt-8 pb-0 relative">
       {/* Reset button inside chat wrapper */}
-      {step > 1 && (
+      {step > 0 && (
         <button
           onClick={resetChat}
           className="absolute top-2 right-4 text-[11px] font-medium text-white/90 bg-neutral-900/60 border border-neutral-800/80 backdrop-blur-md px-3 py-1.5 rounded-full hover:bg-neutral-800 hover:text-white transition-all z-10 shadow-sm flex items-center gap-1.5"
@@ -330,6 +377,27 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 )}
 
                 {/* Interactive Cards/Options below IA messages */}
+                {isIA && message.type === 'options-intent' && step === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-2 mt-3 w-full sm:max-w-xs"
+                  >
+                    {[
+                      { key: 'sell', label: 'Descobrir o valor do meu iPhone' },
+                      { key: 'upgrade', label: 'A diferença para um novo' },
+                    ].map(opt => (
+                      <button
+                        key={opt.key}
+                        onClick={() => selectIntent(opt.key as any)}
+                        className="w-full text-left glass-card hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+
                 {isIA && message.type === 'options-models' && step === 2 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}

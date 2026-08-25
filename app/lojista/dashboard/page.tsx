@@ -8,7 +8,7 @@ import {
   Coins, Settings, LogOut, CheckCircle, Clock, 
   MapPin, Send, RefreshCw, X, MessageCircle 
 } from 'lucide-react';
-import { dbService, UpgradeRequest, Offer } from '@/services/dbService';
+import { dbService, UpgradeRequest, Offer, CreditTx } from '@/services/dbService';
 import { Store, IphoneModel } from '@/lib/mockData';
 
 export default function LojistaDashboard() {
@@ -20,6 +20,10 @@ export default function LojistaDashboard() {
   const [stats, setStats] = useState<{ creditos: number; recebidas: number; enviadas: number; aceitas: number; avaliacao_media: number }>({ creditos: 0, recebidas: 0, enviadas: 0, aceitas: 0, avaliacao_media: 5.0 });
   const [activeTab, setActiveTab] = useState<'requests' | 'my-offers'>('requests');
   const [menuSelection, setMenuSelection] = useState('Dashboard');
+  
+  // Extra data states
+  const [creditHistory, setCreditHistory] = useState<CreditTx[]>([]);
+  const [iphoneModels, setIphoneModels] = useState<IphoneModel[]>([]);
   
   // Slide-over states
   const [selectedRequest, setSelectedRequest] = useState<UpgradeRequest | null>(null);
@@ -46,6 +50,12 @@ export default function LojistaDashboard() {
 
         const currentStats = await dbService.getLojistaStats(id);
         setStats(currentStats);
+
+        const history = await dbService.getLojistaCreditsHistory(id);
+        setCreditHistory(history);
+
+        const models = await dbService.getIphoneModels();
+        setIphoneModels(models);
       } catch (err) {
         console.error('Failed to load dashboard data', err);
       }
@@ -116,7 +126,20 @@ export default function LojistaDashboard() {
       {/* LEFT MENU (SMALL SIDEBAR) */}
       <aside className="w-16 sm:w-20 border-r border-neutral-900 flex flex-col items-center justify-between py-6 z-10 bg-neutral-950/60 backdrop-blur-md">
         <div className="flex flex-col items-center gap-8 w-full">
-          <span className="text-orange-500 font-extrabold text-2xl">T</span>
+          <svg viewBox="0 0 24 24" className="w-8 h-8 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="t-gradient-dash" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#d946ef" />
+                <stop offset="100%" stopColor="#7e22ce" />
+              </linearGradient>
+              <linearGradient id="t-highlight-dash" x1="12" y1="2" x2="12" y2="10" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#fdf4ff" stopOpacity="0.4"/>
+                <stop offset="100%" stopColor="#fdf4ff" stopOpacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="url(#t-gradient-dash)" />
+            <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="url(#t-highlight-dash)" />
+          </svg>
           
           <nav className="flex flex-col gap-5 w-full items-center">
             {[
@@ -135,7 +158,7 @@ export default function LojistaDashboard() {
                   onClick={() => setMenuSelection(item.label)}
                   title={item.label}
                   className={`p-3 rounded-2xl transition-all duration-300 relative group cursor-pointer ${
-                    isSelected ? 'text-orange-500 bg-neutral-900 border border-neutral-850' : 'text-neutral-500 hover:text-neutral-300'
+                    isSelected ? 'text-purple-500 bg-neutral-900 border border-neutral-850' : 'text-neutral-500 hover:text-neutral-300'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -173,30 +196,37 @@ export default function LojistaDashboard() {
           </div>
           
           <div className="flex items-center gap-3">
-            <span className="text-xs bg-orange-500/10 border border-orange-500/20 text-orange-500 font-semibold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-[0_0_15px_rgba(255,94,0,0.05)]">
+            <span className="text-xs bg-purple-500/10 border border-purple-500/20 text-purple-500 font-semibold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.05)]">
               <Coins className="w-4 h-4" />
               {stats.creditos} créditos
             </span>
           </div>
         </header>
 
-        {/* 4 SUMMARY CARDS */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {[
-            { title: 'Solicitações recebidas', value: stats.recebidas, desc: 'na sua região' },
-            { title: 'Ofertas enviadas', value: stats.enviadas, desc: 'propostas totais' },
-            { title: 'Créditos disponíveis', value: stats.creditos, desc: 'para fechar leads' },
-            { title: 'Avaliação média', value: `${stats.avaliacao_media.toFixed(2)} ★`, desc: 'pontuação da loja' },
-          ].map((card, idx) => (
-            <div key={idx} className="glass-card rounded-2xl p-5 border border-neutral-900/60">
-              <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{card.title}</p>
-              <h2 className="text-2xl font-extrabold text-white tracking-tight mt-1">{card.value}</h2>
-              <p className="text-[10px] text-neutral-600 font-medium mt-1">{card.desc}</p>
-            </div>
-          ))}
-        </section>
+        {/* CONDITIONAL RENDERING BASED ON MENU */}
 
-        {/* TAB BUTTONS */}
+        {/* --- VIEW: DASHBOARD --- */}
+        {menuSelection === 'Dashboard' && (
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {[
+              { title: 'Solicitações recebidas', value: stats.recebidas, desc: 'na sua região' },
+              { title: 'Ofertas enviadas', value: stats.enviadas, desc: 'propostas totais' },
+              { title: 'Créditos disponíveis', value: stats.creditos, desc: 'para fechar leads' },
+              { title: 'Avaliação média', value: `${stats.avaliacao_media.toFixed(2)} ★`, desc: 'pontuação da loja' },
+            ].map((card, idx) => (
+              <div key={idx} className="glass-card rounded-2xl p-5 border border-neutral-900/60">
+                <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{card.title}</p>
+                <h2 className="text-2xl font-extrabold text-white tracking-tight mt-1">{card.value}</h2>
+                <p className="text-[10px] text-neutral-600 font-medium mt-1">{card.desc}</p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* --- VIEW: SOLICITAÇÕES --- */}
+        {menuSelection === 'Solicitações' && (
+          <div className="space-y-6">
+            {/* TAB BUTTONS */}
         <div className="flex gap-4 border-b border-neutral-900 pb-4 mb-6">
           <button
             onClick={() => setActiveTab('requests')}
@@ -206,7 +236,7 @@ export default function LojistaDashboard() {
           >
             Novas oportunidades ({requests.length})
             {activeTab === 'requests' && (
-              <motion.div layoutId="active-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500" />
+              <motion.div layoutId="active-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-500" />
             )}
           </button>
           <button
@@ -217,7 +247,7 @@ export default function LojistaDashboard() {
           >
             Minhas propostas ({myOffers.length})
             {activeTab === 'my-offers' && (
-              <motion.div layoutId="active-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500" />
+              <motion.div layoutId="active-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-500" />
             )}
           </button>
         </div>
@@ -233,11 +263,11 @@ export default function LojistaDashboard() {
                     <div 
                       key={req.id} 
                       className={`glass-card rounded-2xl p-5 flex flex-col justify-between min-h-[220px] transition-all relative ${
-                        isSubmitted ? 'border-orange-500/20' : 'border-neutral-900'
+                        isSubmitted ? 'border-purple-500/20' : 'border-neutral-900'
                       }`}
                     >
                       {isSubmitted && (
-                        <span className="absolute top-4 right-4 bg-orange-500/10 border border-orange-500/20 text-orange-500 text-[9px] font-bold px-2 py-0.5 rounded-md">
+                        <span className="absolute top-4 right-4 bg-purple-500/10 border border-purple-500/20 text-purple-500 text-[9px] font-bold px-2 py-0.5 rounded-md">
                           PROPOSTA ENVIADA
                         </span>
                       )}
@@ -274,7 +304,7 @@ export default function LojistaDashboard() {
                         {!isSubmitted ? (
                           <button
                             onClick={() => handleOpenProposta(req)}
-                            className="bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-[0_4px_15px_rgba(255,94,0,0.2)] cursor-pointer"
+                            className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-[0_4px_15px_rgba(168,85,247,0.2)] cursor-pointer"
                           >
                             Fazer proposta
                           </button>
@@ -305,22 +335,16 @@ export default function LojistaDashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {myOffers.map(off => (
                   <div key={off.id} className="glass-card border-neutral-900 rounded-2xl p-5 flex flex-col justify-between min-h-[220px]">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mb-4">
                       <span className="text-[10px] text-neutral-500 font-semibold uppercase">PROPOSTA #{(off.id).slice(0, 4).toUpperCase()}</span>
                       
-                      {off.status === 'accepted' && (
+                      {off.status === 'accepted' ? (
                         <span className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] font-bold px-2.5 py-1 rounded-md flex items-center gap-1 animate-pulse">
                           <CheckCircle className="w-3 h-3" /> ACEITO
                         </span>
-                      )}
-                      {off.status === 'pending' && (
-                        <span className="bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[9px] font-bold px-2.5 py-1 rounded-md">
-                          AGUARDANDO
-                        </span>
-                      )}
-                      {off.status === 'rejected' && (
-                        <span className="bg-rose-500/10 border border-rose-500/20 text-rose-400 text-[9px] font-bold px-2.5 py-1 rounded-md">
-                          FECHADO
+                      ) : (
+                        <span className="bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[9px] font-bold px-2.5 py-1 rounded-md">
+                          {off.status === 'pending' ? 'AGUARDANDO CLIENTE' : 'FECHADO'}
                         </span>
                       )}
                     </div>
@@ -334,9 +358,9 @@ export default function LojistaDashboard() {
                         <span className="text-neutral-500 font-medium">Preço do novo:</span>
                         <span className="text-white font-bold">R$ {off.valor_novo.toLocaleString('pt-BR')}</span>
                       </div>
-                      <div className="flex justify-between items-center text-xs border-t border-neutral-950 pt-2">
-                        <span className="text-neutral-500 font-medium">Diferença sugerida:</span>
-                        <span className="text-orange-400 font-bold">R$ {off.diferenca.toLocaleString('pt-BR')}</span>
+                      <div className="pt-3 border-t border-neutral-900/50 flex justify-between items-center text-sm">
+                        <span className="text-neutral-500">Volta do Cliente:</span>
+                        <span className="text-purple-400 font-bold">R$ {off.diferenca.toLocaleString('pt-BR')}</span>
                       </div>
                     </div>
 
@@ -377,6 +401,149 @@ export default function LojistaDashboard() {
             )
           )}
         </section>
+        </div>
+        )}
+
+        {/* --- VIEW: MEU PERFIL --- */}
+        {menuSelection === 'Meu Perfil' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-white mb-4">Meu Perfil</h2>
+            <div className="glass-card rounded-2xl p-6 border border-neutral-900/60 max-w-2xl">
+              <form className="space-y-4" onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                try {
+                  const updatedStore = await dbService.updateStore(storeId!, {
+                    nome: formData.get('nome') as string,
+                    cidade: formData.get('cidade') as string,
+                    estado: formData.get('estado') as string,
+                  });
+                  setStore(updatedStore);
+                  alert('Perfil salvo com sucesso!');
+                } catch (err) {
+                  alert('Erro ao salvar perfil.');
+                }
+              }}>
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-400 mb-1">Nome da Loja</label>
+                  <input name="nome" defaultValue={store?.nome} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm" required />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-400 mb-1">Cidade</label>
+                    <input name="cidade" defaultValue={store?.cidade} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-400 mb-1">Estado (Sigla)</label>
+                    <input name="estado" defaultValue={store?.estado} maxLength={2} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm uppercase" required />
+                  </div>
+                </div>
+                <button type="submit" className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl mt-4 w-full">Salvar Alterações</button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* --- VIEW: TABELA DE PREÇOS --- */}
+        {menuSelection === 'Tabela de Preços' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-white mb-4">Tabela de Preços Base (Referência)</h2>
+            <div className="glass-card rounded-2xl p-6 border border-neutral-900/60">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-neutral-500 text-xs border-b border-neutral-800">
+                    <tr>
+                      <th className="pb-3 font-semibold uppercase">Modelo</th>
+                      <th className="pb-3 font-semibold uppercase">Armazenamento</th>
+                      <th className="pb-3 font-semibold uppercase text-right">Valor Usado Base</th>
+                      <th className="pb-3 font-semibold uppercase text-right">Valor Novo Base</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-neutral-300 divide-y divide-neutral-900">
+                    {iphoneModels.map(model => (
+                      <tr key={model.id} className="hover:bg-neutral-900/50 transition-colors">
+                        <td className="py-4 font-medium text-white">{model.modelo}</td>
+                        <td className="py-4">{model.armazenamento}</td>
+                        <td className="py-4 text-right">R$ {model.preco_medio_usado.toLocaleString('pt-BR')}</td>
+                        <td className="py-4 text-right">R$ {model.preco_medio_novo.toLocaleString('pt-BR')}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- VIEW: CRÉDITOS --- */}
+        {menuSelection === 'Créditos' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-white mb-4">Meus Créditos</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="glass-card rounded-2xl p-6 border border-purple-500/20 bg-purple-900/10 flex flex-col justify-center items-center text-center">
+                <Coins className="w-12 h-12 text-purple-400 mb-4" />
+                <p className="text-neutral-400 text-sm font-medium uppercase tracking-wide">Saldo Disponível</p>
+                <h3 className="text-5xl font-extrabold text-white my-2">{stats.creditos}</h3>
+                <p className="text-xs text-neutral-500 mb-6">Cada crédito permite fechar um lead aprovado.</p>
+                
+                <button 
+                  onClick={async () => {
+                    await dbService.addCreditsToStore(storeId!, 10);
+                    const history = await dbService.getLojistaCreditsHistory(storeId!);
+                    setCreditHistory(history);
+                    const currentStats = await dbService.getLojistaStats(storeId!);
+                    setStats(currentStats);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl shadow-[0_4px_15px_rgba(168,85,247,0.3)] transition-all w-full max-w-[200px]"
+                >
+                  Comprar 10 Créditos
+                </button>
+              </div>
+
+              <div className="glass-card rounded-2xl p-6 border border-neutral-900/60">
+                <h3 className="text-sm font-bold text-neutral-300 uppercase mb-4">Histórico de Transações</h3>
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                  {creditHistory.map(tx => (
+                    <div key={tx.id} className="flex justify-between items-center p-3 bg-neutral-900/50 rounded-lg border border-neutral-800">
+                      <div>
+                        <p className="text-xs font-semibold text-white">{tx.descricao}</p>
+                        <p className="text-[10px] text-neutral-500 mt-0.5">{new Date(tx.created_at).toLocaleString('pt-BR')}</p>
+                      </div>
+                      <span className={`text-sm font-bold ${tx.quantidade > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {tx.quantidade > 0 ? '+' : ''}{tx.quantidade}
+                      </span>
+                    </div>
+                  ))}
+                  {creditHistory.length === 0 && (
+                    <p className="text-xs text-neutral-500 text-center py-4">Nenhuma transação encontrada.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- VIEW: CONFIGURAÇÕES --- */}
+        {menuSelection === 'Configurações' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-white mb-4">Configurações</h2>
+            <div className="glass-card rounded-2xl p-6 border border-neutral-900/60 max-w-2xl space-y-6">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-300 mb-3">Notificações</h3>
+                <label className="flex items-center gap-3 cursor-pointer mb-2">
+                  <input type="checkbox" defaultChecked className="accent-purple-500 w-4 h-4" />
+                  <span className="text-sm text-neutral-400">Receber alertas de novos leads por Email</span>
+                </label>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="checkbox" defaultChecked className="accent-purple-500 w-4 h-4" />
+                  <span className="text-sm text-neutral-400">Receber alertas de novos leads no WhatsApp</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
 
       {/* SLIDE-OVER PANEL FOR MAKING OFFERS */}
@@ -431,9 +598,9 @@ export default function LojistaDashboard() {
                   </div>
                 </div>
                 <div className="pt-2 border-t border-neutral-950 text-xs">
-                  <span className="text-neutral-500">Estimativa base da Trooka:</span>
-                  <span className="text-orange-400 font-bold ml-1.5">
-                    R$ {selectedRequest.valor_estimado.toLocaleString('pt-BR')}
+                  <span className="text-neutral-500 text-[10px] font-medium block">Diferença a ser paga pelo cliente (Volta)</span>
+                  <span className="text-purple-400 font-bold ml-1.5">
+                    {formattedDifference()}
                   </span>
                 </div>
               </div>
@@ -450,7 +617,7 @@ export default function LojistaDashboard() {
                       required
                       value={valAparelho}
                       onChange={e => setValAparelho(e.target.value)}
-                      className="w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border border-neutral-800 focus:border-orange-500 focus:outline-none text-sm transition-colors"
+                      className="w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                       placeholder="Ex: 2500"
                     />
                   </div>
@@ -464,15 +631,15 @@ export default function LojistaDashboard() {
                       required
                       value={valNovo}
                       onChange={e => setValNovo(e.target.value)}
-                      className="w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border border-neutral-800 focus:border-orange-500 focus:outline-none text-sm transition-colors"
+                      className="w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                       placeholder="Ex: 5990"
                     />
                   </div>
 
                   {/* Dynamic Difference Display */}
-                  <div className="bg-neutral-950 p-4 rounded-2xl border border-neutral-900 flex justify-between items-center text-xs">
-                    <span className="text-neutral-500 font-semibold uppercase">Diferença sugerida:</span>
-                    <span className="text-orange-500 font-extrabold text-lg tracking-tight">
+                  <div className="mt-6 flex flex-col items-center justify-center p-4 bg-neutral-900/50 rounded-2xl border border-neutral-800/50">
+                    <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">Volta Estimada do Cliente</span>
+                    <span className="text-purple-500 font-extrabold text-lg tracking-tight">
                       {formattedDifference()}
                     </span>
                   </div>
@@ -494,7 +661,7 @@ export default function LojistaDashboard() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(255,94,0,0.3)] disabled:opacity-50 cursor-pointer mt-6"
+                  className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer mt-6"
                 >
                   {submitting ? 'Enviando...' : 'Enviar proposta'}
                 </button>

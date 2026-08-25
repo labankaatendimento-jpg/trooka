@@ -7,6 +7,7 @@ import {
   CheckCircle, MessageCircle, MapPin, Star, Clock, 
   ArrowLeft, Coins, Smartphone, HelpCircle, ShieldCheck
 } from 'lucide-react';
+import Link from 'next/link';
 import { dbService, UpgradeRequest, Offer } from '@/services/dbService';
 
 export default function OfertasCliente() {
@@ -287,8 +288,8 @@ export default function OfertasCliente() {
       <footer className="relative z-10 w-full max-w-4xl mx-auto px-6 py-6 border-t border-neutral-900/60 text-xs text-neutral-500 flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/40 backdrop-blur-sm">
         <p>© {new Date().getFullYear()} Trooka. Todos os direitos reservados.</p>
         <div className="flex gap-4">
-          <a href="#" className="hover:text-neutral-300 transition-colors">Privacidade</a>
-          <a href="#" className="hover:text-neutral-300 transition-colors">Termos de Uso</a>
+          <Link href="/privacidade" className="hover:text-neutral-300 transition-colors">Privacidade</Link>
+          <Link href="/termos" className="hover:text-neutral-300 transition-colors">Termos de Uso</Link>
         </div>
       </footer>
 

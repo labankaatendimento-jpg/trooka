@@ -14,7 +14,7 @@ export function calculateUpgradeEstimate(
   condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null,
   hasRepaired: 'sim' | 'nao' | 'nao_sei' | null
 ): EstimateResult {
-  if (!currentModel || !desiredModel) {
+  if (!currentModel) {
     return {
       valorEstimado: 0,
       precoDesejado: 0,
@@ -43,6 +43,17 @@ export function calculateUpgradeEstimate(
   
   // Round to nearest R$ 50 for clean appearance
   const valorEstimado = Math.round(calculatedEstimate / 50) * 50;
+
+  // If no desired model, just return the device value estimate
+  if (!desiredModel) {
+    return {
+      valorEstimado,
+      precoDesejado: 0,
+      diferencaMedia: 0,
+      diferencaMin: 0,
+      diferencaMax: 0,
+    };
+  }
 
   // Desired phone price
   const precoDesejado = desiredModel.preco_medio_novo;

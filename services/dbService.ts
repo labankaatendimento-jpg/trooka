@@ -490,5 +490,65 @@ export const dbService = {
       aceitas: storeOffers.filter(o => o.status === 'accepted').length,
       avaliacao_media: store.avaliacao_media ?? 0,
     };
+  },
+
+  // --- LOJISTA CREDITS ---
+  async getLojistaCreditsHistory(storeId: string): Promise<CreditTx[]> {
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase
+        .from('credits')
+        .select('*')
+        .eq('store_id', storeId)
+        .order('created_at', { ascending: false });
+      if (!error && data) return data as CreditTx[];
+    }
+    const credits = getLocalData<CreditTx>('credits', []);
+    return credits
+      .filter(c => c.store_id === storeId)
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  },
+
+  async addCreditsToStore(storeId: string, amount: number): Promise<void> {
+    if (isSupabaseConfigured && supabase) {
+      const { data: store } = await supabase
+        .from('stores')
+        .select('creditos')
+        .eq('id', storeId)
+        .single();
+      
+      if (store) {
+        await supabase
+          .from('stores')
+          .update({ creditos: store.creditos + amount })
+          .eq('id', storeId);
+        
+        await supabase
+          .from('credits')
+          .insert([{
+            store_id: storeId,
+            tipo: 'purchase',
+            quantidade: amount,
+            descricao: `Compra de ${amount} créditos via painel`,
+          }]);
+      }
+    } else {
+      const stores = getLocalData<Store>('stores', MOCK_STORES);
+      const storeIdx = stores.findIndex(s => s.id === storeId);
+      if (storeIdx !== -1) {
+        stores[storeIdx].creditos += amount;
+        setLocalData('stores', stores);
+
+        const txs = getLocalData<CreditTx>('credits', []);
+        txs.push({
+          id: Math.random().toString(36).substr(2, 9),
+          store_id: storeId,
+          tipo: 'purchase',
+          quantidade: amount,
+          descricao: `Compra de ${amount} créditos via painel`,
+          created_at: new Date().toISOString(),
+        });
+        setLocalData('credits', txs);
+      }
+    }
   }
 };
