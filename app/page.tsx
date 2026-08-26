@@ -228,7 +228,7 @@ export default function Home() {
         <div className="lg:col-span-6 flex flex-col justify-start h-full w-full">
           {/* Badge & Headlines */}
           <div className="mb-6 space-y-4 pt-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
               {simulationState.flowType === 'sell' ? (
                 <>
                   <span className="block sm:hidden">
@@ -256,8 +256,8 @@ export default function Home() {
                   {/* Mobile version */}
                   <span className="block sm:hidden">
                     Descubra quanto vale <br />
-                    seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou quanto falta <br />
-                    para seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
+                    seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou quanto <br />
+                    falta para seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                   {/* Desktop version */}
                   <span className="hidden sm:block text-balance">
