@@ -381,7 +381,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="inline-flex flex-col gap-2 mt-3"
+                    className="flex flex-col gap-2 mt-3 w-full sm:max-w-xs"
                   >
                     {[
                       { key: 'sell', label: 'Descobrir o valor do meu iPhone' },
@@ -390,7 +390,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.key}
                         onClick={() => selectIntent(opt.key as any)}
-                        className="w-full text-left glass-card hover:glass-card-selected px-4 py-3 rounded-2xl text-[13px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
+                        className="w-full text-left glass-card hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
                       >
                         {opt.label}
                       </button>
