@@ -227,7 +227,7 @@ export default function Home() {
         {/* LEFT COLUMN: Conversational Simulator */}
         <div className="lg:col-span-6 flex flex-col justify-start h-full w-full">
           {/* Badge & Headlines */}
-          <div className="mb-6 space-y-4 pt-8 flex flex-col items-center text-center">
+          <div className="mb-6 space-y-4 pt-8">
             <h1 className="text-[34px] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
               {simulationState.flowType === 'sell' ? (
                 <>
