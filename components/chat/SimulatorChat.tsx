@@ -502,7 +502,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.key}
                         onClick={() => selectRepair(opt.key as any)}
-                        className="w-full text-left glass-card hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
+                        className="w-full text-center glass-card hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
                       >
                         {opt.label}
                       </button>
