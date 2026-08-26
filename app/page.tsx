@@ -244,11 +244,11 @@ export default function Home() {
                 <>
                   <span className="block sm:hidden">
                     Descubra quanto <br />
-                    vale seu <span className="bg-gradient-to-r from-fuchsia-400 to-fuchsia-300 bg-clip-text text-transparent">Upgrade.</span>
+                    vale seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                   <span className="hidden sm:block">
                     Descubra quanto vale <br />
-                    seu <span className="bg-gradient-to-r from-fuchsia-400 to-fuchsia-300 bg-clip-text text-transparent">Upgrade.</span>
+                    seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                 </>
               ) : (
@@ -257,12 +257,12 @@ export default function Home() {
                   <span className="block sm:hidden">
                     Descubra o valor <br />
                     do seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br />
-                    ou <span className="bg-gradient-to-r from-fuchsia-400 to-fuchsia-300 bg-clip-text text-transparent">Upgrade.</span>
+                    ou <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                   {/* Desktop version */}
                   <span className="hidden sm:block text-balance">
                     Descubra o valor do seu{' '}
-                    <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-fuchsia-400 to-fuchsia-300 bg-clip-text text-transparent">Upgrade.</span>
+                    <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                 </>
               )}
