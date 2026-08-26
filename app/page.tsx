@@ -241,8 +241,10 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  Descubra o valor do <br className="hidden sm:block" />
-                  seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  Descubra o valor <br className="block sm:hidden" />
+                  do seu <br className="hidden sm:block" />
+                  <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br className="block sm:hidden" />
+                  ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
                 </>
               )}
             </h1>
