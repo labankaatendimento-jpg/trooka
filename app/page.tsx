@@ -231,17 +231,17 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
               {simulationState.flowType === 'sell' ? (
                 <>
-                  Descubra quanto <br />
+                  Descubra quanto <br className="hidden sm:block" />
                   vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone.</span>
                 </>
               ) : simulationState.flowType === 'upgrade' ? (
                 <>
-                  Descubra quanto <br />
+                  Descubra quanto <br className="hidden sm:block" />
                   vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
                 </>
               ) : (
                 <>
-                  Descubra o valor do <br />
+                  Descubra o valor do <br className="hidden sm:block" />
                   seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
                 </>
               )}
