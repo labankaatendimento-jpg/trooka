@@ -232,7 +232,7 @@ export default function Home() {
               {simulationState.flowType === 'sell' ? (
                 <>
                   Descubra quanto <br />
-                  vale seu <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">iPhone.</span>
+                  vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone.</span>
                 </>
               ) : simulationState.flowType === 'upgrade' ? (
                 <>
@@ -242,7 +242,7 @@ export default function Home() {
               ) : (
                 <>
                   Descubra o valor do <br />
-                  seu <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
                 </>
               )}
             </h1>
