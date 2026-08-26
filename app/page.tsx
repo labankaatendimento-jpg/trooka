@@ -228,9 +228,23 @@ export default function Home() {
         <div className="lg:col-span-6 flex flex-col justify-start h-full w-full">
           {/* Badge & Headlines */}
           <div className="mb-6 space-y-4 pt-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-              Descubra quanto <br />
-              vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
+              {simulationState.flowType === 'sell' ? (
+                <>
+                  Descubra quanto <br />
+                  vale seu <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">iPhone.</span>
+                </>
+              ) : simulationState.flowType === 'upgrade' ? (
+                <>
+                  Descubra quanto <br />
+                  vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                </>
+              ) : (
+                <>
+                  Descubra o valor do <br />
+                  seu <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                </>
+              )}
             </h1>
             
             <p className="text-sm sm:text-lg text-neutral-400 max-w-md font-medium leading-relaxed">
