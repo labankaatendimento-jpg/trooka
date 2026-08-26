@@ -231,20 +231,39 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500">
               {simulationState.flowType === 'sell' ? (
                 <>
-                  Descubra quanto <br className="hidden sm:block" />
-                  vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone.</span>
+                  <span className="block sm:hidden">
+                    Descubra quanto <br />
+                    vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone.</span>
+                  </span>
+                  <span className="hidden sm:block">
+                    Descubra quanto vale <br />
+                    seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone.</span>
+                  </span>
                 </>
               ) : simulationState.flowType === 'upgrade' ? (
                 <>
-                  Descubra quanto <br className="hidden sm:block" />
-                  vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  <span className="block sm:hidden">
+                    Descubra quanto <br />
+                    vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  </span>
+                  <span className="hidden sm:block">
+                    Descubra quanto vale <br />
+                    seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  </span>
                 </>
               ) : (
                 <>
-                  Descubra o valor <br className="block sm:hidden" />
-                  do seu <br className="hidden sm:block" />
-                  <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br className="block sm:hidden" />
-                  ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  {/* Mobile version */}
+                  <span className="block sm:hidden">
+                    Descubra o valor <br />
+                    do seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br />
+                    ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  </span>
+                  {/* Desktop version */}
+                  <span className="hidden sm:block text-balance">
+                    Descubra o valor do seu{' '}
+                    <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">upgrade.</span>
+                  </span>
                 </>
               )}
             </h1>
