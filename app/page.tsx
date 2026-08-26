@@ -255,9 +255,10 @@ export default function Home() {
                 <>
                   {/* Mobile version */}
                   <span className="block sm:hidden">
-                    Descubra quanto vale <br />
-                    seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou quanto <br />
-                    falta para seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
+                    Descubra quanto <br />
+                    vale seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br />
+                    ou quanto falta <br />
+                    para seu <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                   {/* Desktop version */}
                   <span className="hidden sm:block text-balance">
