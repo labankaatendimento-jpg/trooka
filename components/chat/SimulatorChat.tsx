@@ -296,7 +296,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   };
 
   return (
-    <div className="flex flex-col flex-1 min-w-0 w-full max-w-2xl mx-auto px-4 pt-8 pb-0 relative">
+    <div className="flex flex-col flex-1 min-w-0 w-full max-w-2xl mx-auto pt-8 pb-0 relative">
       {/* Background ambient light effects */}
       {step > 0 && (
         <button
@@ -321,7 +321,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="relative flex flex-col gap-2 w-full min-w-0"
+                className="relative flex flex-col gap-2 w-full max-w-full min-w-0"
               >
                 {/* Timeline connection line to next message */}
                 {index < messages.length - 1 && (
@@ -351,7 +351,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 {/* Message Bubble */}
                 {message.type !== 'loading' ? (
                   <div
-                    className={`w-fit max-w-[calc(100vw-5.5rem)] lg:max-w-[85%] break-words rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed ${
+                    className={`w-fit max-w-full lg:max-w-[85%] break-words rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed ${
                       isIA
                         ? 'bg-neutral-900/60 text-neutral-100 self-start border border-neutral-850'
                         : 'bg-neutral-850/80 text-white self-end border border-neutral-800'
