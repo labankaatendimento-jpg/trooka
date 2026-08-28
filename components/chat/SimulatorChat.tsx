@@ -475,9 +475,11 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                         className={`text-left glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex items-start gap-3`}
                       >
                         <div className="flex-1">
-                          <opt.Icon className={`w-6 h-6 mb-2 ${opt.iconColor}`} />
-                          <div className="text-[14px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
-                            {opt.title}
+                          <div className="flex flex-col items-center text-center w-full mb-3">
+                            <opt.Icon className={`w-6 h-6 mb-1 ${opt.iconColor}`} />
+                            <div className="text-[14px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
+                              {opt.title}
+                            </div>
                           </div>
                           <div className="text-[13px] text-neutral-300 mt-1 font-medium">
                             {opt.subtitle}
