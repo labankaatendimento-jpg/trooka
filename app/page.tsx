@@ -343,7 +343,7 @@ export default function Home() {
                 <div className="flex flex-col">
                   <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu upgrade a partir de</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-emerald-100 to-emerald-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                       {simulationState.estimate?.diferencaMin 
                         ? `R$ ${simulationState.estimate.diferencaMin.toLocaleString('pt-BR')}`
                         : 'R$ 3.540'}
@@ -351,8 +351,8 @@ export default function Home() {
                   </div>
                   
                   <div className="mt-3">
-                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-purple-200">
-                      <ArrowRight className="w-3 h-3 text-purple-400" /> Na troca pelo {displayModel}
+                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-200">
+                      <ArrowRight className="w-3 h-3 text-emerald-400" /> Na troca pelo {displayModel}
                     </div>
                   </div>
                 </div>
