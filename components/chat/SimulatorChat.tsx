@@ -464,10 +464,10 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                     className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 w-full"
                   >
                     {[
-                      { key: 'excelente', title: 'Excelente', desc: 'Aparelho perfeito, sem marcas de uso', color: 'border-emerald-500/20 hover:border-emerald-500/50 bg-emerald-500/5', iconColor: 'text-emerald-500', Icon: Smile },
-                      { key: 'bom', title: 'Bom', desc: 'Pequenas marcas de uso no aparelho', color: 'border-yellow-500/20 hover:border-yellow-500/50 bg-yellow-500/5', iconColor: 'text-yellow-500', Icon: Smile },
-                      { key: 'marcas', title: 'Marcas visíveis', desc: 'Algumas marcas e riscos profundos', color: 'border-amber-500/20 hover:border-amber-500/50 bg-amber-500/5', iconColor: 'text-amber-500', Icon: Meh },
-                      { key: 'tela_quebrada', title: 'Tela quebrada ou defeitos', desc: 'Problemas visíveis ou falhas no aparelho', color: 'border-rose-500/20 hover:border-rose-500/50 bg-rose-500/5', iconColor: 'text-rose-500', Icon: Frown },
+                      { key: 'excelente', title: 'Excelente', subtitle: 'Sem marcas aparentes', desc: 'Aparelho praticamente novo, sem riscos, amassados ou sinais de uso.', color: 'border-emerald-500/20 hover:border-emerald-500/50 bg-emerald-500/5', iconColor: 'text-emerald-500', Icon: Smile },
+                      { key: 'bom', title: 'Bom', subtitle: 'Marcas leves de uso', desc: 'Pequenos riscos ou sinais de uso, mas nada que chame atenção.', color: 'border-yellow-500/20 hover:border-yellow-500/50 bg-yellow-500/5', iconColor: 'text-yellow-500', Icon: Smile },
+                      { key: 'marcas', title: 'Usado', subtitle: 'Marcas e riscos visíveis', desc: 'Riscos mais aparentes, pequenos amassados ou sinais de uso que podem ser vistos facilmente.', color: 'border-amber-500/20 hover:border-amber-500/50 bg-amber-500/5', iconColor: 'text-amber-500', Icon: Meh },
+                      { key: 'tela_quebrada', title: 'Danificado', subtitle: 'Tela quebrada ou problemas', desc: 'Tela trincada/quebrada, manchas, falhas, peças danificadas ou outros problemas.', color: 'border-rose-500/20 hover:border-rose-500/50 bg-rose-500/5', iconColor: 'text-rose-500', Icon: Frown },
                     ].map(opt => (
                       <button
                         key={opt.key}
@@ -479,7 +479,10 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                           <div className="text-[14px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
                             {opt.title}
                           </div>
-                          <div className="text-xs text-neutral-400 mt-1">
+                          <div className="text-[13px] text-neutral-300 mt-1 font-medium">
+                            {opt.subtitle}
+                          </div>
+                          <div className="text-[12px] text-neutral-400 mt-1 leading-snug">
                             {opt.desc}
                           </div>
                         </div>
