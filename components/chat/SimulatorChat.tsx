@@ -311,7 +311,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       )}
 
       {/* Vertical Timeline container */}
-      <div className="relative flex flex-col gap-8 flex-1 min-w-0 w-full pl-10 ml-2 lg:pl-12 lg:ml-4 pt-4 pb-0">
+      <div className="relative flex flex-col gap-8 flex-1 min-w-0 self-stretch pl-12 lg:pl-16 pt-4 pb-0">
         <AnimatePresence initial={false}>
           {messages.map((message, index) => {
             const isIA = message.sender === 'ia';
@@ -321,16 +321,16 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="relative flex flex-col gap-2 w-full max-w-full min-w-0"
+                className="relative flex flex-col gap-2 min-w-0"
               >
                 {/* Timeline connection line to next message */}
                 {index < messages.length - 1 && (
-                  <div className="absolute left-[-40px] lg:-left-[48px] top-[22px] bottom-[-32px] w-[1px] bg-purple-900/50 z-0" />
+                  <div className="absolute left-[-24px] lg:left-[-32px] top-[22px] bottom-[-32px] w-[1px] bg-purple-900/50 z-0" />
                 )}
 
                 {/* Timeline circle icon */}
                 {isIA && (
-                  <div className="absolute left-[-58px] lg:-left-[66px] top-1 w-9 h-9 rounded-full bg-neutral-950 border border-purple-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                  <div className="absolute left-[-42px] lg:left-[-50px] top-1 w-9 h-9 rounded-full bg-neutral-950 border border-purple-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.15)]">
                     <svg viewBox="0 0 24 24" className="w-4 h-4 drop-shadow-[0_2px_4px_rgba(168,85,247,0.4)]" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill={`url(#t-gradient-chat-${message.id})`} />
                       <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill={`url(#t-highlight-chat-${message.id})`} />
