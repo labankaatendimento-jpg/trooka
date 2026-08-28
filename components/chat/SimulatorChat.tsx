@@ -321,7 +321,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="relative flex flex-col gap-2"
+                className="relative flex flex-col gap-2 max-w-[calc(100vw-5rem)] lg:max-w-none"
               >
                 {/* Timeline connection line to next message */}
                 {index < messages.length - 1 && (
