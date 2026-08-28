@@ -22,6 +22,8 @@ export default function AdminDashboard() {
     pendingStores: 0,
     totalProposals: 0,
     conversionRate: 0,
+    topCurrentModels: [] as {name: string, count: number}[],
+    topDesiredModels: [] as {name: string, count: number}[],
   });
 
   const [models, setModels] = useState<IphoneModel[]>([]);
@@ -196,11 +198,38 @@ export default function AdminDashboard() {
             </div>
 
             {/* Simulated graph or detail list */}
-            <div className="glass-card rounded-3xl p-6 border border-neutral-900/60 space-y-4">
-              <h3 className="text-sm font-bold text-neutral-350">Instruções de IA e Configuração</h3>
-              <p className="text-xs text-neutral-450 leading-relaxed max-w-2xl">
-                O Project Atlas utiliza uma IA de conversação encapsulada (Supabase e local) estruturada exclusivamente para guiar a simulação de upgrade. Os pesos de depreciação de tela quebrada, reparos e estado geral são consumidos diretamente da aba de Regras.
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="glass-card rounded-3xl p-6 border border-neutral-900/60 space-y-4">
+                <h3 className="text-sm font-bold text-neutral-350">Aparelhos Usados Mais Oferecidos</h3>
+                <div className="space-y-3 mt-4">
+                  {stats.topCurrentModels && stats.topCurrentModels.length > 0 ? (
+                    stats.topCurrentModels.map((model, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/50">
+                        <span className="text-sm font-semibold text-neutral-200">{model.name}</span>
+                        <span className="text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-1 rounded-md">{model.count}x</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-neutral-500">Ainda não há dados suficientes.</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="glass-card rounded-3xl p-6 border border-neutral-900/60 space-y-4">
+                <h3 className="text-sm font-bold text-neutral-350">Upgrades Mais Desejados</h3>
+                <div className="space-y-3 mt-4">
+                  {stats.topDesiredModels && stats.topDesiredModels.length > 0 ? (
+                    stats.topDesiredModels.map((model, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/50">
+                        <span className="text-sm font-semibold text-neutral-200">{model.name}</span>
+                        <span className="text-xs font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-md">{model.count}x</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-neutral-500">Ainda não há dados suficientes.</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}

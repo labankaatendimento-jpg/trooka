@@ -462,6 +462,26 @@ export const dbService = {
     const acceptedOffersCount = offers.filter(o => o.status === 'accepted').length;
     const conversionRate = requests.length > 0 ? (acceptedOffersCount / requests.length) * 100 : 0;
 
+    // Calculate top current models (usados)
+    const currentModelCounts = requests.reduce((acc, req) => {
+      acc[req.modelo_atual] = (acc[req.modelo_atual] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    const topCurrentModels = Object.entries(currentModelCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([name, count]) => ({ name, count }));
+
+    // Calculate top desired models (upgrades)
+    const desiredModelCounts = requests.reduce((acc, req) => {
+      acc[req.modelo_desejado] = (acc[req.modelo_desejado] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    const topDesiredModels = Object.entries(desiredModelCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([name, count]) => ({ name, count }));
+
     return {
       totalSimulations: requests.length,
       totalStores: stores.length,
@@ -470,6 +490,8 @@ export const dbService = {
       totalProposals: offers.length,
       conversionRate: Math.round(conversionRate * 10) / 10,
       pendingOffers: requests.filter(r => r.status === 'pending').length,
+      topCurrentModels,
+      topDesiredModels,
     };
   },
 
