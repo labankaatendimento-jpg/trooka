@@ -296,8 +296,8 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   };
 
   return (
-    <div className="flex flex-col flex-1 max-w-2xl mx-auto px-4 pt-8 pb-0 relative">
-      {/* Reset button inside chat wrapper */}
+    <div className="flex flex-col flex-1 min-w-0 w-full max-w-2xl mx-auto px-4 pt-8 pb-0 relative">
+      {/* Background ambient light effects */}
       {step > 0 && (
         <button
           onClick={resetChat}
@@ -311,7 +311,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       )}
 
       {/* Vertical Timeline container */}
-      <div className="relative flex flex-col gap-8 flex-1 pl-10 ml-2 lg:pl-12 lg:ml-4 pt-4 pb-0">
+      <div className="relative flex flex-col gap-8 flex-1 min-w-0 w-full pl-10 ml-2 lg:pl-12 lg:ml-4 pt-4 pb-0">
         <AnimatePresence initial={false}>
           {messages.map((message, index) => {
             const isIA = message.sender === 'ia';
@@ -321,7 +321,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="relative flex flex-col gap-2 max-w-[calc(100vw-5rem)] lg:max-w-none"
+                className="relative flex flex-col gap-2 w-full min-w-0"
               >
                 {/* Timeline connection line to next message */}
                 {index < messages.length - 1 && (
@@ -491,7 +491,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.key}
                         onClick={() => selectCondition(opt.key as any)}
-                        className={`glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex flex-col items-center text-center gap-3`}
+                        className={`w-full min-w-0 glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex flex-col items-center text-center gap-3`}
                       >
                         <div className="flex-1 flex flex-col items-center">
                           <opt.Icon className={`w-6 h-6 mb-2 ${opt.iconColor}`} />
