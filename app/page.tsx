@@ -269,8 +269,22 @@ export default function Home() {
             </h1>
             
             <p className="text-sm sm:text-lg text-neutral-400 max-w-md font-medium leading-relaxed">
-              Nossa IA calcula uma estimativa de preço<br />
-              rápida e realista para o seu aparelho.
+              {simulationState.flowType === 'sell' ? (
+                <>
+                  Nossa IA calcula uma estimativa de preço<br />
+                  rápida e realista para o seu aparelho.
+                </>
+              ) : simulationState.flowType === 'upgrade' ? (
+                <>
+                  Nossa IA calcula uma estimativa de preço<br />
+                  rápida e realista para o seu Upgrade.
+                </>
+              ) : (
+                <>
+                  Nossa IA calcula uma estimativa de preço rápida<br />
+                  e realista para o seu aparelho ou Upgrade.
+                </>
+              )}
             </p>
 
             {/* Social Proof */}
