@@ -480,7 +480,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 w-full"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 w-full"
                   >
                     {[
                       { key: 'excelente', title: 'Excelente', subtitle: 'Sem marcas aparentes', desc: 'Aparelho praticamente novo, sem riscos, amassados ou sinais de uso.', color: 'border-emerald-500/20 hover:border-emerald-500/50 bg-emerald-500/5', iconColor: 'text-emerald-500', Icon: Smile },
@@ -491,17 +491,17 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.key}
                         onClick={() => selectCondition(opt.key as any)}
-                        className={`w-full min-w-0 glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex flex-col items-center text-center gap-3`}
+                        className={`w-full min-w-0 glass-card hover:glass-card-selected rounded-xl p-3 cursor-pointer transition-all duration-300 relative group flex flex-col items-center text-center gap-1.5`}
                       >
                         <div className="flex-1 flex flex-col items-center">
-                          <opt.Icon className={`w-6 h-6 mb-2 ${opt.iconColor}`} />
-                          <div className="text-[14px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
+                          <opt.Icon className={`w-5 h-5 mb-1.5 ${opt.iconColor}`} />
+                          <div className="text-[13px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
                             {opt.title}
                           </div>
-                          <div className="text-[13px] text-neutral-300 mt-1 font-medium">
+                          <div className="text-[12px] text-neutral-300 mt-0.5 font-medium">
                             {opt.subtitle}
                           </div>
-                          <div className="text-[12px] text-neutral-400 mt-1 leading-snug">
+                          <div className="text-[11px] text-neutral-400 mt-0.5 leading-snug">
                             {opt.desc}
                           </div>
                         </div>
