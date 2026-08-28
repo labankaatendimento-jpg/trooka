@@ -472,9 +472,9 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.key}
                         onClick={() => selectCondition(opt.key as any)}
-                        className={`text-left glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex items-start gap-3`}
+                        className={`glass-card hover:glass-card-selected rounded-2xl p-4 cursor-pointer transition-all duration-300 relative group flex flex-col items-center text-center gap-3`}
                       >
-                        <div className="flex-1">
+                        <div className="flex-1 flex flex-col items-center">
                           <opt.Icon className={`w-6 h-6 mb-2 ${opt.iconColor}`} />
                           <div className="text-[14px] font-semibold text-neutral-100 group-hover:text-white transition-colors">
                             {opt.title}
