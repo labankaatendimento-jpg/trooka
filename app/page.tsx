@@ -343,7 +343,7 @@ export default function Home() {
                 <div className="flex flex-col">
                   <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu upgrade a partir de</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-emerald-100 to-emerald-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-br from-white via-white to-purple-300 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                       {simulationState.estimate?.diferencaMin 
                         ? `R$ ${simulationState.estimate.diferencaMin.toLocaleString('pt-BR')}`
                         : 'R$ 3.540'}
@@ -351,8 +351,8 @@ export default function Home() {
                   </div>
                   
                   <div className="mt-3">
-                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-200">
-                      <ArrowRight className="w-3 h-3 text-emerald-400" /> Na troca pelo {displayModel}
+                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-purple-200">
+                      <ArrowRight className="w-3 h-3 text-purple-400" /> Na troca pelo {displayModel}
                     </div>
                   </div>
                 </div>
@@ -363,14 +363,14 @@ export default function Home() {
                 <div className="flex flex-col">
                   <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">Seu aparelho vale até</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-r from-white via-emerald-100 to-emerald-400 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                    <span className="text-5xl lg:text-[3.5rem] font-extrabold tracking-tight bg-gradient-to-br from-white via-white to-purple-300 bg-clip-text text-transparent leading-none py-1 drop-shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                       {displayValue}
                     </span>
                   </div>
                   
                   <div className="mt-3">
-                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-200">
-                      <CircleDollarSign className="w-3 h-3 text-emerald-400" /> Valor estimado
+                    <div className="inline-flex items-center gap-1.5 bg-neutral-900/80 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-purple-200">
+                      <CircleDollarSign className="w-3 h-3 text-purple-400" /> Valor estimado
                     </div>
                   </div>
                 </div>
@@ -382,12 +382,12 @@ export default function Home() {
                   
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                        <CircleDollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                      <div className="w-6 h-6 rounded-full bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
+                        <CircleDollarSign className="w-3.5 h-3.5 text-purple-400" />
                       </div>
                       <span className="text-[13px] text-neutral-300 font-medium">Seu usado vale até</span>
                     </div>
-                    <span className="text-base text-emerald-400 font-bold sm:text-right">
+                    <span className="text-base text-purple-400 font-bold sm:text-right">
                       {displayValue}
                     </span>
                   </div>
