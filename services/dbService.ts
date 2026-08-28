@@ -464,7 +464,7 @@ export const dbService = {
 
     // Calculate top current models (usados)
     const currentModelCounts = requests.reduce((acc, req) => {
-      acc[req.modelo_atual] = (acc[req.modelo_atual] || 0) + 1;
+      acc[req.modelo_atual_nome] = (acc[req.modelo_atual_nome] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     const topCurrentModels = Object.entries(currentModelCounts)
@@ -474,7 +474,7 @@ export const dbService = {
 
     // Calculate top desired models (upgrades)
     const desiredModelCounts = requests.reduce((acc, req) => {
-      acc[req.modelo_desejado] = (acc[req.modelo_desejado] || 0) + 1;
+      acc[req.modelo_desejado_nome] = (acc[req.modelo_desejado_nome] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     const topDesiredModels = Object.entries(desiredModelCounts)
