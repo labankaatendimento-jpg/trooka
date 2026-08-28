@@ -351,7 +351,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                 {/* Message Bubble */}
                 {message.type !== 'loading' ? (
                   <div
-                    className={`w-fit max-w-[92%] lg:max-w-[85%] break-words rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed ${
+                    className={`w-fit max-w-[calc(100vw-5.5rem)] lg:max-w-[85%] break-words rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed ${
                       isIA
                         ? 'bg-neutral-900/60 text-neutral-100 self-start border border-neutral-850'
                         : 'bg-neutral-850/80 text-white self-end border border-neutral-800'
