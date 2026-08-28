@@ -30,9 +30,9 @@ export function calculateUpgradeEstimate(
   // Multiplier for condition
   let conditionMultiplier = 1.0;
   if (condition === 'excelente') conditionMultiplier = 1.0;
-  else if (condition === 'bom') conditionMultiplier = 0.94;
-  else if (condition === 'marcas') conditionMultiplier = 0.88;
-  else if (condition === 'tela_quebrada') conditionMultiplier = 0.72;
+  else if (condition === 'bom') conditionMultiplier = 0.85; // 15% de desvalorização
+  else if (condition === 'marcas') conditionMultiplier = 0.65; // 35% de desvalorização
+  else if (condition === 'tela_quebrada') conditionMultiplier = 0.35; // 65% de desvalorização
 
   // Multiplier for repair history
   let repairMultiplier = 1.0;
