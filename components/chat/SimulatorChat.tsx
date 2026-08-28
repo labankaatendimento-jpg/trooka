@@ -91,6 +91,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
           id: 'ask-current',
           sender: 'ia',
           text: 'Entendido! Primeiro, me conte qual iPhone você usa hoje?',
+          type: 'options-current',
           timestamp: nextTime,
         },
       ]);
@@ -398,6 +399,24 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                   </motion.div>
                 )}
 
+                {isIA && message.type === 'options-current' && step === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-2 w-full"
+                  >
+                    <button
+                      onClick={() => handleOpenSearch('current')}
+                      className="glass-card hover:glass-card-selected rounded-2xl w-full sm:max-w-sm px-5 py-4 text-left flex items-center justify-between text-neutral-300 hover:text-white transition-all cursor-pointer"
+                    >
+                      <span>Selecione o iPhone que você usa hoje...</span>
+                      <span className="px-3 py-1.5 rounded-full bg-purple-900/30 border border-purple-500/40 text-purple-400 text-[10px] font-bold uppercase tracking-wider transition-colors drop-shadow-[0_0_8px_rgba(192,38,211,0.3)]">
+                        Selecionar
+                      </span>
+                    </button>
+                  </motion.div>
+                )}
+
                 {isIA && message.type === 'options-models' && step === 2 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -516,25 +535,6 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
             );
           })}
         </AnimatePresence>
-
-        {/* Input Trigger for Current Model */}
-        {step === 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-2"
-          >
-            <button
-              onClick={() => handleOpenSearch('current')}
-              className="glass-card hover:glass-card-selected rounded-2xl w-full max-w-sm px-5 py-4 text-left flex items-center justify-between text-neutral-300 hover:text-white transition-all cursor-pointer"
-            >
-              <span>Selecione o iPhone que você usa hoje...</span>
-              <span className="px-3 py-1.5 rounded-full bg-purple-900/30 border border-purple-500/40 text-purple-400 text-[10px] font-bold uppercase tracking-wider transition-colors drop-shadow-[0_0_8px_rgba(192,38,211,0.3)]">
-                Selecionar
-              </span>
-            </button>
-          </motion.div>
-        )}
 
         <div ref={chatEndRef} />
       </div>
