@@ -256,8 +256,8 @@ export default function Home() {
                   {/* Mobile version */}
                   <span className="block sm:hidden">
                     Descubra o valor <br />
-                    do seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> ou <br />
-                    <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
+                    do seu <span className="bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent">iPhone</span> <br />
+                    ou <span className="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Upgrade.</span>
                   </span>
                   {/* Desktop version */}
                   <span className="hidden sm:block text-balance">
