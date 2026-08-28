@@ -24,7 +24,7 @@ interface ChatMessage {
   id: string;
   sender: 'ia' | 'user';
   text?: string;
-  type?: 'text' | 'options-intent' | 'options-models' | 'options-condition' | 'options-repair' | 'loading';
+  type?: 'text' | 'options-intent' | 'options-current' | 'options-models' | 'options-condition' | 'options-repair' | 'loading';
   timestamp: string;
 }
 
