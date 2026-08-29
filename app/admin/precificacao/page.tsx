@@ -1,14 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { IphoneModel, PriceRule } from '@/lib/mockData';
 import InternalSimulator from '@/components/admin/InternalSimulator';
+import { Upload, Download } from 'lucide-react';
 
 export default function AdminPrecificacao() {
   const [models, setModels] = useState<IphoneModel[]>([]);
   const [rules, setRules] = useState<PriceRule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadData = async () => {
     try {
@@ -47,6 +50,78 @@ export default function AdminPrecificacao() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const text = await file.text();
+      const lines = text.split('\n').filter(l => l.trim() !== '');
+      if (lines.length < 2) throw new Error("Planilha vazia ou inválida.");
+
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      
+      const parsedModels: Omit<IphoneModel, 'id' | 'status'>[] = [];
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(',').map(r => r.trim());
+        const modelData: any = {};
+        headers.forEach((h, index) => {
+          modelData[h] = row[index];
+        });
+        
+        const precoUsado = parseFloat(modelData.preco_medio_usado);
+        const precoNovo = parseFloat(modelData.preco_medio_novo);
+        const valorBase = parseFloat(modelData.valor_base_upgrade);
+        const ano = parseInt(modelData.ano) || 2024;
+        
+        if (modelData.modelo && modelData.armazenamento && !isNaN(precoUsado) && !isNaN(precoNovo) && !isNaN(valorBase)) {
+          parsedModels.push({
+            modelo: modelData.modelo,
+            armazenamento: modelData.armazenamento,
+            ano: ano,
+            preco_medio_usado: precoUsado,
+            preco_medio_novo: precoNovo,
+            valor_base_upgrade: valorBase
+          });
+        }
+      }
+
+      if (parsedModels.length > 0) {
+        await dbService.bulkUpsertIphoneModels(parsedModels);
+        await dbService.addAdminLog({
+          admin_id: 'admin',
+          acao: 'Importação de Planilha',
+          item_alterado: 'Modelos e Preços',
+          valor_anterior: '-',
+          novo_valor: `${parsedModels.length} modelos importados/atualizados`
+        });
+        await loadData();
+        alert(`${parsedModels.length} modelos processados com sucesso!`);
+      } else {
+        alert("Nenhum dado válido encontrado na planilha. Verifique o formato.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao processar planilha.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const downloadTemplate = () => {
+    const csvContent = "modelo,armazenamento,ano,preco_medio_usado,preco_medio_novo,valor_base_upgrade\niPhone 15 Pro Max,256GB,2023,6500,8500,2000\niPhone 14,128GB,2022,3500,4500,1000\n";
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "modelo_precos_trooka.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (isLoading) {
@@ -97,7 +172,36 @@ export default function AdminPrecificacao() {
 
           {/* Tabela Resumo de Preços */}
           <div className="space-y-4">
-            <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">Tabela de Preços (Mercado)</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">Tabela de Preços (Mercado)</h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={downloadTemplate}
+                  className="px-3 py-1.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Baixar Modelo
+                </button>
+                
+                <input 
+                  type="file" 
+                  accept=".csv" 
+                  className="hidden" 
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  disabled={isUploading}
+                />
+                
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 text-orange-500 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  {isUploading ? 'Processando...' : 'Importar CSV'}
+                </button>
+              </div>
+            </div>
             <div className="glass-card border-neutral-900 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">

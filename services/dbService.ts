@@ -141,6 +141,49 @@ export const dbService = {
     return models[idx];
   },
 
+  async bulkUpsertIphoneModels(newModels: Omit<IphoneModel, 'id' | 'status'>[]): Promise<void> {
+    if (isSupabaseConfigured && supabase) {
+      // Para o Supabase, a melhor prática seria usar .upsert, 
+      // mas precisamos garantir um ID ou chave única real.
+      // Se tivermos conflitos, o supabase.upsert() lida com isso.
+      // Porém, como estamos no Mock na maioria das vezes, o foco será no localStorage abaixo.
+      const { error } = await supabase.from('iphone_models').upsert(newModels, { onConflict: 'modelo, armazenamento' });
+      if (error) throw error;
+      return;
+    }
+    
+    // Fallback: LocalStorage
+    let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    
+    newModels.forEach(incoming => {
+      // Tentar achar um modelo existente pelo Nome + Armazenamento
+      const idx = models.findIndex(
+        m => m.modelo.toLowerCase().trim() === incoming.modelo.toLowerCase().trim() && 
+             m.armazenamento.toLowerCase().trim() === incoming.armazenamento.toLowerCase().trim()
+      );
+
+      if (idx !== -1) {
+        // Atualizar
+        models[idx] = { 
+          ...models[idx], 
+          preco_medio_usado: incoming.preco_medio_usado,
+          preco_medio_novo: incoming.preco_medio_novo,
+          valor_base_upgrade: incoming.valor_base_upgrade,
+          ano: incoming.ano || models[idx].ano
+        };
+      } else {
+        // Inserir novo
+        models.push({
+          ...incoming,
+          id: Math.random().toString(36).substr(2, 9),
+          status: 'active'
+        } as IphoneModel);
+      }
+    });
+
+    setLocalData('models', models);
+  },
+
   // --- STORES ---
   async getStores(): Promise<Store[]> {
     if (isSupabaseConfigured && supabase) {
