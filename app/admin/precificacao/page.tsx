@@ -58,8 +58,9 @@ export default function AdminPrecificacao() {
 
     setIsUploading(true);
     try {
-      const text = await file.text();
-      const lines = text.split('\n').filter(l => l.trim() !== '');
+      // Remove BOM if present and standardize line endings
+      const cleanText = (await file.text()).replace(/^\uFEFF/, '').replace(/\r/g, '');
+      const lines = cleanText.split('\n').filter(l => l.trim() !== '');
       if (lines.length < 2) throw new Error("Planilha vazia ou inválida.");
 
       const delimiter = lines[0].includes(';') ? ';' : ',';
@@ -112,7 +113,7 @@ export default function AdminPrecificacao() {
         await loadData();
         alert(`${parsedModels.length} modelos processados com sucesso!`);
       } else {
-        alert("Nenhum dado válido encontrado na planilha. Verifique o formato.");
+        alert(`Nenhum dado válido encontrado. Colunas detectadas: ${headers.join(' | ')}. Verifique se as colunas estão corretas.`);
       }
     } catch (error) {
       console.error(error);
