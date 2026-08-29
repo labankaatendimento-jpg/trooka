@@ -158,10 +158,13 @@ export const dbService = {
     newModels.forEach(incoming => {
       if (!incoming.modelo || !incoming.armazenamento) return;
 
+      const normStr = (str: string) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+      const normStorage = (str: string) => str.toLowerCase().replace(/[^0-9]/g, '');
+
       // Tentar achar um modelo existente pelo Nome + Armazenamento
       const idx = models.findIndex(
-        m => m.modelo.toLowerCase().trim() === incoming.modelo!.toLowerCase().trim() && 
-             m.armazenamento.toLowerCase().trim() === incoming.armazenamento!.toLowerCase().trim()
+        m => normStr(m.modelo) === normStr(incoming.modelo!) && 
+             normStorage(m.armazenamento) === normStorage(incoming.armazenamento!)
       );
 
       if (idx !== -1) {

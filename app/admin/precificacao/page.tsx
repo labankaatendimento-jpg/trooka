@@ -83,9 +83,9 @@ export default function AdminPrecificacao() {
           return isNaN(num) ? undefined : num;
         };
 
-        const valUsado = parseNumber(modelData.preco_medio_usado) ?? parseNumber(modelData['valor usado']);
+        const valUsado = parseNumber(modelData.preco_medio_usado) ?? parseNumber(modelData['valor usado']) ?? parseNumber(modelData['valor de compra']);
         const valNovo = parseNumber(modelData.preco_medio_novo) ?? parseNumber(modelData.valor_venda);
-        const valBase = parseNumber(modelData.valor_base_upgrade) ?? parseNumber(modelData['valor usado']);
+        const valBase = parseNumber(modelData.valor_base_upgrade) ?? parseNumber(modelData['valor usado']) ?? parseNumber(modelData['valor de compra']);
         const ano = parseInt(modelData.ano);
         
         const modelo = modelData.modelo;
