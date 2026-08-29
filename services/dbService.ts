@@ -99,7 +99,54 @@ export const dbService = {
         .eq('status', 'active');
       if (!error && data) return data;
     }
-    return getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    
+    // --- Início Cleanup/Desduplicação ---
+    const normStr = (str: string) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+    const normStorage = (str: string) => `${str.toLowerCase().replace(/[^0-9]/g, '')}GB`;
+    
+    const toTitleCase = (str: string) => {
+      let title = str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+      return title.replace(/iphone/i, 'iPhone').replace(/pro/i, 'Pro').replace(/max/i, 'Max');
+    };
+
+    const uniqueMap = new Map<string, IphoneModel>();
+    for (const m of models) {
+      if (!m.modelo || !m.armazenamento) continue;
+      
+      const key = `${normStr(m.modelo)}-${normStorage(m.armazenamento)}`;
+      m.modelo = toTitleCase(normStr(m.modelo));
+      m.armazenamento = normStorage(m.armazenamento);
+      
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, m);
+      } else {
+        const existing = uniqueMap.get(key)!;
+        uniqueMap.set(key, {
+           ...existing,
+           preco_medio_usado: m.preco_medio_usado > 0 ? m.preco_medio_usado : existing.preco_medio_usado,
+           preco_medio_novo: m.preco_medio_novo > 0 ? m.preco_medio_novo : existing.preco_medio_novo,
+           valor_base_upgrade: m.valor_base_upgrade > 0 ? m.valor_base_upgrade : existing.valor_base_upgrade
+        });
+      }
+    }
+    
+    models = Array.from(uniqueMap.values());
+    
+    const extractNumber = (str: string) => parseInt(str.replace(/[^0-9]/g, '')) || 0;
+    models.sort((a, b) => {
+       if (a.ano !== b.ano) return b.ano - a.ano; // Mais novo primeiro
+       const aMod = normStr(a.modelo);
+       const bMod = normStr(b.modelo);
+       if (aMod < bMod) return -1;
+       if (aMod > bMod) return 1;
+       return extractNumber(a.armazenamento) - extractNumber(b.armazenamento); // Menor armazenamento primeiro
+    });
+    
+    setLocalData('models', models);
+    // --- Fim Cleanup ---
+
+    return models;
   },
 
   async addIphoneModel(model: Omit<IphoneModel, 'id'>): Promise<IphoneModel> {
