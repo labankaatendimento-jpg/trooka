@@ -79,6 +79,7 @@ export default function AdminPrecificacao() {
         
         if (modelData.modelo && modelData.armazenamento && !isNaN(precoUsado) && !isNaN(precoNovo) && !isNaN(valorBase)) {
           parsedModels.push({
+            marca: 'Apple',
             modelo: modelData.modelo,
             armazenamento: modelData.armazenamento,
             ano: ano,
