@@ -62,20 +62,30 @@ export default function AdminPrecificacao() {
       const lines = text.split('\n').filter(l => l.trim() !== '');
       if (lines.length < 2) throw new Error("Planilha vazia ou inválida.");
 
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      const delimiter = lines[0].includes(';') ? ';' : ',';
+      const headers = lines[0].split(delimiter).map(h => h.trim().toLowerCase());
       
       const parsedModels: Omit<IphoneModel, 'id' | 'status'>[] = [];
       for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(',').map(r => r.trim());
+        const row = lines[i].split(delimiter).map(r => r.trim());
         const modelData: any = {};
         headers.forEach((h, index) => {
           modelData[h] = row[index];
         });
         
-        const precoUsado = parseFloat(modelData.preco_medio_usado);
-        const precoNovo = parseFloat(modelData.preco_medio_novo);
-        const valorBase = parseFloat(modelData.valor_base_upgrade);
+        // Helper para converter "3.500,00" ou "3500" para número
+        const parseNumber = (val: string) => {
+          if (!val) return NaN;
+          // Se tiver vírgula e ponto, assume padrão BR (remove ponto, troca vírgula por ponto)
+          let clean = val.replace(/\./g, '').replace(',', '.');
+          return parseFloat(clean);
+        };
+
+        const precoUsado = parseNumber(modelData.preco_medio_usado);
+        const precoNovo = parseNumber(modelData.preco_medio_novo);
+        const valorBase = parseNumber(modelData.valor_base_upgrade);
         const ano = parseInt(modelData.ano) || 2024;
+        
         
         if (modelData.modelo && modelData.armazenamento && !isNaN(precoUsado) && !isNaN(precoNovo) && !isNaN(valorBase)) {
           parsedModels.push({
@@ -114,7 +124,7 @@ export default function AdminPrecificacao() {
   };
 
   const downloadTemplate = () => {
-    const csvContent = "modelo,armazenamento,ano,preco_medio_usado,preco_medio_novo,valor_base_upgrade\niPhone 15 Pro Max,256GB,2023,6500,8500,2000\niPhone 14,128GB,2022,3500,4500,1000\n";
+    const csvContent = "modelo;armazenamento;ano;preco_medio_usado;preco_medio_novo;valor_base_upgrade\niPhone 15 Pro Max;256GB;2023;6500;8500;2000\niPhone 14;128GB;2022;3500;4500;1000\n";
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
