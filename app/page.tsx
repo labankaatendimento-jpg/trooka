@@ -15,14 +15,18 @@ export default function Home() {
     currentModel: IphoneModel | null;
     desiredModel: IphoneModel | null;
     condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null;
+    batteryCondition: '90-100' | '80-89' | 'below-80' | null;
     hasRepaired: 'sim' | 'nao' | 'nao_sei' | null;
+    desiredCondition: 'novo' | 'seminovo' | null;
     estimate: EstimateResult | null;
     step: number;
   }>({
     flowType: null,
     currentModel: null,
     desiredModel: null,
+    desiredCondition: null,
     condition: null,
+    batteryCondition: null,
     hasRepaired: null,
     estimate: null,
     step: 0

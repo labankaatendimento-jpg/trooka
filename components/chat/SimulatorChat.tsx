@@ -13,7 +13,9 @@ interface SimulatorChatProps {
     currentModel: IphoneModel | null;
     desiredModel: IphoneModel | null;
     condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null;
+    batteryCondition: '90-100' | '80-89' | 'below-80' | null;
     hasRepaired: 'sim' | 'nao' | 'nao_sei' | null;
+    desiredCondition: 'novo' | 'seminovo' | null;
     estimate: EstimateResult | null;
     step: number;
   }) => void;
@@ -24,7 +26,7 @@ interface ChatMessage {
   id: string;
   sender: 'ia' | 'user';
   text?: string;
-  type?: 'text' | 'options-intent' | 'options-current' | 'options-models' | 'options-condition' | 'options-repair' | 'loading';
+  type?: 'text' | 'options-intent' | 'options-current' | 'options-models' | 'options-desired-condition' | 'options-condition' | 'options-battery' | 'options-repair' | 'loading';
   timestamp: string;
 }
 
@@ -33,8 +35,10 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   const [currentModel, setCurrentModel] = useState<IphoneModel | null>(null);
   const [desiredModel, setDesiredModel] = useState<IphoneModel | null>(null);
   const [condition, setCondition] = useState<'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null>(null);
+  const [batteryCondition, setBatteryCondition] = useState<'90-100' | '80-89' | 'below-80' | null>(null);
   const [hasRepaired, setHasRepaired] = useState<'sim' | 'nao' | 'nao_sei' | null>(null);
-  const [step, setStep] = useState(0); // 0: intent, 1: current, 2: desired, 3: condition, 4: repair, 5: loading, 6: done
+  const [desiredCondition, setDesiredCondition] = useState<'novo' | 'seminovo' | null>(null);
+  const [step, setStep] = useState(0); // 0: intent, 1: current, 2: desired, 3: desired-condition, 4: condition, 5: battery, 6: repair, 7: loading, 8: done
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTarget, setSearchTarget] = useState<'current' | 'desired'>('current');
@@ -42,9 +46,9 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
 
   // Trigger parent state update on changes
   useEffect(() => {
-    const estimate = currentModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired) : null;
-    onStateChange({ flowType, currentModel, desiredModel, condition, hasRepaired, estimate, step });
-  }, [flowType, currentModel, desiredModel, condition, hasRepaired, step, onStateChange]);
+    const estimate = currentModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired, batteryCondition, desiredCondition) : null;
+    onStateChange({ flowType, currentModel, desiredModel, condition, batteryCondition, hasRepaired, desiredCondition, estimate, step });
+  }, [flowType, currentModel, desiredModel, condition, batteryCondition, hasRepaired, desiredCondition, step, onStateChange]);
 
   // Handle chat messages progression based on steps
   useEffect(() => {
@@ -126,7 +130,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
     ]);
 
     // Delay next AI message
-    setStep(flowType === 'upgrade' ? 2 : 3);
+    setStep(flowType === 'upgrade' ? 2 : 4);
     setTimeout(() => {
       if (flowType === 'upgrade') {
         setMessages(prev => [
@@ -176,9 +180,39 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       setMessages(prev => [
         ...prev,
         {
+          id: 'ask-desired-condition',
+          sender: 'ia',
+          text: 'Você prefere pegar um aparelho Novo (lacrado) ou Seminovo?',
+          type: 'options-desired-condition',
+          timestamp: nextTime,
+        },
+      ]);
+    }, 600);
+  };
+
+  const selectDesiredCondition = (selectedCond: 'novo' | 'seminovo') => {
+    setDesiredCondition(selectedCond);
+    const userTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const nextTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `user-desired-cond-${selectedCond}`,
+        sender: 'user',
+        text: selectedCond === 'novo' ? 'Aparelho Novo' : 'Aparelho Seminovo',
+        timestamp: userTime,
+      },
+    ]);
+
+    setStep(4);
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        {
           id: 'ask-condition',
           sender: 'ia',
-          text: 'Perfeito! Como está o estado do seu aparelho?',
+          text: 'Perfeito! E como está o estado do seu aparelho atual?',
           type: 'options-condition',
           timestamp: nextTime,
         },
@@ -209,7 +243,42 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       },
     ]);
 
-    setStep(4);
+    setStep(5);
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: 'ask-battery',
+          sender: 'ia',
+          text: 'Como está a saúde da bateria dele?',
+          type: 'options-battery',
+          timestamp: nextTime,
+        },
+      ]);
+    }, 600);
+  };
+
+  const selectBattery = (bat: '90-100' | '80-89' | 'below-80') => {
+    setBatteryCondition(bat);
+    const batLabels = {
+      '90-100': '90 - 100%',
+      '80-89': '80 - 89%',
+      'below-80': 'Abaixo de 80%',
+    };
+    const userTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const nextTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `user-bat-${bat}`,
+        sender: 'user',
+        text: batLabels[bat],
+        timestamp: userTime,
+      },
+    ]);
+
+    setStep(6);
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
@@ -246,7 +315,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       },
     ]);
 
-    setStep(5);
+    setStep(7);
     // Add pulsing loading state message
     setTimeout(() => {
       setMessages(prev => [
@@ -262,7 +331,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
 
     // After 2 seconds load actual estimation card
     setTimeout(() => {
-      setStep(6);
+      setStep(8);
       setMessages(prev => {
         // Remove loading state message
         const cleaned = prev.filter(m => m.id !== 'loading-calc');
@@ -476,7 +545,28 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                   </motion.div>
                 )}
 
-                {isIA && message.type === 'options-condition' && step === 3 && (
+                {isIA && message.type === 'options-desired-condition' && step === 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-2 mt-3 w-full sm:max-w-xs"
+                  >
+                    {[
+                      { key: 'novo', label: 'Novo (Lacrado)' },
+                      { key: 'seminovo', label: 'Seminovo' },
+                    ].map(opt => (
+                      <button
+                        key={opt.key}
+                        onClick={() => selectDesiredCondition(opt.key as any)}
+                        className="w-full text-center glass-card !border-purple-500/30 hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+
+                {isIA && message.type === 'options-condition' && step === 4 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -510,7 +600,29 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                   </motion.div>
                 )}
 
-                {isIA && message.type === 'options-repair' && step === 4 && (
+                {isIA && message.type === 'options-battery' && step === 5 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-2 mt-3 w-full sm:max-w-xs"
+                  >
+                    {[
+                      { key: '90-100', label: '90 - 100%' },
+                      { key: '80-89', label: '80 - 89%' },
+                      { key: 'below-80', label: 'Abaixo de 80%' },
+                    ].map(opt => (
+                      <button
+                        key={opt.key}
+                        onClick={() => selectBattery(opt.key as any)}
+                        className="w-full text-center glass-card !border-purple-500/30 hover:glass-card-selected px-5 py-3.5 rounded-2xl text-[14px] font-medium text-neutral-200 hover:text-white transition-all cursor-pointer"
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+
+                {isIA && message.type === 'options-repair' && step === 6 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}

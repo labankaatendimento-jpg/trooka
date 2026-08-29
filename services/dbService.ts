@@ -33,13 +33,35 @@ export interface UpgradeRequest {
   modelo_atual_nome: string;
   modelo_desejado_nome: string;
   estado_aparelho: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada';
+  bateria_saude?: '90_100' | '80_89' | 'abaixo_80';
   reparo_historico: 'sim' | 'nao' | 'nao_sei';
+  condicao_desejado?: 'novo' | 'seminovo';
   cidade: string;
   estado: string;
   valor_estimado: number;
   diferenca_estimada: number;
   status: 'pending' | 'offers_available' | 'chosen' | 'completed';
   telefone_cliente: string;
+  created_at: string;
+  snapshot?: {
+    preco_mercado_usado: number;
+    preco_mercado_novo: number;
+    valor_base_upgrade: number;
+    regra_estado_nome: string;
+    regra_estado_multiplicador: number;
+  };
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+}
+
+export interface AdminLog {
+  id: string;
+  admin_id: string;
+  acao: string;
+  item_alterado: string;
+  valor_anterior: string;
+  novo_valor: string;
   created_at: string;
 }
 
@@ -252,6 +274,51 @@ export const dbService = {
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   },
 
+  async getAllUpgradeRequests(): Promise<UpgradeRequest[]> {
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase
+        .from('upgrade_requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) return data as UpgradeRequest[];
+    }
+    const requests = getLocalData<UpgradeRequest>('upgrade_requests', []);
+    return requests.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  },
+
+  // --- ADMIN LOGS ---
+  async addAdminLog(log: Omit<AdminLog, 'id' | 'created_at'>): Promise<AdminLog> {
+    const newLog: AdminLog = {
+      ...log,
+      id: Math.random().toString(36).substr(2, 9),
+      created_at: new Date().toISOString(),
+    };
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase
+        .from('admin_logs')
+        .insert([newLog])
+        .select()
+        .single();
+      if (!error && data) return data as AdminLog;
+    }
+    const logs = getLocalData<AdminLog>('admin_logs', []);
+    logs.push(newLog);
+    setLocalData('admin_logs', logs);
+    return newLog;
+  },
+
+  async getAdminLogs(): Promise<AdminLog[]> {
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase
+        .from('admin_logs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) return data as AdminLog[];
+    }
+    const logs = getLocalData<AdminLog>('admin_logs', []);
+    return logs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  },
+
   // --- OFFERS (PROPOSALS) ---
   async getOffersByRequest(requestId: string): Promise<Offer[]> {
     if (isSupabaseConfigured && supabase) {
@@ -462,6 +529,12 @@ export const dbService = {
     const acceptedOffersCount = offers.filter(o => o.status === 'accepted').length;
     const conversionRate = requests.length > 0 ? (acceptedOffersCount / requests.length) * 100 : 0;
 
+    const totalVenda = requests.filter(r => !r.modelo_desejado_id).length;
+    const totalUpgrade = requests.filter(r => !!r.modelo_desejado_id).length;
+    
+    const totalValue = requests.reduce((acc, req) => acc + (req.valor_estimado || 0), 0);
+    const ticketMedio = requests.length > 0 ? totalValue / requests.length : 0;
+
     // Calculate top current models (usados)
     const currentModelCounts = requests.reduce((acc, req) => {
       acc[req.modelo_atual_nome] = (acc[req.modelo_atual_nome] || 0) + 1;
@@ -474,7 +547,9 @@ export const dbService = {
 
     // Calculate top desired models (upgrades)
     const desiredModelCounts = requests.reduce((acc, req) => {
-      acc[req.modelo_desejado_nome] = (acc[req.modelo_desejado_nome] || 0) + 1;
+      if (req.modelo_desejado_nome) {
+        acc[req.modelo_desejado_nome] = (acc[req.modelo_desejado_nome] || 0) + 1;
+      }
       return acc;
     }, {} as Record<string, number>);
     const topDesiredModels = Object.entries(desiredModelCounts)
@@ -484,6 +559,10 @@ export const dbService = {
 
     return {
       totalSimulations: requests.length,
+      totalVenda,
+      totalUpgrade,
+      totalValue,
+      ticketMedio,
       totalStores: stores.length,
       activeStores: stores.filter(s => s.status === 'active').length,
       pendingStores: stores.filter(s => s.status === 'pending').length,

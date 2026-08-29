@@ -110,6 +110,10 @@ export default function LocationOfferSheet({
         valor_estimado: estimate.valorEstimado,
         diferenca_estimada: estimate.diferencaMedia,
         telefone_cliente: rawPhone,
+        snapshot: estimate.snapshot,
+        utm_source: new URLSearchParams(window.location.search).get('utm_source') || undefined,
+        utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || undefined,
+        utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || undefined,
       });
 
       // Simulating a real lojista quote generation in mock mode (Phase 5 will add real updates)
