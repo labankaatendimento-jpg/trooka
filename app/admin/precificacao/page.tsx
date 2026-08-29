@@ -66,7 +66,7 @@ export default function AdminPrecificacao() {
       const delimiter = lines[0].includes(';') ? ';' : ',';
       const headers = lines[0].split(delimiter).map(h => h.trim().toLowerCase());
       
-      const parsedModels: Omit<IphoneModel, 'id' | 'status'>[] = [];
+      const parsedModels: Partial<IphoneModel>[] = [];
       for (let i = 1; i < lines.length; i++) {
         const row = lines[i].split(delimiter).map(r => r.trim());
         const modelData: any = {};
@@ -76,27 +76,34 @@ export default function AdminPrecificacao() {
         
         // Helper para converter "3.500,00" ou "3500" para número
         const parseNumber = (val: string) => {
-          if (!val) return NaN;
+          if (!val) return undefined;
           // Se tiver vírgula e ponto, assume padrão BR (remove ponto, troca vírgula por ponto)
           let clean = val.replace(/\./g, '').replace(',', '.');
-          return parseFloat(clean);
+          const num = parseFloat(clean);
+          return isNaN(num) ? undefined : num;
         };
 
-        const precoUsado = parseNumber(modelData.preco_medio_usado);
-        const precoNovo = parseNumber(modelData.preco_medio_novo);
-        const valorBase = parseNumber(modelData.valor_base_upgrade);
-        const ano = parseInt(modelData.ano) || 2024;
+        const valUsado = parseNumber(modelData.preco_medio_usado) ?? parseNumber(modelData['valor usado']);
+        const valNovo = parseNumber(modelData.preco_medio_novo) ?? parseNumber(modelData.valor_venda);
+        const valBase = parseNumber(modelData.valor_base_upgrade) ?? parseNumber(modelData['valor usado']);
+        const ano = parseInt(modelData.ano);
         
+        const modelo = modelData.modelo;
+        // Na planilha o armazenamento está como número "64", "128". Se não tiver "GB", adicionamos.
+        let armazenamento = modelData.armazenamento;
+        if (armazenamento && /^\d+$/.test(armazenamento)) {
+          armazenamento = `${armazenamento}GB`;
+        }
         
-        if (modelData.modelo && modelData.armazenamento && !isNaN(precoUsado) && !isNaN(precoNovo) && !isNaN(valorBase)) {
+        if (modelo && armazenamento) {
           parsedModels.push({
-            marca: 'Apple',
-            modelo: modelData.modelo,
-            armazenamento: modelData.armazenamento,
-            ano: ano,
-            preco_medio_usado: precoUsado,
-            preco_medio_novo: precoNovo,
-            valor_base_upgrade: valorBase
+            marca: modelData.marca || 'Apple',
+            modelo: modelo,
+            armazenamento: armazenamento,
+            ...(ano ? { ano } : {}),
+            ...(valUsado !== undefined ? { preco_medio_usado: valUsado } : {}),
+            ...(valNovo !== undefined ? { preco_medio_novo: valNovo } : {}),
+            ...(valBase !== undefined ? { valor_base_upgrade: valBase } : {})
           });
         }
       }

@@ -141,7 +141,7 @@ export const dbService = {
     return models[idx];
   },
 
-  async bulkUpsertIphoneModels(newModels: Omit<IphoneModel, 'id' | 'status'>[]): Promise<void> {
+  async bulkUpsertIphoneModels(newModels: Partial<IphoneModel>[]): Promise<void> {
     if (isSupabaseConfigured && supabase) {
       // Para o Supabase, a melhor prática seria usar .upsert, 
       // mas precisamos garantir um ID ou chave única real.
@@ -156,25 +156,33 @@ export const dbService = {
     let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
     
     newModels.forEach(incoming => {
+      if (!incoming.modelo || !incoming.armazenamento) return;
+
       // Tentar achar um modelo existente pelo Nome + Armazenamento
       const idx = models.findIndex(
-        m => m.modelo.toLowerCase().trim() === incoming.modelo.toLowerCase().trim() && 
-             m.armazenamento.toLowerCase().trim() === incoming.armazenamento.toLowerCase().trim()
+        m => m.modelo.toLowerCase().trim() === incoming.modelo!.toLowerCase().trim() && 
+             m.armazenamento.toLowerCase().trim() === incoming.armazenamento!.toLowerCase().trim()
       );
 
       if (idx !== -1) {
         // Atualizar
         models[idx] = { 
           ...models[idx], 
-          preco_medio_usado: incoming.preco_medio_usado,
-          preco_medio_novo: incoming.preco_medio_novo,
-          valor_base_upgrade: incoming.valor_base_upgrade,
-          ano: incoming.ano || models[idx].ano
+          preco_medio_usado: incoming.preco_medio_usado ?? models[idx].preco_medio_usado,
+          preco_medio_novo: incoming.preco_medio_novo ?? models[idx].preco_medio_novo,
+          valor_base_upgrade: incoming.valor_base_upgrade ?? models[idx].valor_base_upgrade,
+          ano: incoming.ano ?? models[idx].ano
         };
       } else {
-        // Inserir novo
+        // Inserir novo (com defaults se faltar algo)
         models.push({
-          ...incoming,
+          marca: incoming.marca || 'Apple',
+          modelo: incoming.modelo,
+          armazenamento: incoming.armazenamento,
+          ano: incoming.ano || 2024,
+          preco_medio_usado: incoming.preco_medio_usado || 0,
+          preco_medio_novo: incoming.preco_medio_novo || 0,
+          valor_base_upgrade: incoming.valor_base_upgrade || 0,
           id: Math.random().toString(36).substr(2, 9),
           status: 'active'
         } as IphoneModel);
