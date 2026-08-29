@@ -38,7 +38,7 @@ export default function Home() {
   const cardContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (simulationState.step >= 6 && window.innerWidth < 1024) {
+    if (simulationState.step >= 8 && window.innerWidth < 1024) {
       setTimeout(() => {
         cardContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 500);
@@ -328,7 +328,7 @@ export default function Home() {
           {/* Dynamic Estimation card floating on top (desktop) or at the end (mobile) */}
           <div 
             className={`z-10 w-full max-w-sm glass-card border-purple-500/20 rounded-2xl lg:rounded-3xl p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.5)] pointer-events-auto transition-all ${
-              simulationState.step >= 6 
+              simulationState.step >= 8 
                 ? 'block self-center mt-6 mb-8 lg:mt-auto lg:sticky lg:top-auto lg:bottom-16 lg:mb-0' 
                 : 'hidden lg:block lg:sticky lg:mt-0 lg:top-32 mt-auto'
             }`}
