@@ -5,6 +5,7 @@ import { dbService } from '@/services/dbService';
 import { IphoneModel, PriceRule } from '@/lib/mockData';
 import InternalSimulator from '@/components/admin/InternalSimulator';
 import { Upload, Download } from 'lucide-react';
+import Papa from 'papaparse';
 
 export default function AdminPrecificacao() {
   const [models, setModels] = useState<IphoneModel[]>([]);
@@ -58,76 +59,87 @@ export default function AdminPrecificacao() {
 
     setIsUploading(true);
     try {
-      // Remove BOM if present and standardize line endings
-      const cleanText = (await file.text()).replace(/^\uFEFF/, '').replace(/\r/g, '');
-      const lines = cleanText.split('\n').filter(l => l.trim() !== '');
-      if (lines.length < 2) throw new Error("Planilha vazia ou inválida.");
-
-      const delimiter = lines[0].includes(';') ? ';' : ',';
-      const headers = lines[0].split(delimiter).map(h => h.trim().toLowerCase());
+      const text = await file.text();
+      // Remove BOM if present
+      const cleanText = text.replace(/^\uFEFF/, '').trim();
       
-      const parsedModels: Partial<IphoneModel>[] = [];
-      for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(delimiter).map(r => r.trim());
-        const modelData: any = {};
-        headers.forEach((h, index) => {
-          modelData[h] = row[index];
-        });
-        
-        // Helper para converter "R$ 3.500,00", "3.500,00" ou "3500" para número
-        const parseNumber = (val: string) => {
-          if (!val) return undefined;
-          const match = val.match(/[\d,.]+/);
-          if (!match) return undefined;
-          // Se tiver vírgula e ponto, assume padrão BR (remove ponto, troca vírgula por ponto)
-          let clean = match[0].replace(/\./g, '').replace(',', '.');
-          const num = parseFloat(clean);
-          return isNaN(num) ? undefined : num;
-        };
+      Papa.parse(cleanText, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: (h) => h.trim().toLowerCase(),
+        complete: async (results) => {
+          const parsedModels: Partial<IphoneModel>[] = [];
+          
+          results.data.forEach((row: any) => {
+            // Helper para converter "R$ 3.500,00", "3.500,00" ou "3500" para número
+            const parseNumber = (val: string) => {
+              if (!val) return undefined;
+              const match = val.toString().match(/[\d,.]+/);
+              if (!match) return undefined;
+              let clean = match[0].replace(/\./g, '').replace(',', '.');
+              const num = parseFloat(clean);
+              return isNaN(num) ? undefined : num;
+            };
 
-        const valUsado = parseNumber(modelData.preco_medio_usado) ?? parseNumber(modelData['valor usado']) ?? parseNumber(modelData['valor de compra']);
-        const valNovo = parseNumber(modelData.preco_medio_novo) ?? parseNumber(modelData.valor_venda);
-        const valBase = parseNumber(modelData.valor_base_upgrade) ?? parseNumber(modelData['valor usado']) ?? parseNumber(modelData['valor de compra']);
-        const ano = parseInt(modelData.ano);
-        
-        const modelo = modelData.modelo;
-        // Na planilha o armazenamento está como número "64", "128". Se não tiver "GB", adicionamos.
-        let armazenamento = modelData.armazenamento;
-        if (armazenamento && /^\d+$/.test(armazenamento)) {
-          armazenamento = `${armazenamento}GB`;
-        }
-        
-        if (modelo && armazenamento) {
-          parsedModels.push({
-            marca: modelData.marca || 'Apple',
-            modelo: modelo,
-            armazenamento: armazenamento,
-            ...(ano ? { ano } : {}),
-            ...(valUsado !== undefined ? { preco_medio_usado: valUsado } : {}),
-            ...(valNovo !== undefined ? { preco_medio_novo: valNovo } : {}),
-            ...(valBase !== undefined ? { valor_base_upgrade: valBase } : {})
+            const valUsado = parseNumber(row.preco_medio_usado) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
+            const valNovo = parseNumber(row.preco_medio_novo) ?? parseNumber(row.valor_venda);
+            const valBase = parseNumber(row.valor_base_upgrade) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
+            const ano = parseInt(row.ano);
+            
+            const modelo = row.modelo?.toString().trim();
+            let armazenamento = row.armazenamento?.toString().trim();
+            if (armazenamento && /^\d+$/.test(armazenamento)) {
+              armazenamento = `${armazenamento}GB`;
+            }
+            
+            if (modelo && armazenamento) {
+              parsedModels.push({
+                marca: row.marca || 'Apple',
+                modelo: modelo,
+                armazenamento: armazenamento,
+                ...(ano ? { ano } : {}),
+                ...(valUsado !== undefined ? { preco_medio_usado: valUsado } : {}),
+                ...(valNovo !== undefined ? { preco_medio_novo: valNovo } : {}),
+                ...(valBase !== undefined ? { valor_base_upgrade: valBase } : {})
+              });
+            }
           });
-        }
-      }
 
-      if (parsedModels.length > 0) {
-        await dbService.bulkUpsertIphoneModels(parsedModels);
-        await dbService.addAdminLog({
-          admin_id: 'admin',
-          acao: 'Importação de Planilha',
-          item_alterado: 'Modelos e Preços',
-          valor_anterior: '-',
-          novo_valor: `${parsedModels.length} modelos importados/atualizados`
-        });
-        await loadData();
-        alert(`${parsedModels.length} modelos processados com sucesso!`);
-      } else {
-        alert(`Nenhum dado válido encontrado. Colunas detectadas: ${headers.join(' | ')}. Verifique se as colunas estão corretas.`);
-      }
+          if (parsedModels.length > 0) {
+            try {
+              await dbService.bulkUpsertIphoneModels(parsedModels);
+              await dbService.addAdminLog({
+                admin_id: 'admin',
+                acao: 'Importação de Planilha',
+                item_alterado: 'Modelos e Preços',
+                valor_anterior: '-',
+                novo_valor: `${parsedModels.length} modelos importados/atualizados`
+              });
+              await loadData();
+              alert(`${parsedModels.length} modelos processados com sucesso!`);
+            } catch (err) {
+              console.error(err);
+              alert("Erro ao salvar os dados no banco.");
+            }
+          } else {
+            alert(`Nenhum dado válido encontrado. Colunas detectadas: ${results.meta.fields?.join(' | ')}. Verifique se as colunas estão corretas.`);
+          }
+          
+          setIsUploading(false);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Erro ao ler o CSV com o PapaParse.");
+          setIsUploading(false);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        }
+      });
+      return; // PapaParse is async when we use callback, so we handle state inside.
+
     } catch (error) {
       console.error(error);
       alert("Erro ao processar planilha.");
-    } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
