@@ -81,16 +81,35 @@ export default function AdminPrecificacao() {
               return isNaN(num) ? undefined : num;
             };
 
-            const valUsado = parseNumber(row.preco_medio_usado) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
-            const valNovo = parseNumber(row.preco_medio_novo) ?? parseNumber(row.valor_venda);
-            const valBase = parseNumber(row.valor_base_upgrade) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
-            const ano = parseInt(row.ano);
-            
-            const modelo = row.modelo?.toString().trim();
+            const rawModelo = row.modelo?.toString().trim() || '';
+            // Remove "Apple " do início para evitar duplicação (Apple iPhone XR vs iPhone XR)
+            const modelo = rawModelo.replace(/^apple\s+/i, '').trim();
+
             let armazenamento = row.armazenamento?.toString().trim();
             if (armazenamento && /^\d+$/.test(armazenamento)) {
               armazenamento = `${armazenamento}GB`;
             }
+
+            let valUsado = parseNumber(row.preco_medio_usado) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
+            let valNovo = parseNumber(row.preco_medio_novo) ?? parseNumber(row.valor_venda) ?? parseNumber(row['valor de venda']);
+            
+            const estado = row.estado?.toString().trim().toUpperCase();
+            
+            // Se as colunas não forem exatas, tenta usar a coluna de estado para direcionar o valor genérico
+            if (estado) {
+               let genericVal = parseNumber(row.valor) ?? parseNumber(row.preço) ?? parseNumber(row.preco) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor_venda']) ?? parseNumber(row['valor de compra']) ?? parseNumber(row['valor de venda']);
+               
+               if (genericVal !== undefined) {
+                   if (estado.includes('SEMI') || estado.includes('NOVO')) {
+                       valNovo = genericVal;
+                   } else if (estado.includes('USADO')) {
+                       valUsado = genericVal;
+                   }
+               }
+            }
+
+            const valBase = parseNumber(row.valor_base_upgrade) ?? valUsado;
+            const ano = parseInt(row.ano);
             
             if (modelo && armazenamento) {
               parsedModels.push({
