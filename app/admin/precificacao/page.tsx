@@ -128,7 +128,7 @@ export default function AdminPrecificacao() {
           setIsUploading(false);
           if (fileInputRef.current) fileInputRef.current.value = '';
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error(err);
           alert("Erro ao ler o CSV com o PapaParse.");
           setIsUploading(false);
