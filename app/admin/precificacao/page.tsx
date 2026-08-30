@@ -74,11 +74,13 @@ export default function AdminPrecificacao() {
           modelData[h] = row[index];
         });
         
-        // Helper para converter "3.500,00" ou "3500" para número
+        // Helper para converter "R$ 3.500,00", "3.500,00" ou "3500" para número
         const parseNumber = (val: string) => {
           if (!val) return undefined;
+          const match = val.match(/[\d,.]+/);
+          if (!match) return undefined;
           // Se tiver vírgula e ponto, assume padrão BR (remove ponto, troca vírgula por ponto)
-          let clean = val.replace(/\./g, '').replace(',', '.');
+          let clean = match[0].replace(/\./g, '').replace(',', '.');
           const num = parseFloat(clean);
           return isNaN(num) ? undefined : num;
         };

@@ -135,7 +135,9 @@ export const dbService = {
     
     const extractNumber = (str: string) => parseInt(str.replace(/[^0-9]/g, '')) || 0;
     models.sort((a, b) => {
-       if (a.ano !== b.ano) return b.ano - a.ano; // Mais novo primeiro
+       const anoA = a.ano || 2024;
+       const anoB = b.ano || 2024;
+       if (anoA !== anoB) return anoB - anoA; // Mais novo primeiro
        const aMod = normStr(a.modelo);
        const bMod = normStr(b.modelo);
        if (aMod < bMod) return -1;
@@ -200,7 +202,7 @@ export const dbService = {
     }
     
     // Fallback: LocalStorage
-    let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    let models = await this.getIphoneModels();
     
     newModels.forEach(incoming => {
       if (!incoming.modelo || !incoming.armazenamento) return;
