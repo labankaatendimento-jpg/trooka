@@ -101,6 +101,30 @@ export default function AdminPrecificacao() {
     );
   }
 
+  const sortedModels = [...models].sort((a, b) => {
+    if (a.ano !== b.ano) return a.ano - b.ano;
+    
+    // Sort by tier: Mini/E (1), Base (2), Plus/Air (3), Pro (4), Pro Max (5)
+    const getTier = (m: string) => {
+      const lower = m.toLowerCase();
+      if (lower.includes('pro max')) return 5;
+      if (lower.includes('pro')) return 4;
+      if (lower.includes('plus') || lower.includes('air')) return 3;
+      if (lower.includes('mini') || lower.includes(' e')) return 1;
+      return 2;
+    };
+    const tierA = getTier(a.modelo);
+    const tierB = getTier(b.modelo);
+    if (tierA !== tierB) return tierA - tierB;
+
+    // Sort by storage
+    const parseStorage = (s: string) => {
+      if (s.toUpperCase().includes('TB')) return parseInt(s) * 1024;
+      return parseInt(s) || 0;
+    };
+    return parseStorage(a.armazenamento) - parseStorage(b.armazenamento);
+  });
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div>
@@ -159,7 +183,7 @@ export default function AdminPrecificacao() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-neutral-900/50">
-                    {models.map(model => (
+                    {sortedModels.map(model => (
                       <tr key={model.id} className="group hover:bg-neutral-900/20 transition-colors">
                         <td className="p-4">
                           <p className="text-sm font-bold text-neutral-200">{model.modelo}</p>
