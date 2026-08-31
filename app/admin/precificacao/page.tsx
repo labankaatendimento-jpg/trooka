@@ -81,11 +81,11 @@ export default function AdminPrecificacao() {
               return isNaN(num) ? undefined : num;
             };
 
-            const rawModelo = row.modelo?.toString().trim() || '';
+            const rawModelo = row.modelo?.toString().trim() || row['modelo do aparelho']?.toString().trim() || '';
             // Remove "Apple " do início para evitar duplicação (Apple iPhone XR vs iPhone XR)
             const modelo = rawModelo.replace(/^apple\s+/i, '').trim();
 
-            let armazenamento = row.armazenamento?.toString().trim();
+            let armazenamento = row.armazenamento?.toString().trim() || row.capacidade?.toString().trim();
             if (armazenamento && /^\d+$/.test(armazenamento)) {
               armazenamento = `${armazenamento}GB`;
             }

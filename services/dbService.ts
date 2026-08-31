@@ -217,12 +217,12 @@ export const dbService = {
       );
 
       if (idx !== -1) {
-        // Atualizar
+        // Atualizar apenas se o novo valor for maior que zero ou se não tínhamos valor antes
         models[idx] = { 
           ...models[idx], 
-          preco_medio_usado: incoming.preco_medio_usado ?? models[idx].preco_medio_usado,
-          preco_medio_novo: incoming.preco_medio_novo ?? models[idx].preco_medio_novo,
-          valor_base_upgrade: incoming.valor_base_upgrade ?? models[idx].valor_base_upgrade,
+          preco_medio_usado: (incoming.preco_medio_usado && incoming.preco_medio_usado > 0) ? incoming.preco_medio_usado : models[idx].preco_medio_usado,
+          preco_medio_novo: (incoming.preco_medio_novo && incoming.preco_medio_novo > 0) ? incoming.preco_medio_novo : models[idx].preco_medio_novo,
+          valor_base_upgrade: (incoming.valor_base_upgrade && incoming.valor_base_upgrade > 0) ? incoming.valor_base_upgrade : models[idx].valor_base_upgrade,
           ano: incoming.ano ?? models[idx].ano
         };
       } else {
