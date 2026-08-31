@@ -18,7 +18,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11",
     "armazenamento": "64GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1599,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 900,
     "status": "active"
@@ -29,7 +29,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11",
     "armazenamento": "128GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1699,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1000,
     "status": "active"
@@ -40,7 +40,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11",
     "armazenamento": "256GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1799,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1100,
     "status": "active"
@@ -51,7 +51,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro",
     "armazenamento": "64GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1999,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1000,
     "status": "active"
@@ -62,7 +62,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro",
     "armazenamento": "256GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2299,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1200,
     "status": "active"
@@ -73,7 +73,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro",
     "armazenamento": "512GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2399,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1300,
     "status": "active"
@@ -84,7 +84,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro Max",
     "armazenamento": "64GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2199,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1200,
     "status": "active"
@@ -95,7 +95,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro Max",
     "armazenamento": "256GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2499,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1300,
     "status": "active"
@@ -106,7 +106,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 11 Pro Max",
     "armazenamento": "512GB",
     "ano": 2019,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2699,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1400,
     "status": "active"
@@ -117,7 +117,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Mini",
     "armazenamento": "64GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1799,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1100,
     "status": "active"
@@ -128,7 +128,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Mini",
     "armazenamento": "128GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1899,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1200,
     "status": "active"
@@ -139,7 +139,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Mini",
     "armazenamento": "256GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2299,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1300,
     "status": "active"
@@ -150,7 +150,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12",
     "armazenamento": "64GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1499,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1000,
     "status": "active"
@@ -161,7 +161,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12",
     "armazenamento": "128GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1699,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1100,
     "status": "active"
@@ -172,7 +172,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12",
     "armazenamento": "256GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 1899,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1200,
     "status": "active"
@@ -183,7 +183,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro",
     "armazenamento": "128GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2299,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1400,
     "status": "active"
@@ -194,7 +194,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro",
     "armazenamento": "256GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2499,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1500,
     "status": "active"
@@ -205,7 +205,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro",
     "armazenamento": "512GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2699,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1600,
     "status": "active"
@@ -216,7 +216,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro Max",
     "armazenamento": "128GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2599,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1700,
     "status": "active"
@@ -227,7 +227,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro Max",
     "armazenamento": "256GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2799,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1800,
     "status": "active"
@@ -238,7 +238,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "modelo": "iPhone 12 Pro Max",
     "armazenamento": "512GB",
     "ano": 2020,
-    "preco_medio_usado": 0,
+    "preco_medio_usado": 2999,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 1900,
     "status": "active"
@@ -695,17 +695,6 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "status": "active"
   },
   {
-    "id": "m63",
-    "marca": "Apple",
-    "modelo": "iPhone 16",
-    "armazenamento": "128GB",
-    "ano": 2024,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 2900,
-    "status": "active"
-  },
-  {
     "id": "m66",
     "marca": "Apple",
     "modelo": "iPhone 16 E",
@@ -714,17 +703,6 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 3000,
-    "status": "active"
-  },
-  {
-    "id": "m64",
-    "marca": "Apple",
-    "modelo": "iPhone 16",
-    "armazenamento": "256GB",
-    "ano": 2024,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 3100,
     "status": "active"
   },
   {
@@ -739,17 +717,6 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "status": "active"
   },
   {
-    "id": "m65",
-    "marca": "Apple",
-    "modelo": "iPhone 16",
-    "armazenamento": "512GB",
-    "ano": 2024,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 2100,
-    "status": "active"
-  },
-  {
     "id": "m68",
     "marca": "Apple",
     "modelo": "iPhone 16 E",
@@ -758,6 +725,39 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
     "valor_base_upgrade": 2200,
+    "status": "active"
+  },
+  {
+    "id": "m63",
+    "marca": "Apple",
+    "modelo": "iPhone 16",
+    "armazenamento": "128GB",
+    "ano": 2024,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 2900,
+    "status": "active"
+  },
+  {
+    "id": "m64",
+    "marca": "Apple",
+    "modelo": "iPhone 16",
+    "armazenamento": "256GB",
+    "ano": 2024,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 3100,
+    "status": "active"
+  },
+  {
+    "id": "m65",
+    "marca": "Apple",
+    "modelo": "iPhone 16",
+    "armazenamento": "512GB",
+    "ano": 2024,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 2100,
     "status": "active"
   },
   {
