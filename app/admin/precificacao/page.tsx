@@ -18,6 +18,9 @@ export default function AdminPrecificacao() {
     valor_base_upgrade: 0
   });
 
+  const [isAddingModel, setIsAddingModel] = useState(false);
+  const [newModelData, setNewModelData] = useState({ modelo: '', armazenamento: '' });
+
   const loadData = async () => {
     try {
       const allModels = await dbService.getIphoneModels();
@@ -99,6 +102,35 @@ export default function AdminPrecificacao() {
     }
   };
 
+  const handleSaveNewModel = async () => {
+    if (!newModelData.modelo || !newModelData.armazenamento) return;
+    try {
+      const added = await dbService.addIphoneModel({
+        marca: 'Apple',
+        modelo: newModelData.modelo,
+        armazenamento: newModelData.armazenamento,
+        ano: 2024,
+        preco_medio_novo: 0,
+        preco_medio_usado: 0,
+        valor_base_upgrade: 0,
+        status: 'active'
+      });
+      setModels([...models, added]);
+      setIsAddingModel(false);
+      setNewModelData({ modelo: '', armazenamento: '' });
+      await dbService.addAdminLog({
+        admin_id: 'admin',
+        acao: 'Adição de Modelo',
+        item_alterado: 'Modelos e Preços',
+        valor_anterior: '-',
+        novo_valor: `Modelo ${newModelData.modelo} adicionado`
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao adicionar modelo.');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -175,6 +207,12 @@ export default function AdminPrecificacao() {
               <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">Tabela de Preços (Mercado)</h2>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-neutral-500 font-semibold px-2">Edite os preços diretamente na tabela abaixo</span>
+                <button 
+                  onClick={() => setIsAddingModel(true)}
+                  className="px-3 py-1.5 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 text-xs font-bold rounded-lg transition-colors border border-orange-500/20"
+                >
+                  + Adicionar Modelo
+                </button>
               </div>
             </div>
             <div className="glass-card border-neutral-900 rounded-2xl overflow-hidden">
@@ -189,11 +227,41 @@ export default function AdminPrecificacao() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-neutral-900/50">
+                    {isAddingModel && (
+                      <tr className="bg-orange-500/5">
+                        <td className="p-4" colSpan={4}>
+                          <div className="flex items-center gap-4">
+                            <input
+                              type="text"
+                              placeholder="Nome do Modelo (ex: iPhone 13)"
+                              value={newModelData.modelo}
+                              onChange={(e) => setNewModelData({...newModelData, modelo: e.target.value})}
+                              className="flex-1 bg-neutral-950 text-neutral-100 px-3 py-1.5 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none text-sm"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Memória (ex: 128GB)"
+                              value={newModelData.armazenamento}
+                              onChange={(e) => setNewModelData({...newModelData, armazenamento: e.target.value})}
+                              className="w-32 bg-neutral-950 text-neutral-100 px-3 py-1.5 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none text-sm"
+                            />
+                            <div className="flex items-center gap-2">
+                              <button onClick={() => setIsAddingModel(false)} className="p-1.5 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-all">
+                                <X className="w-4 h-4" />
+                              </button>
+                              <button onClick={handleSaveNewModel} className="p-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-all shadow-sm shadow-orange-500/20">
+                                <Save className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                     {sortedModels.map(model => (
                       <tr key={model.id} className="group hover:bg-neutral-900/20 transition-colors">
                         <td className="p-4">
                           <p className="text-sm font-bold text-neutral-200">{model.modelo}</p>
-                          <p className="text-[10px] text-neutral-500">{model.armazenamento} • {model.ano}</p>
+                          <p className="text-[10px] text-neutral-500">{model.armazenamento}</p>
                         </td>
                         <td className="p-4 text-sm font-semibold text-neutral-300">
                           {editingModelId === model.id ? (
