@@ -102,7 +102,7 @@ export const dbService = {
     let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
     
     // --- Início Cleanup/Desduplicação ---
-    const normStr = (str: string) => str.toLowerCase().replace(/["']/g, '').replace(/\s+/g, ' ').trim();
+    const normStr = (str: string) => str.toLowerCase().replace(/^apple\s+/i, '').replace(/["']/g, '').replace(/\s+/g, ' ').trim();
     const normStorage = (str: string) => `${str.toLowerCase().replace(/[^0-9]/g, '')}GB`;
     
     const toTitleCase = (str: string) => {
@@ -207,7 +207,7 @@ export const dbService = {
     newModels.forEach(incoming => {
       if (!incoming.modelo || !incoming.armazenamento) return;
 
-      const normStr = (str: string) => str.toLowerCase().replace(/["']/g, '').replace(/\s+/g, ' ').trim();
+      const normStr = (str: string) => str.toLowerCase().replace(/^apple\s+/i, '').replace(/["']/g, '').replace(/\s+/g, ' ').trim();
       const normStorage = (str: string) => str.toLowerCase().replace(/[^0-9]/g, '');
 
       // Tentar achar um modelo existente pelo Nome + Armazenamento
