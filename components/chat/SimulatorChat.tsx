@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Info, ArrowRight, CornerDownLeft, Smile, Meh, Frown } from 'lucide-react';
 import { IphoneModel, MOCK_IPHONE_MODELS } from '@/lib/mockData';
 import { calculateUpgradeEstimate, EstimateResult } from '@/utils/calculateEstimate';
+import { dbService } from '@/services/dbService';
+import { PriceRule } from '@/lib/mockData';
 import DeviceSearchSheet from './DeviceSearchSheet';
 
 interface SimulatorChatProps {
@@ -42,13 +44,18 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTarget, setSearchTarget] = useState<'current' | 'desired'>('current');
+  const [rules, setRules] = useState<PriceRule[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    dbService.getPriceRules().then(data => setRules(data)).catch(console.error);
+  }, []);
 
   // Trigger parent state update on changes
   useEffect(() => {
-    const estimate = currentModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired, batteryCondition, desiredCondition) : null;
+    const estimate = currentModel ? calculateUpgradeEstimate(currentModel, desiredModel, condition, hasRepaired, batteryCondition, desiredCondition, rules) : null;
     onStateChange({ flowType, currentModel, desiredModel, condition, batteryCondition, hasRepaired, desiredCondition, estimate, step });
-  }, [flowType, currentModel, desiredModel, condition, batteryCondition, hasRepaired, desiredCondition, step, onStateChange]);
+  }, [flowType, currentModel, desiredModel, condition, batteryCondition, hasRepaired, desiredCondition, step, onStateChange, rules]);
 
   // Handle chat messages progression based on steps
   useEffect(() => {

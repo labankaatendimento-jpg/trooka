@@ -1,4 +1,4 @@
-import { IphoneModel } from '@/lib/mockData';
+import { IphoneModel, PriceRule } from '@/lib/mockData';
 
 export interface EstimateResult {
   valorEstimado: number;
@@ -21,7 +21,8 @@ export function calculateUpgradeEstimate(
   condition: 'excelente' | 'bom' | 'marcas' | 'tela_quebrada' | null,
   hasRepaired: 'sim' | 'nao' | 'nao_sei' | null,
   batteryCondition?: '90-100' | '80-89' | 'below-80' | null,
-  desiredCondition?: 'novo' | 'seminovo' | null
+  desiredCondition?: 'novo' | 'seminovo' | null,
+  rules?: PriceRule[]
 ): EstimateResult {
   if (!currentModel) {
     return {
@@ -37,21 +38,30 @@ export function calculateUpgradeEstimate(
   // Base trade-in value from DB
   const baseValue = currentModel.valor_base_upgrade;
 
+  // Helper for dynamic rules
+  const getRulePercentual = (nome: string, defaultPercentual: number) => {
+    if (!rules || rules.length === 0) return defaultPercentual;
+    const rule = rules.find(r => r.nome === nome);
+    return rule ? rule.percentual : defaultPercentual;
+  };
+
   // Multiplier for condition
   let conditionMultiplier = 1.0;
-  if (condition === 'excelente') conditionMultiplier = 1.0;
-  else if (condition === 'bom') conditionMultiplier = 0.85; // 15% de desvalorização
-  else if (condition === 'marcas') conditionMultiplier = 0.65; // 35% de desvalorização
-  else if (condition === 'tela_quebrada') conditionMultiplier = 0.35; // 65% de desvalorização
+  let ruleName = condition || 'bom';
+  if (condition === 'excelente') { conditionMultiplier = getRulePercentual('Estado: Excelente', 1.0); ruleName = 'Excelente'; }
+  else if (condition === 'bom') { conditionMultiplier = getRulePercentual('Estado: Bom', 0.85); ruleName = 'Bom'; }
+  else if (condition === 'marcas') { conditionMultiplier = getRulePercentual('Estado: Usado', 0.65); ruleName = 'Usado'; }
+  else if (condition === 'tela_quebrada') { conditionMultiplier = getRulePercentual('Estado: Danificado', 0.35); ruleName = 'Danificado'; }
 
   // Multiplier for repair history
   let repairMultiplier = 1.0;
-  if (hasRepaired === 'sim') repairMultiplier = 0.85;
+  if (hasRepaired === 'sim') repairMultiplier = getRulePercentual('Reparo: Já foi reparado', 0.85);
 
   // Multiplier for battery health
   let batteryMultiplier = 1.0;
-  if (batteryCondition === '80-89') batteryMultiplier = 0.95; // 5% de desvalorização
-  else if (batteryCondition === 'below-80') batteryMultiplier = 0.85; // 15% de desvalorização
+  if (batteryCondition === '90-100') batteryMultiplier = getRulePercentual('Bateria: 90 - 100%', 1.0);
+  else if (batteryCondition === '80-89') batteryMultiplier = getRulePercentual('Bateria: 80 - 89%', 0.95);
+  else if (batteryCondition === 'below-80') batteryMultiplier = getRulePercentual('Bateria: Abaixo de 80%', 0.85);
 
   // Estimate calculation
   const calculatedEstimate = baseValue * conditionMultiplier * repairMultiplier * batteryMultiplier;
@@ -71,7 +81,7 @@ export function calculateUpgradeEstimate(
         preco_mercado_usado: currentModel.preco_medio_usado,
         preco_mercado_novo: currentModel.preco_medio_novo,
         valor_base_upgrade: baseValue,
-        regra_estado_nome: condition || 'bom',
+        regra_estado_nome: ruleName,
         regra_estado_multiplicador: conditionMultiplier,
       }
     };
@@ -105,7 +115,7 @@ export function calculateUpgradeEstimate(
       preco_mercado_usado: currentModel.preco_medio_usado,
       preco_mercado_novo: currentModel.preco_medio_novo,
       valor_base_upgrade: baseValue,
-      regra_estado_nome: condition || 'bom',
+      regra_estado_nome: ruleName,
       regra_estado_multiplicador: conditionMultiplier,
     }
   };

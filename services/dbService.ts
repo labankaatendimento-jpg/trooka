@@ -553,7 +553,7 @@ export const dbService = {
       const { data, error } = await supabase.from('price_rules').select('*').eq('status', 'active');
       if (!error && data) return data;
     }
-    return getLocalData<PriceRule>('price_rules', MOCK_PRICE_RULES);
+    return getLocalData<PriceRule>('price_rules_v2', MOCK_PRICE_RULES);
   },
 
   async updatePriceRule(id: string, percentual: number): Promise<PriceRule> {
@@ -567,11 +567,11 @@ export const dbService = {
       if (!error && data) return data;
       throw error || new Error('Failed to update price rule');
     }
-    const rules = getLocalData<PriceRule>('price_rules', MOCK_PRICE_RULES);
+    const rules = getLocalData<PriceRule>('price_rules_v2', MOCK_PRICE_RULES);
     const idx = rules.findIndex(r => r.id === id);
     if (idx === -1) throw new Error('Rule not found');
     rules[idx].percentual = percentual;
-    setLocalData('price_rules', rules);
+    setLocalData('price_rules_v2', rules);
     return rules[idx];
   },
 

@@ -1123,9 +1123,17 @@ export interface PriceRule {
 }
 
 export const MOCK_PRICE_RULES: PriceRule[] = [
-  { id: '1', nome: 'Excelente', percentual: 1.00 },
-  { id: '2', nome: 'Bom', percentual: 0.94 },
-  { id: '3', nome: 'Marcas', percentual: 0.88 },
-  { id: '4', nome: 'Tela Quebrada', percentual: 0.72 },
-  { id: '5', nome: 'Reparado', percentual: 0.85 },
+  // Condições de Estado
+  { id: '1', nome: 'Estado: Excelente', percentual: 1.00 },
+  { id: '2', nome: 'Estado: Bom', percentual: 0.85 },
+  { id: '3', nome: 'Estado: Usado', percentual: 0.65 },
+  { id: '4', nome: 'Estado: Danificado', percentual: 0.35 },
+  
+  // Bateria
+  { id: '5', nome: 'Bateria: 90 - 100%', percentual: 1.00 },
+  { id: '6', nome: 'Bateria: 80 - 89%', percentual: 0.95 },
+  { id: '7', nome: 'Bateria: Abaixo de 80%', percentual: 0.85 },
+
+  // Histórico de Reparo
+  { id: '8', nome: 'Reparo: Já foi reparado', percentual: 0.85 },
 ];
