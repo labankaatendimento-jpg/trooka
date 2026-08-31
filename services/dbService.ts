@@ -167,7 +167,7 @@ export const dbService = {
       id: Math.random().toString(36).substr(2, 9),
     };
     models.push(newModel);
-    setLocalData('models', models);
+    setLocalData('models_v3', models);
     return newModel;
   },
 
@@ -182,11 +182,11 @@ export const dbService = {
       if (!error && data) return data;
       throw error || new Error('Failed to update model');
     }
-    const models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    const models = getLocalData<IphoneModel>('models_v3', MOCK_IPHONE_MODELS);
     const idx = models.findIndex(m => m.id === id);
     if (idx === -1) throw new Error('Model not found');
     models[idx] = { ...models[idx], ...updates };
-    setLocalData('models', models);
+    setLocalData('models_v3', models);
     return models[idx];
   },
 
@@ -241,7 +241,7 @@ export const dbService = {
       }
     });
 
-    setLocalData('models', models);
+    setLocalData('models_v3', models);
   },
 
   // --- STORES ---
