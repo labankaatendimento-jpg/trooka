@@ -99,55 +99,7 @@ export const dbService = {
         .eq('status', 'active');
       if (!error && data) return data;
     }
-    let models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
-    
-    // --- Início Cleanup/Desduplicação ---
-    const normStr = (str: string) => str.toLowerCase().replace(/^apple\s+/i, '').replace(/["']/g, '').replace(/\s+/g, ' ').trim();
-    const normStorage = (str: string) => `${str.toLowerCase().replace(/[^0-9]/g, '')}GB`;
-    
-    const toTitleCase = (str: string) => {
-      let title = str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
-      return title.replace(/iphone/i, 'iPhone').replace(/pro/i, 'Pro').replace(/max/i, 'Max');
-    };
-
-    const uniqueMap = new Map<string, IphoneModel>();
-    for (const m of models) {
-      if (!m.modelo || !m.armazenamento) continue;
-      
-      const key = `${normStr(m.modelo)}-${normStorage(m.armazenamento)}`;
-      m.modelo = toTitleCase(normStr(m.modelo));
-      m.armazenamento = normStorage(m.armazenamento);
-      
-      if (!uniqueMap.has(key)) {
-        uniqueMap.set(key, m);
-      } else {
-        const existing = uniqueMap.get(key)!;
-        uniqueMap.set(key, {
-           ...existing,
-           preco_medio_usado: m.preco_medio_usado > 0 ? m.preco_medio_usado : existing.preco_medio_usado,
-           preco_medio_novo: m.preco_medio_novo > 0 ? m.preco_medio_novo : existing.preco_medio_novo,
-           valor_base_upgrade: m.valor_base_upgrade > 0 ? m.valor_base_upgrade : existing.valor_base_upgrade
-        });
-      }
-    }
-    
-    models = Array.from(uniqueMap.values());
-    
-    const extractNumber = (str: string) => parseInt(str.replace(/[^0-9]/g, '')) || 0;
-    models.sort((a, b) => {
-       const anoA = a.ano || 2024;
-       const anoB = b.ano || 2024;
-       if (anoA !== anoB) return anoB - anoA; // Mais novo primeiro
-       const aMod = normStr(a.modelo);
-       const bMod = normStr(b.modelo);
-       if (aMod < bMod) return -1;
-       if (aMod > bMod) return 1;
-       return extractNumber(a.armazenamento) - extractNumber(b.armazenamento); // Menor armazenamento primeiro
-    });
-    
-    setLocalData('models', models);
-    // --- Fim Cleanup ---
-
+    let models = getLocalData<IphoneModel>('models_v4', MOCK_IPHONE_MODELS);
     return models;
   },
 
@@ -167,7 +119,7 @@ export const dbService = {
       id: Math.random().toString(36).substr(2, 9),
     };
     models.push(newModel);
-    setLocalData('models_v3', models);
+    setLocalData('models_v4', models);
     return newModel;
   },
 
@@ -182,11 +134,11 @@ export const dbService = {
       if (!error && data) return data;
       throw error || new Error('Failed to update model');
     }
-    const models = getLocalData<IphoneModel>('models_v3', MOCK_IPHONE_MODELS);
+    const models = getLocalData<IphoneModel>('models_v4', MOCK_IPHONE_MODELS);
     const idx = models.findIndex(m => m.id === id);
     if (idx === -1) throw new Error('Model not found');
     models[idx] = { ...models[idx], ...updates };
-    setLocalData('models_v3', models);
+    setLocalData('models_v4', models);
     return models[idx];
   },
 
@@ -241,7 +193,7 @@ export const dbService = {
       }
     });
 
-    setLocalData('models_v3', models);
+    setLocalData('models_v4', models);
   },
 
   // --- STORES ---
