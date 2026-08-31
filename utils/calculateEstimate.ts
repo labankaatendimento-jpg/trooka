@@ -47,7 +47,7 @@ export function calculateUpgradeEstimate(
 
   // Multiplier for condition
   let conditionMultiplier = 1.0;
-  let ruleName = condition || 'bom';
+  let ruleName: string = condition || 'bom';
   if (condition === 'excelente') { conditionMultiplier = getRulePercentual('Estado: Excelente', 1.0); ruleName = 'Excelente'; }
   else if (condition === 'bom') { conditionMultiplier = getRulePercentual('Estado: Bom', 0.85); ruleName = 'Bom'; }
   else if (condition === 'marcas') { conditionMultiplier = getRulePercentual('Estado: Usado', 0.65); ruleName = 'Usado'; }
