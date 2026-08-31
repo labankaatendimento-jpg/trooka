@@ -99,7 +99,7 @@ export const dbService = {
         .eq('status', 'active');
       if (!error && data) return data;
     }
-    let models = getLocalData<IphoneModel>('models_v4', MOCK_IPHONE_MODELS);
+    let models = getLocalData<IphoneModel>('models_v5', MOCK_IPHONE_MODELS);
     return models;
   },
 
@@ -113,13 +113,13 @@ export const dbService = {
       if (!error && data) return data;
       throw error || new Error('Failed to insert model');
     }
-    const models = getLocalData<IphoneModel>('models', MOCK_IPHONE_MODELS);
+    const models = getLocalData<IphoneModel>('models_v5', MOCK_IPHONE_MODELS);
     const newModel: IphoneModel = {
       ...model,
       id: Math.random().toString(36).substr(2, 9),
     };
     models.push(newModel);
-    setLocalData('models_v4', models);
+    setLocalData('models_v5', models);
     return newModel;
   },
 
@@ -134,11 +134,11 @@ export const dbService = {
       if (!error && data) return data;
       throw error || new Error('Failed to update model');
     }
-    const models = getLocalData<IphoneModel>('models_v4', MOCK_IPHONE_MODELS);
+    const models = getLocalData<IphoneModel>('models_v5', MOCK_IPHONE_MODELS);
     const idx = models.findIndex(m => m.id === id);
     if (idx === -1) throw new Error('Model not found');
     models[idx] = { ...models[idx], ...updates };
-    setLocalData('models_v4', models);
+    setLocalData('models_v5', models);
     return models[idx];
   },
 

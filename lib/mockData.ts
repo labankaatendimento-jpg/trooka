@@ -20,7 +20,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 900,
     "status": "active"
   },
   {
@@ -31,7 +31,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1000,
     "status": "active"
   },
   {
@@ -42,7 +42,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1100,
     "status": "active"
   },
   {
@@ -53,7 +53,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1000,
     "status": "active"
   },
   {
@@ -64,7 +64,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1200,
     "status": "active"
   },
   {
@@ -75,7 +75,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1300,
     "status": "active"
   },
   {
@@ -86,7 +86,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1200,
     "status": "active"
   },
   {
@@ -97,7 +97,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1300,
     "status": "active"
   },
   {
@@ -108,40 +108,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2019,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m10",
-    "marca": "Apple",
-    "modelo": "iPhone 12",
-    "armazenamento": "64GB",
-    "ano": 2020,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m11",
-    "marca": "Apple",
-    "modelo": "iPhone 12",
-    "armazenamento": "128GB",
-    "ano": 2020,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m12",
-    "marca": "Apple",
-    "modelo": "iPhone 12",
-    "armazenamento": "256GB",
-    "ano": 2020,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1400,
     "status": "active"
   },
   {
@@ -152,7 +119,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1100,
     "status": "active"
   },
   {
@@ -163,7 +130,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1200,
     "status": "active"
   },
   {
@@ -174,7 +141,40 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1300,
+    "status": "active"
+  },
+  {
+    "id": "m10",
+    "marca": "Apple",
+    "modelo": "iPhone 12",
+    "armazenamento": "64GB",
+    "ano": 2020,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1000,
+    "status": "active"
+  },
+  {
+    "id": "m11",
+    "marca": "Apple",
+    "modelo": "iPhone 12",
+    "armazenamento": "128GB",
+    "ano": 2020,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1100,
+    "status": "active"
+  },
+  {
+    "id": "m12",
+    "marca": "Apple",
+    "modelo": "iPhone 12",
+    "armazenamento": "256GB",
+    "ano": 2020,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1200,
     "status": "active"
   },
   {
@@ -185,7 +185,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1400,
     "status": "active"
   },
   {
@@ -196,7 +196,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1500,
     "status": "active"
   },
   {
@@ -207,7 +207,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1600,
     "status": "active"
   },
   {
@@ -218,7 +218,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1700,
     "status": "active"
   },
   {
@@ -229,7 +229,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1800,
     "status": "active"
   },
   {
@@ -240,40 +240,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2020,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m22",
-    "marca": "Apple",
-    "modelo": "iPhone 13",
-    "armazenamento": "128GB",
-    "ano": 2021,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m23",
-    "marca": "Apple",
-    "modelo": "iPhone 13",
-    "armazenamento": "256GB",
-    "ano": 2021,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m24",
-    "marca": "Apple",
-    "modelo": "iPhone 13",
-    "armazenamento": "512GB",
-    "ano": 2021,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1900,
     "status": "active"
   },
   {
@@ -284,7 +251,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1400,
     "status": "active"
   },
   {
@@ -295,7 +262,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1500,
     "status": "active"
   },
   {
@@ -306,7 +273,40 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1600,
+    "status": "active"
+  },
+  {
+    "id": "m22",
+    "marca": "Apple",
+    "modelo": "iPhone 13",
+    "armazenamento": "128GB",
+    "ano": 2021,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1000,
+    "status": "active"
+  },
+  {
+    "id": "m23",
+    "marca": "Apple",
+    "modelo": "iPhone 13",
+    "armazenamento": "256GB",
+    "ano": 2021,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1100,
+    "status": "active"
+  },
+  {
+    "id": "m24",
+    "marca": "Apple",
+    "modelo": "iPhone 13",
+    "armazenamento": "512GB",
+    "ano": 2021,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 1200,
     "status": "active"
   },
   {
@@ -317,7 +317,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1700,
     "status": "active"
   },
   {
@@ -328,7 +328,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1800,
     "status": "active"
   },
   {
@@ -339,7 +339,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1900,
     "status": "active"
   },
   {
@@ -350,7 +350,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2000,
     "status": "active"
   },
   {
@@ -361,7 +361,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2100,
     "status": "active"
   },
   {
@@ -372,7 +372,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2300,
     "status": "active"
   },
   {
@@ -383,7 +383,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2500,
     "status": "active"
   },
   {
@@ -394,7 +394,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2021,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2700,
     "status": "active"
   },
   {
@@ -405,7 +405,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1500,
     "status": "active"
   },
   {
@@ -416,7 +416,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1600,
     "status": "active"
   },
   {
@@ -427,7 +427,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1700,
     "status": "active"
   },
   {
@@ -438,7 +438,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1700,
     "status": "active"
   },
   {
@@ -449,7 +449,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1800,
     "status": "active"
   },
   {
@@ -460,7 +460,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 1900,
     "status": "active"
   },
   {
@@ -471,7 +471,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2200,
     "status": "active"
   },
   {
@@ -482,7 +482,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2300,
     "status": "active"
   },
   {
@@ -493,7 +493,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2400,
     "status": "active"
   },
   {
@@ -504,7 +504,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2500,
     "status": "active"
   },
   {
@@ -515,7 +515,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2500,
     "status": "active"
   },
   {
@@ -526,7 +526,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2600,
     "status": "active"
   },
   {
@@ -537,7 +537,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2700,
     "status": "active"
   },
   {
@@ -548,7 +548,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2022,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2800,
     "status": "active"
   },
   {
@@ -559,7 +559,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2200,
     "status": "active"
   },
   {
@@ -570,7 +570,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2300,
     "status": "active"
   },
   {
@@ -581,7 +581,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2400,
     "status": "active"
   },
   {
@@ -592,7 +592,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2500,
     "status": "active"
   },
   {
@@ -603,7 +603,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2600,
     "status": "active"
   },
   {
@@ -614,7 +614,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2700,
     "status": "active"
   },
   {
@@ -625,7 +625,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2700,
     "status": "active"
   },
   {
@@ -636,7 +636,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2800,
     "status": "active"
   },
   {
@@ -647,7 +647,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2900,
     "status": "active"
   },
   {
@@ -658,7 +658,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3000,
     "status": "active"
   },
   {
@@ -669,7 +669,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3500,
     "status": "active"
   },
   {
@@ -680,7 +680,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3700,
     "status": "active"
   },
   {
@@ -691,7 +691,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2023,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3900,
     "status": "active"
   },
   {
@@ -702,29 +702,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m64",
-    "marca": "Apple",
-    "modelo": "iPhone 16",
-    "armazenamento": "256GB",
-    "ano": 2024,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
-    "status": "active"
-  },
-  {
-    "id": "m65",
-    "marca": "Apple",
-    "modelo": "iPhone 16",
-    "armazenamento": "512GB",
-    "ano": 2024,
-    "preco_medio_usado": 0,
-    "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2900,
     "status": "active"
   },
   {
@@ -735,7 +713,18 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3000,
+    "status": "active"
+  },
+  {
+    "id": "m64",
+    "marca": "Apple",
+    "modelo": "iPhone 16",
+    "armazenamento": "256GB",
+    "ano": 2024,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 3100,
     "status": "active"
   },
   {
@@ -746,7 +735,18 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2000,
+    "status": "active"
+  },
+  {
+    "id": "m65",
+    "marca": "Apple",
+    "modelo": "iPhone 16",
+    "armazenamento": "512GB",
+    "ano": 2024,
+    "preco_medio_usado": 0,
+    "preco_medio_novo": 0,
+    "valor_base_upgrade": 2100,
     "status": "active"
   },
   {
@@ -757,7 +757,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 2200,
     "status": "active"
   },
   {
@@ -768,7 +768,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3100,
     "status": "active"
   },
   {
@@ -779,7 +779,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3200,
     "status": "active"
   },
   {
@@ -790,7 +790,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3300,
     "status": "active"
   },
   {
@@ -801,7 +801,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3400,
     "status": "active"
   },
   {
@@ -812,7 +812,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3500,
     "status": "active"
   },
   {
@@ -823,7 +823,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3600,
     "status": "active"
   },
   {
@@ -834,7 +834,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 3700,
     "status": "active"
   },
   {
@@ -845,7 +845,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4000,
     "status": "active"
   },
   {
@@ -856,7 +856,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4100,
     "status": "active"
   },
   {
@@ -867,7 +867,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4200,
     "status": "active"
   },
   {
@@ -878,7 +878,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2024,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4300,
     "status": "active"
   },
   {
@@ -889,7 +889,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4000,
     "status": "active"
   },
   {
@@ -900,7 +900,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4100,
     "status": "active"
   },
   {
@@ -911,7 +911,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4200,
     "status": "active"
   },
   {
@@ -922,7 +922,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4300,
     "status": "active"
   },
   {
@@ -933,7 +933,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4400,
     "status": "active"
   },
   {
@@ -944,7 +944,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4500,
     "status": "active"
   },
   {
@@ -955,7 +955,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4700,
     "status": "active"
   },
   {
@@ -966,7 +966,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4800,
     "status": "active"
   },
   {
@@ -977,7 +977,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 4900,
     "status": "active"
   },
   {
@@ -988,7 +988,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 5500,
     "status": "active"
   },
   {
@@ -999,7 +999,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 5600,
     "status": "active"
   },
   {
@@ -1010,7 +1010,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 5700,
     "status": "active"
   },
   {
@@ -1021,7 +1021,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
     "ano": 2025,
     "preco_medio_usado": 0,
     "preco_medio_novo": 0,
-    "valor_base_upgrade": 0,
+    "valor_base_upgrade": 5800,
     "status": "active"
   }
 ];
