@@ -40,12 +40,6 @@ export default function AdminSidebar() {
       ]
     },
     {
-      title: 'CATÁLOGO',
-      items: [
-        { label: 'Modelos de Aparelhos', icon: Smartphone, href: '/admin/catalogo' },
-      ]
-    },
-    {
       title: 'SISTEMA',
       items: [
         { label: 'Alertas', icon: AlertTriangle, href: '/admin/alertas' },
