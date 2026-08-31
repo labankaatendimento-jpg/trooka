@@ -1,18 +1,22 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { dbService } from '@/services/dbService';
 import { IphoneModel, PriceRule } from '@/lib/mockData';
 import InternalSimulator from '@/components/admin/InternalSimulator';
-import { Upload, Download } from 'lucide-react';
-import Papa from 'papaparse';
+import { Edit2, Save, X } from 'lucide-react';
 
 export default function AdminPrecificacao() {
   const [models, setModels] = useState<IphoneModel[]>([]);
   const [rules, setRules] = useState<PriceRule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const [editingModelId, setEditingModelId] = useState<string | null>(null);
+  const [editValues, setEditValues] = useState({
+    preco_medio_usado: 0,
+    preco_medio_novo: 0,
+    valor_base_upgrade: 0
+  });
 
   const loadData = async () => {
     try {
@@ -53,127 +57,40 @@ export default function AdminPrecificacao() {
     }
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploading(true);
-    try {
-      const text = await file.text();
-      // Remove BOM if present
-      const cleanText = text.replace(/^\uFEFF/, '').trim();
-      
-      Papa.parse(cleanText, {
-        header: true,
-        skipEmptyLines: true,
-        transformHeader: (h) => h.trim().toLowerCase(),
-        complete: async (results) => {
-          const parsedModels: Partial<IphoneModel>[] = [];
-          
-          results.data.forEach((row: any) => {
-            // Helper para converter "R$ 3.500,00", "3.500,00" ou "3500" para número
-            const parseNumber = (val: string) => {
-              if (!val) return undefined;
-              const match = val.toString().match(/[\d,.]+/);
-              if (!match) return undefined;
-              let clean = match[0].replace(/\./g, '').replace(',', '.');
-              const num = parseFloat(clean);
-              return isNaN(num) ? undefined : num;
-            };
-
-            const rawModelo = row.modelo?.toString().trim() || row['modelo do aparelho']?.toString().trim() || '';
-            // Remove "Apple " do início para evitar duplicação (Apple iPhone XR vs iPhone XR)
-            const modelo = rawModelo.replace(/^apple\s+/i, '').trim();
-
-            let armazenamento = row.armazenamento?.toString().trim() || row.capacidade?.toString().trim();
-            if (armazenamento && /^\d+$/.test(armazenamento)) {
-              armazenamento = `${armazenamento}GB`;
-            }
-
-            let valUsado = parseNumber(row.preco_medio_usado) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor de compra']);
-            let valNovo = parseNumber(row.preco_medio_novo) ?? parseNumber(row.valor_venda) ?? parseNumber(row['valor de venda']);
-            
-            const estado = row.estado?.toString().trim().toUpperCase();
-            
-            // Se as colunas não forem exatas, tenta usar a coluna de estado para direcionar o valor genérico
-            if (estado) {
-               let genericVal = parseNumber(row.valor) ?? parseNumber(row.preço) ?? parseNumber(row.preco) ?? parseNumber(row['valor usado']) ?? parseNumber(row['valor_venda']) ?? parseNumber(row['valor de compra']) ?? parseNumber(row['valor de venda']);
-               
-               if (genericVal !== undefined) {
-                   if (estado.includes('SEMI') || estado.includes('NOVO')) {
-                       valNovo = genericVal;
-                   } else if (estado.includes('USADO')) {
-                       valUsado = genericVal;
-                   }
-               }
-            }
-
-            const valBase = parseNumber(row.valor_base_upgrade) ?? valUsado;
-            const ano = parseInt(row.ano);
-            
-            if (modelo && armazenamento) {
-              parsedModels.push({
-                marca: row.marca || 'Apple',
-                modelo: modelo,
-                armazenamento: armazenamento,
-                ...(ano ? { ano } : {}),
-                ...(valUsado !== undefined ? { preco_medio_usado: valUsado } : {}),
-                ...(valNovo !== undefined ? { preco_medio_novo: valNovo } : {}),
-                ...(valBase !== undefined ? { valor_base_upgrade: valBase } : {})
-              });
-            }
-          });
-
-          if (parsedModels.length > 0) {
-            try {
-              await dbService.bulkUpsertIphoneModels(parsedModels);
-              await dbService.addAdminLog({
-                admin_id: 'admin',
-                acao: 'Importação de Planilha',
-                item_alterado: 'Modelos e Preços',
-                valor_anterior: '-',
-                novo_valor: `${parsedModels.length} modelos importados/atualizados`
-              });
-              await loadData();
-              alert(`${parsedModels.length} modelos processados com sucesso!`);
-            } catch (err) {
-              console.error(err);
-              alert("Erro ao salvar os dados no banco.");
-            }
-          } else {
-            alert(`Nenhum dado válido encontrado. Colunas detectadas: ${results.meta.fields?.join(' | ')}. Verifique se as colunas estão corretas.`);
-          }
-          
-          setIsUploading(false);
-          if (fileInputRef.current) fileInputRef.current.value = '';
-        },
-        error: (err: any) => {
-          console.error(err);
-          alert("Erro ao ler o CSV com o PapaParse.");
-          setIsUploading(false);
-          if (fileInputRef.current) fileInputRef.current.value = '';
-        }
-      });
-      return; // PapaParse is async when we use callback, so we handle state inside.
-
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao processar planilha.");
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
+  const handleEditClick = (model: IphoneModel) => {
+    setEditingModelId(model.id);
+    setEditValues({
+      preco_medio_usado: model.preco_medio_usado || 0,
+      preco_medio_novo: model.preco_medio_novo || 0,
+      valor_base_upgrade: model.valor_base_upgrade || 0
+    });
   };
 
-  const downloadTemplate = () => {
-    const csvContent = "modelo;armazenamento;ano;preco_medio_usado;preco_medio_novo;valor_base_upgrade\niPhone 15 Pro Max;256GB;2023;6500;8500;2000\niPhone 14;128GB;2022;3500;4500;1000\n";
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "modelo_precos_trooka.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleCancelEdit = () => {
+    setEditingModelId(null);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingModelId) return;
+    
+    // Atualiza otimisticamente
+    setModels(prev => prev.map(m => m.id === editingModelId ? { ...m, ...editValues } : m));
+    setEditingModelId(null);
+    
+    try {
+      await dbService.updateIphoneModel(editingModelId, editValues);
+      await dbService.addAdminLog({
+        admin_id: 'admin',
+        acao: 'Edição Manual de Preço',
+        item_alterado: 'Modelos e Preços',
+        valor_anterior: '-',
+        novo_valor: `Preços atualizados para o modelo ID: ${editingModelId}`
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao salvar preços.');
+      loadData(); // Reverte em caso de erro
+    }
   };
 
   if (isLoading) {
@@ -227,31 +144,7 @@ export default function AdminPrecificacao() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">Tabela de Preços (Mercado)</h2>
               <div className="flex items-center gap-2">
-                <button
-                  onClick={downloadTemplate}
-                  className="px-3 py-1.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  Baixar Modelo
-                </button>
-                
-                <input 
-                  type="file" 
-                  accept=".csv" 
-                  className="hidden" 
-                  ref={fileInputRef}
-                  onChange={handleFileUpload}
-                  disabled={isUploading}
-                />
-                
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isUploading}
-                  className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 text-orange-500 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors"
-                >
-                  <Upload className="w-3.5 h-3.5" />
-                  {isUploading ? 'Processando...' : 'Importar CSV'}
-                </button>
+                <span className="text-xs text-neutral-500 font-semibold px-2">Edite os preços diretamente na tabela abaixo</span>
               </div>
             </div>
             <div className="glass-card border-neutral-900 rounded-2xl overflow-hidden">
@@ -267,20 +160,81 @@ export default function AdminPrecificacao() {
                   </thead>
                   <tbody className="divide-y divide-neutral-900/50">
                     {models.map(model => (
-                      <tr key={model.id} className="hover:bg-neutral-900/20 transition-colors">
+                      <tr key={model.id} className="group hover:bg-neutral-900/20 transition-colors">
                         <td className="p-4">
                           <p className="text-sm font-bold text-neutral-200">{model.modelo}</p>
                           <p className="text-[10px] text-neutral-500">{model.armazenamento} • {model.ano}</p>
                         </td>
                         <td className="p-4 text-sm font-semibold text-neutral-300">
-                          R$ {model.preco_medio_usado.toLocaleString('pt-BR')}
+                          {editingModelId === model.id ? (
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs text-neutral-500">R$</span>
+                              <input
+                                type="number"
+                                value={editValues.preco_medio_usado}
+                                onChange={(e) => setEditValues({...editValues, preco_medio_usado: Number(e.target.value)})}
+                                className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                              />
+                            </div>
+                          ) : (
+                            `R$ ${model.preco_medio_usado.toLocaleString('pt-BR')}`
+                          )}
                         </td>
                         <td className="p-4 text-sm font-semibold text-neutral-400">
-                          R$ {model.preco_medio_novo.toLocaleString('pt-BR')}
+                          {editingModelId === model.id ? (
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs text-neutral-500">R$</span>
+                              <input
+                                type="number"
+                                value={editValues.preco_medio_novo}
+                                onChange={(e) => setEditValues({...editValues, preco_medio_novo: Number(e.target.value)})}
+                                className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                              />
+                            </div>
+                          ) : (
+                            `R$ ${model.preco_medio_novo.toLocaleString('pt-BR')}`
+                          )}
                         </td>
                         <td className="p-4 text-sm font-bold text-orange-400">
-                          R$ {model.valor_base_upgrade.toLocaleString('pt-BR')}
+                          {editingModelId === model.id ? (
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs text-neutral-500">R$</span>
+                              <input
+                                type="number"
+                                value={editValues.valor_base_upgrade}
+                                onChange={(e) => setEditValues({...editValues, valor_base_upgrade: Number(e.target.value)})}
+                                className="w-20 bg-neutral-950 text-orange-400 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-between">
+                              <span>R$ {model.valor_base_upgrade.toLocaleString('pt-BR')}</span>
+                              <button
+                                onClick={() => handleEditClick(model)}
+                                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-all"
+                                title="Editar Preços"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
                         </td>
+                        {editingModelId === model.id && (
+                           <td className="p-4 text-right">
+                             <div className="flex items-center justify-end gap-2">
+                               <button onClick={handleCancelEdit} className="p-1.5 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-all">
+                                 <X className="w-4 h-4" />
+                               </button>
+                               <button onClick={handleSaveEdit} className="p-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-all shadow-sm shadow-orange-500/20">
+                                 <Save className="w-4 h-4" />
+                               </button>
+                             </div>
+                           </td>
+                        )}
+                        {editingModelId !== model.id && editingModelId && (
+                           <td className="p-4"></td> // Filler para a coluna de ações quando outra linha estiver sendo editada
+                        )}
+                        {!editingModelId && <td className="p-0 m-0 w-0"></td>}
                       </tr>
                     ))}
                   </tbody>
