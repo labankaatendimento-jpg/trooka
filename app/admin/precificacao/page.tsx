@@ -70,6 +70,12 @@ export default function AdminPrecificacao() {
     setEditingModelId(null);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSaveEdit();
+    }
+  };
+
   const handleSaveEdit = async () => {
     if (!editingModelId) return;
     
@@ -193,12 +199,14 @@ export default function AdminPrecificacao() {
                           {editingModelId === model.id ? (
                             <div className="flex items-center gap-1">
                               <span className="text-xs text-neutral-500">R$</span>
-                              <input
-                                type="number"
-                                value={editValues.preco_medio_usado}
-                                onChange={(e) => setEditValues({...editValues, preco_medio_usado: Number(e.target.value)})}
-                                className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
-                              />
+                                <input
+                                  type="number"
+                                  value={editValues.preco_medio_usado === 0 ? '' : editValues.preco_medio_usado}
+                                  onFocus={(e) => e.target.select()}
+                                  onKeyDown={handleKeyDown}
+                                  onChange={(e) => setEditValues({...editValues, preco_medio_usado: Number(e.target.value)})}
+                                  className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                                />
                             </div>
                           ) : (
                             `R$ ${model.preco_medio_usado.toLocaleString('pt-BR')}`
@@ -208,12 +216,14 @@ export default function AdminPrecificacao() {
                           {editingModelId === model.id ? (
                             <div className="flex items-center gap-1">
                               <span className="text-xs text-neutral-500">R$</span>
-                              <input
-                                type="number"
-                                value={editValues.preco_medio_novo}
-                                onChange={(e) => setEditValues({...editValues, preco_medio_novo: Number(e.target.value)})}
-                                className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
-                              />
+                                <input
+                                  type="number"
+                                  value={editValues.preco_medio_novo === 0 ? '' : editValues.preco_medio_novo}
+                                  onFocus={(e) => e.target.select()}
+                                  onKeyDown={handleKeyDown}
+                                  onChange={(e) => setEditValues({...editValues, preco_medio_novo: Number(e.target.value)})}
+                                  className="w-20 bg-neutral-950 text-neutral-100 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                                />
                             </div>
                           ) : (
                             `R$ ${model.preco_medio_novo.toLocaleString('pt-BR')}`
@@ -223,12 +233,14 @@ export default function AdminPrecificacao() {
                           {editingModelId === model.id ? (
                             <div className="flex items-center gap-1">
                               <span className="text-xs text-neutral-500">R$</span>
-                              <input
-                                type="number"
-                                value={editValues.valor_base_upgrade}
-                                onChange={(e) => setEditValues({...editValues, valor_base_upgrade: Number(e.target.value)})}
-                                className="w-20 bg-neutral-950 text-orange-400 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
-                              />
+                                <input
+                                  type="number"
+                                  value={editValues.valor_base_upgrade === 0 ? '' : editValues.valor_base_upgrade}
+                                  onFocus={(e) => e.target.select()}
+                                  onKeyDown={handleKeyDown}
+                                  onChange={(e) => setEditValues({...editValues, valor_base_upgrade: Number(e.target.value)})}
+                                  className="w-20 bg-neutral-950 text-orange-400 px-2 py-1 rounded-lg border border-neutral-800 focus:border-orange-500 focus:outline-none"
+                                />
                             </div>
                           ) : (
                             <div className="flex items-center justify-between">
