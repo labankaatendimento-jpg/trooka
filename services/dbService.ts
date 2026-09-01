@@ -94,7 +94,16 @@ export const dbService = {
   async getIphoneModels(): Promise<IphoneModel[]> {
     const sortModels = (arr: IphoneModel[]) => {
       return [...arr].sort((a, b) => {
-        if (a.ano !== b.ano) return a.ano - b.ano;
+        // 1. Sort by Generation (17, 16, 15...) descending
+        const getGen = (name: string) => {
+          const match = name.match(/(11|12|13|14|15|16|17|18|19|20)/);
+          return match ? parseInt(match[1]) : 0;
+        };
+        const genA = getGen(a.modelo);
+        const genB = getGen(b.modelo);
+        if (genA !== genB) return genB - genA;
+
+        // 2. Sort by Tier ascending
         const getTier = (m: string) => {
           const lower = m.trim().toLowerCase();
           if (lower.includes('pro max')) return 5;
@@ -106,6 +115,8 @@ export const dbService = {
         const tierA = getTier(a.modelo);
         const tierB = getTier(b.modelo);
         if (tierA !== tierB) return tierA - tierB;
+        
+        // 3. Sort by Storage ascending
         const parseStorage = (s: string) => {
           if (s.toUpperCase().includes('TB')) return parseInt(s) * 1024;
           return parseInt(s) || 0;
