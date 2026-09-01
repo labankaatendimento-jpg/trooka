@@ -92,15 +92,37 @@ export interface CreditTx {
 export const dbService = {
   // --- IPHONE MODELS ---
   async getIphoneModels(): Promise<IphoneModel[]> {
+    const sortModels = (arr: IphoneModel[]) => {
+      return [...arr].sort((a, b) => {
+        if (a.ano !== b.ano) return a.ano - b.ano;
+        const getTier = (m: string) => {
+          const lower = m.trim().toLowerCase();
+          if (lower.includes('pro max')) return 5;
+          if (lower.includes('pro')) return 4;
+          if (lower.includes('plus') || lower.includes('air')) return 3;
+          if (lower.includes('mini') || lower.match(/\be\b/) || lower.match(/\d+e\b/) || lower.includes('se')) return 1;
+          return 2;
+        };
+        const tierA = getTier(a.modelo);
+        const tierB = getTier(b.modelo);
+        if (tierA !== tierB) return tierA - tierB;
+        const parseStorage = (s: string) => {
+          if (s.toUpperCase().includes('TB')) return parseInt(s) * 1024;
+          return parseInt(s) || 0;
+        };
+        return parseStorage(a.armazenamento) - parseStorage(b.armazenamento);
+      });
+    };
+
     if (isSupabaseConfigured && supabase) {
       const { data, error } = await supabase
         .from('iphone_models')
         .select('*')
         .eq('status', 'active');
-      if (!error && data) return data;
+      if (!error && data) return sortModels(data);
     }
-    let models = getLocalData<IphoneModel>('models_v6', MOCK_IPHONE_MODELS);
-    return models;
+    const models = getLocalData<IphoneModel>('models_v6', MOCK_IPHONE_MODELS);
+    return sortModels(models);
   },
 
   async addIphoneModel(model: Omit<IphoneModel, 'id'>): Promise<IphoneModel> {
