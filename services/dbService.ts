@@ -143,6 +143,20 @@ export const dbService = {
     return models[idx];
   },
 
+  async deleteIphoneModel(id: string): Promise<void> {
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase
+        .from('iphone_models')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      return;
+    }
+    const models = getLocalData<IphoneModel>('models_v6', MOCK_IPHONE_MODELS);
+    const newModels = models.filter(m => m.id !== id);
+    setLocalData('models_v6', newModels);
+  },
+
   async bulkUpsertIphoneModels(newModels: Partial<IphoneModel>[]): Promise<void> {
     if (isSupabaseConfigured && supabase) {
       // Para o Supabase, a melhor prática seria usar .upsert, 

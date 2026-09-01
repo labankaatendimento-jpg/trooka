@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { dbService } from '@/services/dbService';
 import { IphoneModel, PriceRule } from '@/lib/mockData';
 import InternalSimulator from '@/components/admin/InternalSimulator';
-import { Edit2, Save, X } from 'lucide-react';
+import { Edit2, Save, X, Trash2 } from 'lucide-react';
 
 export default function AdminPrecificacao() {
   const [models, setModels] = useState<IphoneModel[]>([]);
@@ -128,6 +128,25 @@ export default function AdminPrecificacao() {
     } catch (err) {
       console.error(err);
       alert('Erro ao adicionar modelo.');
+    }
+  };
+
+  const handleDeleteModel = async (id: string, modelo: string) => {
+    if (confirm(`Tem certeza que deseja excluir o modelo ${modelo}?`)) {
+      try {
+        await dbService.deleteIphoneModel(id);
+        setModels(models.filter(m => m.id !== id));
+        await dbService.addAdminLog({
+          admin_id: 'admin',
+          acao: 'Exclusão de Modelo',
+          item_alterado: 'Modelos e Preços',
+          valor_anterior: modelo,
+          novo_valor: '-'
+        });
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao excluir modelo.');
+      }
     }
   };
 
@@ -313,13 +332,22 @@ export default function AdminPrecificacao() {
                           ) : (
                             <div className="flex items-center justify-between">
                               <span>R$ {model.valor_base_upgrade.toLocaleString('pt-BR')}</span>
-                              <button
-                                onClick={() => handleEditClick(model)}
-                                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-all"
-                                title="Editar Preços"
-                              >
-                                <Edit2 className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                <button
+                                  onClick={() => handleEditClick(model)}
+                                  className="p-1.5 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-all"
+                                  title="Editar Preços"
+                                >
+                                  <Edit2 className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteModel(model.id, model.modelo)}
+                                  className="p-1.5 hover:bg-red-500/10 text-neutral-400 hover:text-red-500 rounded-md transition-all"
+                                  title="Excluir Modelo"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
                           )}
                         </td>
