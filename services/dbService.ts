@@ -157,6 +157,30 @@ export const dbService = {
     setLocalData('models_v6', newModels);
   },
 
+  async recoverLocalModels(): Promise<void> {
+    if (!isClient) return;
+    const stored = localStorage.getItem('trooka_models_v6');
+    if (!stored) throw new Error('Nenhum dado salvo no navegador.');
+    const models: IphoneModel[] = JSON.parse(stored);
+    
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase
+        .from('iphone_models')
+        .upsert(models.map(m => ({
+          id: m.id,
+          marca: m.marca,
+          modelo: m.modelo,
+          armazenamento: m.armazenamento,
+          ano: m.ano,
+          preco_medio_novo: m.preco_medio_novo || 0,
+          preco_medio_usado: m.preco_medio_usado || 0,
+          valor_base_upgrade: m.valor_base_upgrade || 0,
+          status: m.status || 'active'
+        })));
+      if (error) throw error;
+    }
+  },
+
   async bulkUpsertIphoneModels(newModels: Partial<IphoneModel>[]): Promise<void> {
     if (isSupabaseConfigured && supabase) {
       // Para o Supabase, a melhor prática seria usar .upsert, 

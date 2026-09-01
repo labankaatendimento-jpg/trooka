@@ -150,6 +150,19 @@ export default function AdminPrecificacao() {
     }
   };
 
+  const handleRecoverLocalData = async () => {
+    if (confirm("Deseja recuperar os preços salvos no seu computador antes da conexão com o banco de dados oficial? Isso vai restaurar o seu trabalho anterior e sobrepor os valores atuais.")) {
+      try {
+        await dbService.recoverLocalModels();
+        alert("Preços recuperados com sucesso!");
+        loadData();
+      } catch (err: any) {
+        console.error(err);
+        alert(err.message || 'Erro ao recuperar preços.');
+      }
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -225,7 +238,12 @@ export default function AdminPrecificacao() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">Tabela de Preços (Mercado)</h2>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-neutral-500 font-semibold px-2">Edite os preços diretamente na tabela abaixo</span>
+                <button 
+                  onClick={handleRecoverLocalData}
+                  className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-bold rounded-lg transition-colors border border-neutral-700"
+                >
+                  Recuperar Backup Local
+                </button>
                 <button 
                   onClick={() => setIsAddingModel(true)}
                   className="px-3 py-1.5 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 text-xs font-bold rounded-lg transition-colors border border-orange-500/20"
