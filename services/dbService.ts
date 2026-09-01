@@ -101,7 +101,7 @@ export const dbService = {
         };
         const genA = getGen(a.modelo);
         const genB = getGen(b.modelo);
-        if (genA !== genB) return genB - genA;
+        if (genA !== genB) return genA - genB;
 
         // 2. Sort by Tier ascending
         const getTier = (m: string) => {
