@@ -29,7 +29,7 @@ export default function LocationOfferSheet({
 }: LocationOfferSheetProps) {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3>(1); // 1: Form, 2: Store check, 3: Success
-  const [estado, setEstado] = useState('SP');
+  const [nome, setNome] = useState('');
   const [cidade, setCidade] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [stores, setStores] = useState<Store[]>([]);
@@ -40,6 +40,7 @@ export default function LocationOfferSheet({
   useEffect(() => {
     if (isOpen) {
       setStep(1);
+      setNome('');
       setCidade('');
       setWhatsapp('');
       setErrors({});
@@ -69,7 +70,8 @@ export default function LocationOfferSheet({
 
   const handleNext = async () => {
     const newErrors: { [key: string]: string } = {};
-    if (!cidade.trim()) newErrors.cidade = 'Cidade é obrigatória';
+    if (!nome.trim()) newErrors.nome = 'Nome é obrigatório';
+    if (!cidade.trim()) newErrors.cidade = 'Localização é obrigatória';
     
     const rawPhone = whatsapp.replace(/\D/g, '');
     if (rawPhone.length < 10) newErrors.whatsapp = 'Digite um WhatsApp válido';
@@ -81,8 +83,8 @@ export default function LocationOfferSheet({
 
     setLoading(true);
     try {
-      // Check stores in this location
-      const foundStores = await dbService.getStoresByLocation(cidade, estado);
+      // Check stores in this location (ignore state for now as it is combined)
+      const foundStores = await dbService.getStoresByLocation(cidade, 'BR');
       setStores(foundStores);
       setStep(2);
     } catch (e) {
@@ -106,11 +108,11 @@ export default function LocationOfferSheet({
         estado_aparelho: condition || 'bom',
         reparo_historico: reparo || 'nao',
         cidade: cidade.trim(),
-        estado: estado.toUpperCase().trim(),
+        estado: 'BR', // Default as it's now combined in cidade
         valor_estimado: estimate.valorEstimado,
         diferenca_estimada: estimate.diferencaMedia,
         telefone_cliente: rawPhone,
-        snapshot: estimate.snapshot,
+        snapshot: { ...estimate.snapshot, nome_cliente: nome.trim() },
         utm_source: new URLSearchParams(window.location.search).get('utm_source') || undefined,
         utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || undefined,
         utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || undefined,
@@ -183,29 +185,27 @@ export default function LocationOfferSheet({
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
-                      Estado
+                      Seu Nome
                     </label>
-                    <select
-                      value={estado}
-                      onChange={e => setEstado(e.target.value)}
-                      className="w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-[16px] md:text-sm transition-colors cursor-pointer"
-                    >
-                      <option value="SP">São Paulo (SP)</option>
-                      <option value="RJ">Rio de Janeiro (RJ)</option>
-                      <option value="MG">Minas Gerais (MG)</option>
-                      <option value="PR">Paraná (PR)</option>
-                      <option value="SC">Santa Catarina (SC)</option>
-                      <option value="RS">Rio Grande do Sul (RS)</option>
-                    </select>
+                    <input
+                      type="text"
+                      placeholder="Ex: João Silva"
+                      value={nome}
+                      onChange={e => setNome(e.target.value)}
+                      className={`w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border ${
+                        errors.nome ? 'border-rose-500/50 focus:border-rose-500' : 'border-neutral-800 focus:border-purple-500'
+                      } focus:outline-none text-[16px] md:text-sm transition-colors`}
+                    />
+                    {errors.nome && <p className="text-xs text-rose-500 mt-1">{errors.nome}</p>}
                   </div>
 
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1.5">
-                      Cidade
+                      Sua Localização
                     </label>
                     <input
                       type="text"
-                      placeholder="Ex: Campinas (Tente Campinas)"
+                      placeholder="Ex: Campinas - SP"
                       value={cidade}
                       onChange={e => setCidade(e.target.value)}
                       className={`w-full bg-neutral-900 text-neutral-100 px-4 py-3 rounded-2xl border ${
@@ -259,7 +259,7 @@ export default function LocationOfferSheet({
                           Encontramos {stores.length} lojas parceiras
                         </h4>
                         <p className="text-sm text-neutral-400 mt-1">
-                          na cidade de {cidade} - {estado}.
+                          na região de {cidade}.
                         </p>
                       </div>
                       <p className="text-xs text-neutral-500 max-w-sm mx-auto">
@@ -284,7 +284,7 @@ export default function LocationOfferSheet({
                           Solicitar Propostas
                         </h4>
                         <p className="text-sm text-neutral-400 mt-1">
-                          na cidade de {cidade} - {estado}.
+                          na região de {cidade}.
                         </p>
                       </div>
                       <p className="text-xs text-neutral-500 max-w-sm mx-auto">
