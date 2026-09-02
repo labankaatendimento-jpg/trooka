@@ -1028,6 +1028,7 @@ export const MOCK_IPHONE_MODELS: IphoneModel[] = [
 
 export interface Store {
   id: string;
+  auth_user_id?: string;
   nome: string;
   cnpj: string;
   telefone: string;

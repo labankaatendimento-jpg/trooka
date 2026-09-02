@@ -22,12 +22,19 @@ export default function AdminLayout({
       return;
     }
 
-    const isLogged = sessionStorage.getItem('trooka_admin_session');
-    if (!isLogged) {
-      router.push('/admin/login');
-    } else {
-      setIsCheckingAuth(false);
-    }
+    const checkSession = async () => {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        router.push('/admin/login');
+      } else {
+        setIsCheckingAuth(false);
+      }
+    };
+    
+    checkSession();
   }, [router, pathname, isLoginPage]);
 
   if (isCheckingAuth) {

@@ -3,20 +3,61 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Store, Mail, Lock, User, Phone } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { dbService } from '@/services/dbService';
 
 export default function LojistaCadastro() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isWaitlisted, setIsWaitlisted] = useState(false);
+  
+  const [nomeLoja, setNomeLoja] = useState('');
+  const [nomeResponsavel, setNomeResponsavel] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleRegister = (e: React.FormEvent) => {
+  const supabase = createClient();
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      // For now, simulate saving to the waitlist
-      setIsWaitlisted(true);
+    setErrorMsg('');
+
+    try {
+      // 1. Sign up user in Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (authError) {
+        throw new Error(authError.message);
+      }
+
+      if (authData.user) {
+        // 2. Create the store record linked to auth_user_id with pending status
+        await dbService.addStore({
+          auth_user_id: authData.user.id,
+          nome: nomeLoja,
+          cnpj: '', // Optional/To be filled later
+          telefone: telefone,
+          whatsapp: telefone.replace(/\D/g, ''),
+          email: email,
+          cidade: 'Pendente', // Pending location setup
+          estado: 'BR',
+          endereco: '',
+          status: 'pending'
+        });
+
+        setIsWaitlisted(true);
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Erro ao realizar cadastro.');
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   return (
@@ -68,7 +109,7 @@ export default function LojistaCadastro() {
             </p>
             <button
               onClick={() => router.push('/')}
-              className="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3.5 rounded-2xl transition-all duration-300 mt-4 text-sm"
+              className="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3.5 rounded-2xl transition-all duration-300 mt-4 text-sm cursor-pointer"
             >
               Voltar para o Início
             </button>
@@ -82,6 +123,8 @@ export default function LojistaCadastro() {
                 <input
                   type="text"
                   required
+                  value={nomeLoja}
+                  onChange={e => setNomeLoja(e.target.value)}
                   className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                   placeholder="Sua Loja"
                 />
@@ -95,6 +138,8 @@ export default function LojistaCadastro() {
                 <input
                   type="text"
                   required
+                  value={nomeResponsavel}
+                  onChange={e => setNomeResponsavel(e.target.value)}
                   className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                   placeholder="Seu Nome"
                 />
@@ -108,6 +153,8 @@ export default function LojistaCadastro() {
                 <input
                   type="email"
                   required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                   className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                   placeholder="exemplo@loja.com"
                 />
@@ -121,6 +168,8 @@ export default function LojistaCadastro() {
                 <input
                   type="tel"
                   required
+                  value={telefone}
+                  onChange={e => setTelefone(e.target.value)}
                   className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                   placeholder="(00) 00000-0000"
                 />
@@ -134,16 +183,24 @@ export default function LojistaCadastro() {
                 <input
                   type="password"
                   required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                   className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
                   placeholder="Crie uma senha forte"
                 />
               </div>
             </div>
 
+            {errorMsg && (
+              <div className="text-rose-500 text-sm text-center font-medium mt-2">
+                {errorMsg}
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer mt-4"
+              className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer mt-4"
             >
               {loading ? 'Enviando...' : 'Entrar na Lista de Espera'}
             </button>

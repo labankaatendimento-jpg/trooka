@@ -4,19 +4,33 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ShieldAlert } from 'lucide-react';
 
+import { createClient } from '@/lib/supabase/client';
+
 export default function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@trooka.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const supabase = createClient();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      sessionStorage.setItem('trooka_admin_session', 'true');
+    setErrorMsg('');
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) {
+      setErrorMsg('E-mail ou senha incorretos.');
+      setLoading(false);
+    } else {
       router.push('/admin/dashboard');
-    }, 800);
+      router.refresh();
+    }
   };
 
   return (
@@ -82,6 +96,12 @@ export default function AdminLogin() {
               />
             </div>
           </div>
+
+          {errorMsg && (
+            <div className="text-rose-500 text-sm text-center font-medium">
+              {errorMsg}
+            </div>
+          )}
 
           <button
             type="submit"

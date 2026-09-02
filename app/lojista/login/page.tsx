@@ -4,20 +4,61 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Mail, Lock } from 'lucide-react';
 
+import { createClient } from '@/lib/supabase/client';
+import { dbService } from '@/services/dbService';
+
 export default function LojistaLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState('demo@store.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const supabase = createClient();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      // Direct login for demo mode, setting a storeId in sessionStorage
-      sessionStorage.setItem('trooka_store_id', 'store-1');
-      router.push('/lojista/dashboard');
-    }, 800);
+    setErrorMsg('');
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw new Error('E-mail ou senha incorretos.');
+      }
+
+      if (data.user) {
+        // Check if store is approved
+        const stores = await dbService.getStores();
+        const store = stores.find(s => s.auth_user_id === data.user.id);
+        
+        if (!store) {
+          await supabase.auth.signOut();
+          throw new Error('Loja não encontrada.');
+        }
+
+        if (store.status === 'pending') {
+          await supabase.auth.signOut();
+          throw new Error('Sua conta ainda está na lista de espera. Aguarde aprovação!');
+        }
+        
+        if (store.status === 'suspended') {
+          await supabase.auth.signOut();
+          throw new Error('Sua conta está suspensa.');
+        }
+
+        router.push('/lojista/dashboard');
+        router.refresh();
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,6 +134,12 @@ export default function LojistaLogin() {
               />
             </div>
           </div>
+
+          {errorMsg && (
+            <div className="text-rose-500 text-sm text-center font-medium mt-2">
+              {errorMsg}
+            </div>
+          )}
 
           <button
             type="submit"

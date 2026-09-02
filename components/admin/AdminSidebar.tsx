@@ -14,8 +14,10 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('trooka_admin_session');
+  const handleLogout = async () => {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    await supabase.auth.signOut();
     router.push('/admin/login');
   };
 

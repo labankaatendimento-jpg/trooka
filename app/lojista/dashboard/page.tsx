@@ -33,13 +33,27 @@ export default function LojistaDashboard() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const id = sessionStorage.getItem('trooka_store_id') || 'store-1';
-    setStoreId(id);
-
     const loadData = async () => {
       try {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          router.push('/lojista/login');
+          return;
+        }
+
         const stores = await dbService.getStores();
-        const currentStore = stores.find(s => s.id === id) || null;
+        const currentStore = stores.find(s => s.auth_user_id === user.id) || null;
+        
+        if (!currentStore) {
+          router.push('/lojista/login');
+          return;
+        }
+
+        const id = currentStore.id;
+        setStoreId(id);
         setStore(currentStore);
 
         const activeReqs = await dbService.getActiveRequestsForStore(id);
@@ -62,10 +76,12 @@ export default function LojistaDashboard() {
     };
 
     loadData();
-  }, [storeId]);
+  }, [router]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('trooka_store_id');
+  const handleLogout = async () => {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    await supabase.auth.signOut();
     router.push('/lojista/login');
   };
 
