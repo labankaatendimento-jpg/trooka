@@ -23,20 +23,11 @@ export const metadata: Metadata = {
     siteName: "Trooka",
     locale: "pt_BR",
     type: "website",
-    images: [
-      {
-        url: "https://trooka.vercel.app/images/pretoeroxodesk.PNG",
-        width: 1200,
-        height: 630,
-        alt: "Trooka - Troca e Compra de iPhones",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Trooka - Troca e Compra de iPhones",
     description: "Simule a troca do seu iPhone e encontre lojistas perto de você.",
-    images: ["https://trooka.vercel.app/images/pretoeroxodesk.PNG"],
   },
 };
 
