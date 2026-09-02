@@ -182,11 +182,25 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       },
     ]);
 
-    const hasNovo = model.preco_medio_novo > 0;
-    const hasSeminovo = model.preco_medio_usado > 0;
+    const valNovo = Number(model.preco_medio_novo) || 0;
+    const valUsado = Number(model.preco_medio_usado) || 0;
 
-    if ((hasNovo && !hasSeminovo) || (!hasNovo && hasSeminovo)) {
-      const selectedCond = hasNovo ? 'novo' : 'seminovo';
+    if (valNovo > 0 && valUsado > 0) {
+      setStep(3);
+      setTimeout(() => {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: 'ask-desired-condition',
+            sender: 'ia',
+            text: 'Você prefere pegar um aparelho Novo (lacrado) ou Seminovo?',
+            type: 'options-desired-condition',
+            timestamp: nextTime,
+          },
+        ]);
+      }, 600);
+    } else {
+      const selectedCond = valNovo > 0 && valUsado === 0 ? 'novo' : 'seminovo';
       setDesiredCondition(selectedCond);
       setStep(4);
       setTimeout(() => {
@@ -197,20 +211,6 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
             sender: 'ia',
             text: `Como este modelo só possui a opção ${selectedCond === 'novo' ? 'Novo (lacrado)' : 'Seminovo'}, já selecionei para você. Perfeito! E como está o estado do seu aparelho atual?`,
             type: 'options-condition',
-            timestamp: nextTime,
-          },
-        ]);
-      }, 600);
-    } else {
-      setStep(3);
-      setTimeout(() => {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: 'ask-desired-condition',
-            sender: 'ia',
-            text: 'Você prefere pegar um aparelho Novo (lacrado) ou Seminovo?',
-            type: 'options-desired-condition',
             timestamp: nextTime,
           },
         ]);
