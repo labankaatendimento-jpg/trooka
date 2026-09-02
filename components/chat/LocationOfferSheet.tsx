@@ -276,27 +276,27 @@ export default function LocationOfferSheet({
                     </div>
                   ) : (
                     <div className="text-center py-4 space-y-4">
-                      <div className="w-14 h-14 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto text-rose-400 border border-rose-500/20">
-                        <ShieldAlert className="w-7 h-7" />
+                      <div className="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto text-purple-500 border border-purple-500/20">
+                        <MapPin className="w-7 h-7" />
                       </div>
                       <div>
                         <h4 className="text-lg font-bold text-neutral-100">
-                          Ainda não temos parceiros ativos
+                          Solicitar Propostas
                         </h4>
                         <p className="text-sm text-neutral-400 mt-1">
                           na cidade de {cidade} - {estado}.
                         </p>
                       </div>
                       <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-                        Podemos registrar sua simulação. Assim que houver um lojista parceiro na sua cidade, avisaremos você pelo WhatsApp. Deseja registrar?
+                        Deseja enviar os dados do seu iPhone? Em breve nossos lojistas parceiros entrarão em contato com ofertas exclusivas pelo WhatsApp.
                       </p>
 
                       <button
                         onClick={handleSubmitRequest}
                         disabled={loading}
-                        className="w-full bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-800 font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer"
+                        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 shadow-[0_4px_20px_rgba(168,85,247,0.25)] cursor-pointer"
                       >
-                        {loading ? 'Processando...' : 'Registrar e avisar-me'}
+                        {loading ? 'Enviando...' : 'Sim, solicitar ofertas'}
                       </button>
                     </div>
                   )}
@@ -311,9 +311,7 @@ export default function LocationOfferSheet({
                   <div>
                     <h4 className="text-xl font-bold text-neutral-100">Solicitação enviada!</h4>
                     <p className="text-sm text-neutral-400 mt-2 max-w-xs mx-auto">
-                      {stores.length > 0
-                        ? 'Agora nossos lojistas parceiros estão analisando suas informações para fazer propostas reais.'
-                        : 'Sua solicitação foi registrada em nosso banco de dados.'}
+                      Agora nossos lojistas parceiros estão analisando suas informações para fazer propostas reais.
                     </p>
                   </div>
                   <div className="bg-neutral-900/50 rounded-2xl p-4 border border-neutral-900 text-xs text-neutral-400 max-w-xs mx-auto">
