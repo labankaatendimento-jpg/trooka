@@ -14,20 +14,29 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Trooka - Conectando Você às Melhores Ofertas",
-  description: "Descubra as melhores ofertas e oportunidades na sua região. O Trooka conecta consumidores e lojistas de forma rápida e inteligente.",
-  keywords: ["ofertas", "descontos", "compras", "lojistas", "trooka", "promoções", "marketplace"],
+  description: "Descubra as melhores ofertas e oportunidades na sua região. Compre e venda iPhones com segurança.",
+  keywords: ["ofertas", "descontos", "compras", "lojistas", "trooka", "promoções", "marketplace", "iphone"],
   openGraph: {
-    title: "Trooka - Conectando Você às Melhores Ofertas",
-    description: "Descubra as melhores ofertas e oportunidades na sua região.",
+    title: "Trooka - Troca e Compra de iPhones",
+    description: "Simule agora a troca do seu iPhone por um mais novo! Descubra ofertas incríveis e conecte-se com os melhores lojistas da região.",
     url: "https://trooka.vercel.app",
     siteName: "Trooka",
     locale: "pt_BR",
     type: "website",
+    images: [
+      {
+        url: "https://trooka.vercel.app/images/pretoeroxodesk.PNG",
+        width: 1200,
+        height: 630,
+        alt: "Trooka - Troca e Compra de iPhones",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trooka - Conectando Você às Melhores Ofertas",
-    description: "Descubra as melhores ofertas e oportunidades na sua região.",
+    title: "Trooka - Troca e Compra de iPhones",
+    description: "Simule a troca do seu iPhone e encontre lojistas perto de você.",
+    images: ["https://trooka.vercel.app/images/pretoeroxodesk.PNG"],
   },
 };
 
