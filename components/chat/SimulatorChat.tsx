@@ -200,7 +200,7 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
         ]);
       }, 600);
     } else {
-      const selectedCond = valNovo > 0 && valUsado === 0 ? 'novo' : 'seminovo';
+      const selectedCond = (valUsado > 0 && valNovo === 0) ? 'seminovo' : 'novo';
       setDesiredCondition(selectedCond);
       setStep(4);
       setTimeout(() => {
