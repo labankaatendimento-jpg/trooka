@@ -172,8 +172,9 @@ export default function LocationOfferSheet({
                 {step === 3 && 'Tudo pronto!'}
               </h3>
               <button
+                type="button"
                 onClick={onClose}
-                className="text-neutral-500 hover:text-neutral-300 p-1.5 rounded-full hover:bg-neutral-900 transition-colors"
+                className="text-neutral-500 hover:text-neutral-300 p-1.5 rounded-full hover:bg-neutral-900 transition-colors relative z-50 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -332,6 +333,7 @@ export default function LocationOfferSheet({
                   )}
 
                   <button
+                    type="button"
                     onClick={onClose}
                     className="w-full bg-neutral-900 hover:bg-neutral-800 text-neutral-400 font-semibold py-3 rounded-2xl border border-neutral-800 transition-colors cursor-pointer"
                   >
