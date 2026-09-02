@@ -38,9 +38,9 @@ export default function ComoFuncionaPage() {
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-xl font-bold text-white">3. Receba propostas de volta</h2>
+              <h2 className="text-xl font-bold text-white">3. Receba propostas no WhatsApp</h2>
               <p>
-                Os lojistas competem pela sua preferência analisando o seu aparelho e enviando orçamentos reais de quanto eles pagam no seu usado para a troca. Você recebe as ofertas diretamente e pode comparar quem paga mais!
+                Os lojistas competem pela sua preferência analisando o seu aparelho e enviando orçamentos reais de quanto eles pagam no seu usado para a troca. Você recebe as ofertas diretamente no seu WhatsApp, não precisando acompanhar nada pela plataforma, e pode comparar quem paga mais!
               </p>
             </section>
 
