@@ -36,6 +36,12 @@ export default function AdminSidebar() {
       ]
     },
     {
+      title: 'LOJISTAS',
+      items: [
+        { label: 'Parceiros & Espera', icon: Tags, href: '/admin/lojistas' },
+      ]
+    },
+    {
       title: 'PRECIFICAÇÃO',
       items: [
         { label: 'Preços & Regras', icon: Scale, href: '/admin/precificacao' },
