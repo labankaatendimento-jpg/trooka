@@ -68,7 +68,7 @@ export default function LocationOfferSheet({
     setWhatsapp(value);
   };
 
-  const handleNext = async () => {
+  const handleSubmit = async () => {
     const newErrors: { [key: string]: string } = {};
     if (!nome.trim()) newErrors.nome = 'Nome é obrigatório';
     if (!cidade.trim()) newErrors.cidade = 'Localização é obrigatória';
@@ -80,26 +80,14 @@ export default function LocationOfferSheet({
       setErrors(newErrors);
       return;
     }
+    
+    if (!currentModel || !desiredModel || !estimate) return;
 
     setLoading(true);
     try {
-      // Check stores in this location (ignore state for now as it is combined)
       const foundStores = await dbService.getStoresByLocation(cidade, 'BR');
       setStores(foundStores);
-      setStep(2);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleSubmitRequest = async () => {
-    if (!currentModel || !desiredModel || !estimate) return;
-    setLoading(true);
-
-    try {
-      const rawPhone = whatsapp.replace(/\D/g, '');
       const createdRequest = await dbService.createUpgradeRequest({
         modelo_atual_id: currentModel.id,
         modelo_desejado_id: desiredModel.id,
@@ -119,12 +107,12 @@ export default function LocationOfferSheet({
       });
 
       // Simulating a real lojista quote generation in mock mode (Phase 5 will add real updates)
-      if (stores.length > 0) {
+      if (foundStores.length > 0) {
         setTimeout(async () => {
           // Store 1 makes an offer automatically to make demo fluid
           await dbService.createOffer({
             request_id: createdRequest.id,
-            store_id: stores[0].id,
+            store_id: foundStores[0].id,
             valor_aparelho: estimate.valorEstimado + 150, // offers R$ 150 more
             valor_novo: desiredModel.preco_medio_novo,
             diferenca: desiredModel.preco_medio_novo - (estimate.valorEstimado + 150),
@@ -168,7 +156,6 @@ export default function LocationOfferSheet({
               <h3 className="text-md font-semibold text-neutral-100 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-purple-500" />
                 {step === 1 && 'Onde deseja receber ofertas?'}
-                {step === 2 && 'Confirmar solicitação'}
                 {step === 3 && 'Tudo pronto!'}
               </h3>
               <button
@@ -239,68 +226,12 @@ export default function LocationOfferSheet({
                   </div>
 
                   <button
-                    onClick={handleNext}
+                    onClick={handleSubmit}
                     disabled={loading}
                     className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50 cursor-pointer"
                   >
-                    {loading ? 'Buscando...' : 'Buscar lojas parceiras'}
+                    {loading ? 'Enviando...' : 'Receber as melhores ofertas'}
                   </button>
-                </div>
-              )}
-
-              {step === 2 && (
-                <div className="space-y-4">
-                  {stores.length > 0 ? (
-                    <div className="text-center py-4 space-y-4">
-                      <div className="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto text-purple-500 border border-purple-500/20">
-                        <MapPin className="w-7 h-7" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-neutral-100">
-                          Encontramos {stores.length} lojas parceiras
-                        </h4>
-                        <p className="text-sm text-neutral-400 mt-1">
-                          na região de {cidade}.
-                        </p>
-                      </div>
-                      <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-                        Deseja enviar os dados do seu iPhone para receber propostas personalizadas destas lojas parceiras?
-                      </p>
-
-                      <button
-                        onClick={handleSubmitRequest}
-                        disabled={loading}
-                        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer"
-                      >
-                        {loading ? 'Enviando...' : 'Sim, solicitar ofertas'}
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-4 space-y-4">
-                      <div className="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto text-purple-500 border border-purple-500/20">
-                        <MapPin className="w-7 h-7" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-neutral-100">
-                          Solicitar Propostas
-                        </h4>
-                        <p className="text-sm text-neutral-400 mt-1">
-                          na região de {cidade}.
-                        </p>
-                      </div>
-                      <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-                        Deseja enviar os dados do seu iPhone? Em breve nossos lojistas parceiros entrarão em contato com ofertas exclusivas pelo WhatsApp.
-                      </p>
-
-                      <button
-                        onClick={handleSubmitRequest}
-                        disabled={loading}
-                        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 shadow-[0_4px_20px_rgba(168,85,247,0.25)] cursor-pointer"
-                      >
-                        {loading ? 'Enviando...' : 'Sim, solicitar ofertas'}
-                      </button>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -310,13 +241,10 @@ export default function LocationOfferSheet({
                     <CheckCircle className="w-9 h-9" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-neutral-100">Solicitação enviada!</h4>
+                    <h4 className="text-xl font-bold text-neutral-100">Tudo certo!</h4>
                     <p className="text-sm text-neutral-400 mt-2 max-w-xs mx-auto">
-                      Agora nossos lojistas parceiros estão analisando suas informações para fazer propostas reais.
+                      Em breve você receberá propostas exclusivas de lojistas verificados pelo seu WhatsApp.
                     </p>
-                  </div>
-                  <div className="bg-neutral-900/50 rounded-2xl p-4 border border-neutral-900 text-xs text-neutral-400 max-w-xs mx-auto">
-                    Assim que as propostas forem criadas, enviaremos os detalhes diretamente para seu WhatsApp.
                   </div>
 
                   {createdRequestId && (
