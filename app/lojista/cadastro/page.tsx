@@ -7,14 +7,15 @@ import { Store, Mail, Lock, User, Phone } from 'lucide-react';
 export default function LojistaCadastro() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isWaitlisted, setIsWaitlisted] = useState(false);
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      // Direct login for demo mode after "registering"
-      sessionStorage.setItem('trooka_store_id', 'store-1');
-      router.push('/lojista/dashboard');
+      // For now, simulate saving to the waitlist
+      setIsWaitlisted(true);
+      setLoading(false);
     }, 1200);
   };
 
@@ -52,89 +53,113 @@ export default function LojistaCadastro() {
           </p>
         </div>
 
-        <form onSubmit={handleRegister} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-neutral-400">Nome da Loja</label>
-            <div className="relative">
-              <Store className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-              <input
-                type="text"
-                required
-                className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
-                placeholder="Sua Loja"
-              />
+        {isWaitlisted ? (
+          <div className="text-center space-y-6 py-6">
+            <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/20">
+              <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
             </div>
+            <h2 className="text-xl font-bold text-white">Você está na Lista de Espera!</h2>
+            <p className="text-sm text-neutral-400 leading-relaxed">
+              O acesso para novos lojistas parceiros está restrito no momento enquanto validamos a plataforma. 
+              <br/><br/>
+              Avaliamos novos cadastros semanalmente. Entraremos em contato via WhatsApp ou e-mail assim que liberarmos sua região!
+            </p>
+            <button
+              onClick={() => router.push('/')}
+              className="w-full bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3.5 rounded-2xl transition-all duration-300 mt-4 text-sm"
+            >
+              Voltar para o Início
+            </button>
           </div>
-
-          <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-neutral-400">Nome do Responsável</label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-              <input
-                type="text"
-                required
-                className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
-                placeholder="Seu Nome"
-              />
+        ) : (
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-neutral-400">Nome da Loja</label>
+              <div className="relative">
+                <Store className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input
+                  type="text"
+                  required
+                  className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
+                  placeholder="Sua Loja"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-neutral-400">E-mail</label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-              <input
-                type="email"
-                required
-                className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
-                placeholder="exemplo@loja.com"
-              />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-neutral-400">Nome do Responsável</label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input
+                  type="text"
+                  required
+                  className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
+                  placeholder="Seu Nome"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-neutral-400">Telefone / WhatsApp</label>
-            <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-              <input
-                type="tel"
-                required
-                className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
-                placeholder="(00) 00000-0000"
-              />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-neutral-400">E-mail</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input
+                  type="email"
+                  required
+                  className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
+                  placeholder="exemplo@loja.com"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-neutral-400">Senha</label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-              <input
-                type="password"
-                required
-                className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
-                placeholder="Crie uma senha forte"
-              />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-neutral-400">Telefone / WhatsApp</label>
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input
+                  type="tel"
+                  required
+                  className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
+                  placeholder="(00) 00000-0000"
+                />
+              </div>
             </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-neutral-400">Senha (para acesso futuro)</label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input
+                  type="password"
+                  required
+                  className="w-full bg-neutral-900 text-neutral-100 pl-11 pr-4 py-3 rounded-2xl border border-neutral-800 focus:border-purple-500 focus:outline-none text-sm transition-colors"
+                  placeholder="Crie uma senha forte"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer mt-4"
+            >
+              {loading ? 'Enviando...' : 'Entrar na Lista de Espera'}
+            </button>
+          </form>
+        )}
+
+        {!isWaitlisted && (
+          <div className="text-center mt-6">
+            <button 
+              onClick={() => router.push('/lojista/login')} 
+              className="text-xs text-neutral-500 hover:text-neutral-400 transition-colors"
+            >
+              Já foi aprovado? Fazer login
+            </button>
           </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer mt-4"
-          >
-            {loading ? 'Criando Conta...' : 'Cadastrar Loja'}
-          </button>
-        </form>
-
-        <div className="text-center mt-6">
-          <button 
-            onClick={() => router.push('/lojista/login')} 
-            className="text-xs text-neutral-500 hover:text-neutral-400 transition-colors"
-          >
-            Já tem uma conta? Entrar
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

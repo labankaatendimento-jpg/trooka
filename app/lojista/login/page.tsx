@@ -29,7 +29,7 @@ export default function LojistaLogin() {
 
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-sm glass-card rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-        <div className="text-center space-y-3 mb-8">
+        <div className="text-center space-y-3 mb-6">
           <div className="flex items-center justify-center mb-2">
             <span className="text-[1.35rem] font-bold tracking-[0.05em] text-white flex items-baseline md:items-end leading-none whitespace-nowrap">
               <svg viewBox="0 0 24 24" className="w-9 h-9 md:w-8 md:h-8 shrink-0 -mr-1 translate-y-[5px] md:translate-y-0" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,6 +51,15 @@ export default function LojistaLogin() {
           </div>
           <p className="text-xs text-neutral-400 font-semibold uppercase tracking-wider">
             Portal do Lojista
+          </p>
+        </div>
+
+        <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 mb-6 text-center">
+          <p className="text-xs text-orange-200 leading-relaxed">
+            O acesso atual é exclusivo para parceiros beta convidados. <br/>Ainda não foi aprovado?{' '}
+            <button onClick={() => router.push('/lojista/cadastro')} className="text-orange-400 font-bold hover:underline">
+              Entre na Lista de Espera
+            </button>
           </p>
         </div>
 
