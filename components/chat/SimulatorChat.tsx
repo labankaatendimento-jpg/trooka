@@ -182,19 +182,40 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
       },
     ]);
 
-    setStep(3);
-    setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        {
-          id: 'ask-desired-condition',
-          sender: 'ia',
-          text: 'Você prefere pegar um aparelho Novo (lacrado) ou Seminovo?',
-          type: 'options-desired-condition',
-          timestamp: nextTime,
-        },
-      ]);
-    }, 600);
+    const hasNovo = model.preco_medio_novo > 0;
+    const hasSeminovo = model.preco_medio_usado > 0;
+
+    if ((hasNovo && !hasSeminovo) || (!hasNovo && hasSeminovo)) {
+      const selectedCond = hasNovo ? 'novo' : 'seminovo';
+      setDesiredCondition(selectedCond);
+      setStep(4);
+      setTimeout(() => {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: 'ask-condition',
+            sender: 'ia',
+            text: `Como este modelo só possui a opção ${selectedCond === 'novo' ? 'Novo (lacrado)' : 'Seminovo'}, já selecionei para você. Perfeito! E como está o estado do seu aparelho atual?`,
+            type: 'options-condition',
+            timestamp: nextTime,
+          },
+        ]);
+      }, 600);
+    } else {
+      setStep(3);
+      setTimeout(() => {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: 'ask-desired-condition',
+            sender: 'ia',
+            text: 'Você prefere pegar um aparelho Novo (lacrado) ou Seminovo?',
+            type: 'options-desired-condition',
+            timestamp: nextTime,
+          },
+        ]);
+      }, 600);
+    }
   };
 
   const selectDesiredCondition = (selectedCond: 'novo' | 'seminovo') => {
@@ -507,7 +528,15 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                       <button
                         key={opt.id}
                         onClick={() => {
-                          const model = MOCK_IPHONE_MODELS.find(m => m.id === opt.id);
+                          const modelName = opt.name;
+                          let model = MOCK_IPHONE_MODELS.find(m => m.modelo === modelName && m.armazenamento === '256GB');
+                          if (!model) {
+                            model = MOCK_IPHONE_MODELS.find(m => m.modelo === modelName);
+                          }
+                          if (!model) {
+                            model = MOCK_IPHONE_MODELS.find(m => m.id === opt.id);
+                          }
+                          
                           if (model) selectDesiredModel(model);
                         }}
                         className="glass-card hover:glass-card-selected rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 relative group flex flex-col justify-between min-h-[140px]"
