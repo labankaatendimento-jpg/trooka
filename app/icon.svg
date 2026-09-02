@@ -1,14 +1,4 @@
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="t-gradient" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#d946ef" />
-      <stop offset="100%" stopColor="#7e22ce" />
-    </linearGradient>
-    <linearGradient id="t-highlight" x1="12" y1="2" x2="12" y2="10" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#fdf4ff" stopOpacity="0.4"/>
-      <stop offset="100%" stopColor="#fdf4ff" stopOpacity="0"/>
-    </linearGradient>
-  </defs>
-  <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="url(#t-gradient)" />
-  <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="url(#t-highlight)" />
+  <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="#a855f7" />
+  <path d="M2 6C2 4.34315 3.34315 3 5 3H19C20.6569 3 22 4.34315 22 6C22 7.65685 20.6569 9 19 9H15V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V9H5C3.34315 9 2 7.65685 2 6Z" fill="#a855f7" />
 </svg>
