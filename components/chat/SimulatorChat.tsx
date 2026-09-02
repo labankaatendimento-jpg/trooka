@@ -45,10 +45,12 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTarget, setSearchTarget] = useState<'current' | 'desired'>('current');
   const [rules, setRules] = useState<PriceRule[]>([]);
+  const [allModels, setAllModels] = useState<IphoneModel[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dbService.getPriceRules().then(data => setRules(data)).catch(console.error);
+    dbService.getIphoneModels().then(data => setAllModels(data)).catch(console.error);
   }, []);
 
   // Trigger parent state update on changes
@@ -529,12 +531,12 @@ export default function SimulatorChat({ onStateChange, onOpenLocationSheet }: Si
                         key={opt.id}
                         onClick={() => {
                           const modelName = opt.name;
-                          let model = MOCK_IPHONE_MODELS.find(m => m.modelo === modelName && m.armazenamento === '256GB');
+                          let model = allModels.find(m => m.modelo === modelName && m.armazenamento === '256GB');
                           if (!model) {
-                            model = MOCK_IPHONE_MODELS.find(m => m.modelo === modelName);
+                            model = allModels.find(m => m.modelo === modelName);
                           }
                           if (!model) {
-                            model = MOCK_IPHONE_MODELS.find(m => m.id === opt.id);
+                            model = allModels.find(m => m.id === opt.id);
                           }
                           
                           if (model) selectDesiredModel(model);

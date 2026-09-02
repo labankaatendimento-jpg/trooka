@@ -95,7 +95,7 @@ export function calculateUpgradeEstimate(
   // MOCK_IPHONE_MODELS usually have 0 for future models' used price, so fallback to novo if used is 0
   let precoDesejado = isSeminovo && desiredModel.preco_medio_usado > 0 
     ? desiredModel.preco_medio_usado 
-    : (desiredModel.preco_medio_novo > 0 ? desiredModel.preco_medio_novo : desiredModel.valor_base_upgrade);
+    : desiredModel.preco_medio_novo;
 
   // Difference calculation
   const rawDifference = Math.max(0, precoDesejado - valorEstimado);
