@@ -12,6 +12,7 @@ export interface EstimateResult {
     valor_base_upgrade: number;
     regra_estado_nome: string;
     regra_estado_multiplicador: number;
+    nome_cliente?: string;
   };
 }
 

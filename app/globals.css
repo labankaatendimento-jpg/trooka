@@ -7,7 +7,7 @@
   --color-bg-deep: #080808;
   --color-bg-card: rgba(13, 13, 13, 0.6);
   --color-border-card: rgba(255, 255, 255, 0.08);
-  --color-border-purple: rgba(255, 94, 0, 0.35);
+  --color-border-purple: rgba(168, 85, 247, 0.35);
   
   --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
@@ -43,18 +43,18 @@ body {
 }
 
 .glass-card {
-  background: rgba(88, 28, 135, 0.25);
+  background: rgba(10, 10, 10, 0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card-selected {
-  background: rgba(168, 85, 247, 0.25);
+  background: rgba(168, 85, 247, 0.04);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(168, 85, 247, 0.6);
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.15);
 }
 
 /* Custom scrollbars */

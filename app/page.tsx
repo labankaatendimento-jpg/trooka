@@ -450,7 +450,7 @@ export default function Home() {
                   const Icon = item.icon;
                   return (
                     <div key={idx} className="flex items-center gap-3 shrink-0">
-                      <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shadow-[0_0_15px_rgba(255,94,0,0.05)] shrink-0">
+                      <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shrink-0">
                         <Icon className="w-5 h-5" />
                       </div>
                       <div className="text-xs font-semibold leading-tight text-neutral-300">
@@ -471,7 +471,7 @@ export default function Home() {
                   const Icon = item.icon;
                   return (
                     <div key={idx} className="flex items-center gap-3 shrink-0">
-                      <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shadow-[0_0_15px_rgba(255,94,0,0.05)] shrink-0">
+                      <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shrink-0">
                         <Icon className="w-5 h-5" />
                       </div>
                       <div className="text-xs font-semibold leading-tight text-neutral-300">
@@ -495,7 +495,7 @@ export default function Home() {
                 const Icon = item.icon;
                 return (
                   <div key={idx} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shadow-[0_0_15px_rgba(255,94,0,0.05)] shrink-0">
+                    <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shrink-0">
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="text-xs font-semibold leading-tight text-neutral-300">
@@ -513,7 +513,7 @@ export default function Home() {
           {/* Info Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
             <div className="p-6 rounded-3xl bg-neutral-900/40 border border-neutral-900 hover:bg-neutral-900 transition-colors group flex flex-col items-center text-center gap-2">
-              <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shadow-[0_0_15px_rgba(255,94,0,0.05)] mb-1">
+              <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 mb-1">
                 <Recycle className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-semibold text-neutral-300 group-hover:text-white transition-colors">Como funciona</h3>
@@ -522,7 +522,7 @@ export default function Home() {
               </p>
             </div>
             <div className="p-6 rounded-3xl bg-neutral-900/40 border border-neutral-900 hover:bg-neutral-900 transition-colors group flex flex-col items-center text-center gap-2">
-              <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 shadow-[0_0_15px_rgba(255,94,0,0.05)] mb-1">
+              <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-850 flex items-center justify-center text-purple-500 mb-1">
                 <Handshake className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-semibold text-neutral-300 group-hover:text-white transition-colors">Para lojistas</h3>

@@ -260,7 +260,7 @@ export default function OfertasCliente() {
                       <button
                         onClick={() => handleAcceptOffer(off.id)}
                         disabled={acceptingId === off.id}
-                        className="bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs px-5 py-3 rounded-2xl transition-all shadow-[0_4px_15px_rgba(255,94,0,0.15)] flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                        className="bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs px-5 py-3 rounded-2xl transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                       >
                         {acceptingId === off.id ? 'Processando...' : 'Aceitar Proposta'}
                       </button>

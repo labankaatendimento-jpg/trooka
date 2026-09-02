@@ -86,7 +86,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(255,94,0,0.3)] disabled:opacity-50 cursor-pointer"
+            className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer"
           >
             {loading ? 'Autenticando...' : 'Entrar'}
           </button>

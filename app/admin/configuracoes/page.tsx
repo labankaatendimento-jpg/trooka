@@ -173,7 +173,7 @@ export default function AdminConfiguracoes() {
           <button
             type="submit"
             disabled={isSaving}
-            className="bg-orange-600 hover:bg-orange-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-[0_4px_15px_rgba(255,94,0,0.2)] disabled:shadow-none flex items-center gap-2"
+            className="bg-orange-600 hover:bg-orange-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-bold text-sm px-8 py-3 rounded-xl transition-all disabled:shadow-none flex items-center gap-2"
           >
             {isSaving ? (
               <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>

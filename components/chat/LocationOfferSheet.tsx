@@ -241,7 +241,7 @@ export default function LocationOfferSheet({
                   <button
                     onClick={handleNext}
                     disabled={loading}
-                    className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(255,94,0,0.25)] hover:shadow-[0_4px_25px_rgba(255,94,0,0.4)] disabled:opacity-50 cursor-pointer"
+                    className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50 cursor-pointer"
                   >
                     {loading ? 'Buscando...' : 'Buscar lojas parceiras'}
                   </button>
@@ -270,7 +270,7 @@ export default function LocationOfferSheet({
                       <button
                         onClick={handleSubmitRequest}
                         disabled={loading}
-                        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 shadow-[0_4px_20px_rgba(255,94,0,0.25)] cursor-pointer"
+                        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer"
                       >
                         {loading ? 'Enviando...' : 'Sim, solicitar ofertas'}
                       </button>
@@ -325,7 +325,7 @@ export default function LocationOfferSheet({
                         onClose();
                         router.push(`/ofertas/${createdRequestId}`);
                       }}
-                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(255,94,0,0.25)] cursor-pointer"
+                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer"
                     >
                       <ExternalLink className="w-4 h-4" />
                       Ver minhas propostas ao vivo
