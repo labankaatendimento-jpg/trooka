@@ -7,11 +7,11 @@ import { useState } from 'react'
 const FAQS = [
   {
     q: "O Trooka é gratuito para consumidores?",
-    a: "Sim! Fazer o pedido de avaliação do seu iPhone usado e receber orçamentos de lojistas é 100% gratuito para você."
+    a: "Sim! Fazer simulações de estimativa de valor do seu iPhone usado e receber orçamentos de lojistas é 100% gratuito para você."
   },
   {
     q: "Como o lojista entra em contato comigo?",
-    a: "O lojista enviará uma proposta de volta para o seu WhatsApp. Você poderá analisar as ofertas recebidas e escolher a melhor proposta para fechar negócio. O chat interno do Trooka é utilizado apenas no início para fazer a avaliação do seu aparelho e gerar uma estimativa."
+    a: "O chat interno do Trooka serve para te dar uma estimativa de preços! Ao final do chat, se você preencher e enviar seus dados de contato, os lojistas parceiros da plataforma vão analisar as informações e enviarão uma proposta final direto no seu WhatsApp."
   },
   {
     q: "Os lojistas são verificados?",

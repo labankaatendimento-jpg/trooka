@@ -26,28 +26,28 @@ export default function ComoFuncionaPage() {
             <section className="space-y-4">
               <h2 className="text-xl font-bold text-white">1. Avalie o seu iPhone atual</h2>
               <p>
-                Você entra no Trooka e informa qual é o seu modelo de iPhone atual, o estado de conservação e para qual modelo mais novo você deseja fazer o upgrade.
+                Você entra no Trooka e informa qual é o seu modelo de iPhone atual, o estado de conservação e para qual modelo mais novo deseja fazer o upgrade. Na mesma hora, o sistema te dá uma estimativa de preço do seu usado e o preço médio do upgrade.
               </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-xl font-bold text-white">2. Os lojistas recebem seu pedido</h2>
+              <h2 className="text-xl font-bold text-white">2. Solicite ofertas exclusivas</h2>
               <p>
-                Sua solicitação de troca é enviada instantaneamente para todos os lojistas e parceiros cadastrados na sua região que trabalham com venda e troca de iPhones.
+                Gostou da estimativa? Se você quiser receber orçamentos reais, basta colocar os seus dados de contato no final do chat. Assim, o seu pedido de troca será enviado para lojistas e parceiros cadastrados na sua região.
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-xl font-bold text-white">3. Receba propostas de volta</h2>
               <p>
-                Os lojistas competem pela sua preferência enviando orçamentos de quanto eles pagam no seu aparelho atual na troca pelo novo. Você recebe as notificações e pode comparar os valores de volta!
+                Os lojistas competem pela sua preferência analisando o seu aparelho e enviando orçamentos reais de quanto eles pagam no seu usado para a troca. Você recebe as ofertas diretamente e pode comparar quem paga mais!
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-xl font-bold text-white">4. Escolha e feche negócio</h2>
               <p>
-                Basta selecionar a melhor oferta e entrar em contato direto com o lojista para concluir o negócio. Sem intermediários cobrando taxas abusivas.
+                Basta selecionar a melhor oferta e negociar diretamente com o lojista para concluir a compra e venda. Sem intermediários cobrando taxas abusivas.
               </p>
             </section>
           </div>
