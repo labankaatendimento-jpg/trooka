@@ -81,7 +81,10 @@ export default function LocationOfferSheet({
       return;
     }
     
-    if (!currentModel || !desiredModel || !estimate) return;
+    if (!currentModel || !estimate) {
+      alert('Erro: Dados da simulação não encontrados.');
+      return;
+    }
 
     setLoading(true);
     try {
@@ -90,15 +93,15 @@ export default function LocationOfferSheet({
 
       const createdRequest = await dbService.createUpgradeRequest({
         modelo_atual_id: currentModel.id,
-        modelo_desejado_id: desiredModel.id,
+        modelo_desejado_id: desiredModel ? desiredModel.id : null,
         modelo_atual_nome: `${currentModel.modelo} ${currentModel.armazenamento}`,
-        modelo_desejado_nome: `${desiredModel.modelo} ${desiredModel.armazenamento}`,
+        modelo_desejado_nome: desiredModel ? `${desiredModel.modelo} ${desiredModel.armazenamento}` : 'Venda (Sem Upgrade)',
         estado_aparelho: condition || 'bom',
         reparo_historico: reparo || 'nao',
         cidade: cidade.trim(),
         estado: 'BR', // Default as it's now combined in cidade
-        valor_estimado: estimate.valorEstimado,
-        diferenca_estimada: estimate.diferencaMedia,
+        valor_estimado: estimate.valorEstimado || 0,
+        diferenca_estimada: estimate.diferencaMedia || 0,
         telefone_cliente: rawPhone,
         snapshot: { ...(estimate.snapshot as any), nome_cliente: nome.trim() },
         utm_source: new URLSearchParams(window.location.search).get('utm_source') || undefined,
@@ -110,12 +113,13 @@ export default function LocationOfferSheet({
       if (foundStores.length > 0) {
         setTimeout(async () => {
           // Store 1 makes an offer automatically to make demo fluid
+          const precoNovo = desiredModel ? desiredModel.preco_medio_novo : 0;
           await dbService.createOffer({
             request_id: createdRequest.id,
             store_id: foundStores[0].id,
             valor_aparelho: estimate.valorEstimado + 150, // offers R$ 150 more
-            valor_novo: desiredModel.preco_medio_novo,
-            diferenca: desiredModel.preco_medio_novo - (estimate.valorEstimado + 150),
+            valor_novo: precoNovo,
+            diferenca: Math.max(0, precoNovo - (estimate.valorEstimado + 150)),
             observacao: 'Consigo fechar hoje! Aparelho sujeito a avaliação técnica presencial.',
           });
         }, 3000);
@@ -123,8 +127,9 @@ export default function LocationOfferSheet({
 
       setCreatedRequestId(createdRequest.id);
       setStep(3);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Erro ao enviar: ' + (e.message || JSON.stringify(e)));
     } finally {
       setLoading(false);
     }
@@ -247,18 +252,7 @@ export default function LocationOfferSheet({
                     </p>
                   </div>
 
-                  {createdRequestId && (
-                    <button
-                      onClick={() => {
-                        onClose();
-                        router.push(`/ofertas/${createdRequestId}`);
-                      }}
-                      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Ver minhas propostas ao vivo
-                    </button>
-                  )}
+
 
                   <button
                     type="button"

@@ -284,7 +284,7 @@ export const dbService = {
         .from('stores')
         .select('*')
         .eq('status', 'active')
-        .ilike('cidade', cidade.trim())
+        .ilike('cidade', `%${cidade.trim()}%`)
         .eq('estado', estado.toUpperCase().trim());
       if (!error && data) return data;
     }
@@ -292,7 +292,7 @@ export const dbService = {
     return stores.filter(
       s =>
         s.status === 'active' &&
-        s.cidade.toLowerCase() === cidade.toLowerCase().trim() &&
+        s.cidade.toLowerCase().includes(cidade.toLowerCase().trim()) &&
         s.estado.toUpperCase() === estado.toUpperCase().trim()
     );
   },
@@ -337,6 +337,22 @@ export const dbService = {
     stores[idx] = { ...stores[idx], ...updates };
     setLocalData('stores', stores);
     return stores[idx];
+  },
+
+  async updateStoreProfile(id: string, profile: {nome: string, cidade: string, estado: string, telefone: string, email: string}): Promise<Store> {
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase.rpc('atualizar_perfil_lojista', {
+        p_store_id: id,
+        p_nome: profile.nome,
+        p_cidade: profile.cidade,
+        p_estado: profile.estado,
+        p_telefone: profile.telefone,
+        p_email: profile.email
+      });
+      if (!error && data) return data;
+      throw error || new Error('Failed to update store profile');
+    }
+    return this.updateStore(id, profile);
   },
 
   // --- UPGRADE REQUESTS ---
@@ -386,7 +402,7 @@ export const dbService = {
       const { data, error } = await supabase
         .from('upgrade_requests')
         .select('*')
-        .ilike('cidade', store.cidade)
+        .ilike('cidade', `%${store.cidade}%`)
         .eq('estado', store.estado)
         .order('created_at', { ascending: false });
       if (!error && data) return data;
@@ -396,7 +412,7 @@ export const dbService = {
     return requests
       .filter(
         r =>
-          r.cidade.toLowerCase() === store.cidade.toLowerCase() &&
+          r.cidade.toLowerCase().includes(store.cidade.toLowerCase()) &&
           r.estado.toUpperCase() === store.estado.toUpperCase()
       )
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
@@ -474,13 +490,24 @@ export const dbService = {
       created_at: new Date().toISOString(),
     };
     if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase
-        .from('offers')
-        .insert([newOffer])
-        .select()
-        .single();
-      if (!error && data) return data;
-      throw error || new Error('Failed to insert offer');
+      // Call the RPC to enforce RLS and atomic deduction of credits
+      const { data, error } = await supabase.rpc('enviar_oferta', {
+        p_request_id: newOffer.request_id,
+        p_store_id: newOffer.store_id,
+        p_valor_aparelho: newOffer.valor_aparelho,
+        p_valor_novo: newOffer.valor_novo,
+        p_diferenca: newOffer.diferenca,
+        p_observacao: newOffer.observacao || ''
+      });
+
+      if (error) {
+        throw error;
+      }
+      
+      // The RPC returns { success: true, offer_id: '...' }
+      newOffer.id = data.offer_id;
+      newOffer.status = 'pending';
+      newOffer.created_at = new Date().toISOString();
     }
     const offers = getLocalData<Offer>('offers', []);
     offers.push(newOffer);
@@ -725,13 +752,13 @@ export const dbService = {
   async getLojistaCreditsHistory(storeId: string): Promise<CreditTx[]> {
     if (isSupabaseConfigured && supabase) {
       const { data, error } = await supabase
-        .from('credits')
+        .from('credit_transactions')
         .select('*')
         .eq('store_id', storeId)
         .order('created_at', { ascending: false });
       if (!error && data) return data as CreditTx[];
     }
-    const credits = getLocalData<CreditTx>('credits', []);
+    const credits = getLocalData<CreditTx>('credit_transactions', []);
     return credits
       .filter(c => c.store_id === storeId)
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
@@ -752,7 +779,7 @@ export const dbService = {
           .eq('id', storeId);
         
         await supabase
-          .from('credits')
+          .from('credit_transactions')
           .insert([{
             store_id: storeId,
             tipo: 'purchase',
@@ -767,7 +794,7 @@ export const dbService = {
         stores[storeIdx].creditos += amount;
         setLocalData('stores', stores);
 
-        const txs = getLocalData<CreditTx>('credits', []);
+        const txs = getLocalData<CreditTx>('credit_transactions', []);
         txs.push({
           id: Math.random().toString(36).substr(2, 9),
           store_id: storeId,
@@ -776,7 +803,7 @@ export const dbService = {
           descricao: `Compra de ${amount} créditos via painel`,
           created_at: new Date().toISOString(),
         });
-        setLocalData('credits', txs);
+        setLocalData('credit_transactions', txs);
       }
     }
   }

@@ -125,6 +125,7 @@ export default function LojistaDashboard() {
       setSelectedRequest(null);
     } catch (err) {
       console.error(err);
+      alert('Erro ao enviar proposta. Verifique se você possui créditos suficientes e tente novamente.');
     } finally {
       setSubmitting(false);
     }
@@ -429,20 +430,33 @@ export default function LojistaDashboard() {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
                 try {
-                  const updatedStore = await dbService.updateStore(storeId!, {
+                  const updatedStore = await dbService.updateStoreProfile(storeId!, {
                     nome: formData.get('nome') as string,
                     cidade: formData.get('cidade') as string,
                     estado: formData.get('estado') as string,
+                    telefone: formData.get('telefone') as string,
+                    email: formData.get('email') as string,
                   });
                   setStore(updatedStore);
                   alert('Perfil salvo com sucesso!');
                 } catch (err) {
-                  alert('Erro ao salvar perfil.');
+                  alert('Erro ao salvar perfil. Certifique-se de que os dados estão corretos.');
+                  console.error(err);
                 }
               }}>
                 <div>
                   <label className="block text-xs font-semibold text-neutral-400 mb-1">Nome da Loja</label>
                   <input name="nome" defaultValue={store?.nome} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm" required />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-400 mb-1">E-mail de Contato</label>
+                    <input name="email" type="email" defaultValue={store?.email} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm" placeholder="seu@email.com" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-neutral-400 mb-1">Telefone / WhatsApp</label>
+                    <input name="telefone" defaultValue={store?.telefone} className="w-full bg-neutral-900 text-white px-4 py-3 rounded-xl border border-neutral-800 focus:border-purple-500 outline-none text-sm" placeholder="(11) 99999-9999" required />
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -501,20 +515,48 @@ export default function LojistaDashboard() {
                 <Coins className="w-12 h-12 text-purple-400 mb-4" />
                 <p className="text-neutral-400 text-sm font-medium uppercase tracking-wide">Saldo Disponível</p>
                 <h3 className="text-5xl font-extrabold text-white my-2">{stats.creditos}</h3>
-                <p className="text-xs text-neutral-500 mb-6">Cada crédito permite fechar um lead aprovado.</p>
+                <p className="text-xs text-neutral-500 mb-6">Cada crédito permite enviar 1 proposta para um lead.</p>
                 
-                <button 
-                  onClick={async () => {
-                    await dbService.addCreditsToStore(storeId!, 10);
-                    const history = await dbService.getLojistaCreditsHistory(storeId!);
-                    setCreditHistory(history);
-                    const currentStats = await dbService.getLojistaStats(storeId!);
-                    setStats(currentStats);
-                  }}
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl shadow-[0_4px_15px_rgba(168,85,247,0.3)] transition-all w-full max-w-[200px]"
-                >
-                  Comprar 10 Créditos
-                </button>
+                <div className="bg-neutral-900/80 p-5 rounded-xl border border-neutral-800 w-full text-left">
+                  <h4 className="text-sm font-bold text-white mb-3">Comprar Créditos via PIX</h4>
+                  <div className="space-y-3 mb-5">
+                    <a href="https://wa.me/5511963901079?text=Ol%C3%A1%21%20Gostaria%20de%20comprar%20o%20pacote%20de%205%20cr%C3%A9ditos%20por%20R%2499." target="_blank" rel="noopener noreferrer" className="flex justify-between items-center bg-neutral-950 hover:bg-purple-900/20 border border-neutral-800 hover:border-purple-500/50 p-3 rounded-xl transition-all cursor-pointer group">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">5</div>
+                        <span className="font-semibold text-sm text-neutral-200">créditos</span>
+                      </div>
+                      <span className="font-bold text-emerald-400">R$ 99</span>
+                    </a>
+                    <a href="https://wa.me/5511963901079?text=Ol%C3%A1%21%20Gostaria%20de%20comprar%20o%20pacote%20de%2025%20cr%C3%A9ditos%20por%20R%24449." target="_blank" rel="noopener noreferrer" className="flex justify-between items-center bg-neutral-950 hover:bg-purple-900/20 border border-neutral-800 hover:border-purple-500/50 p-3 rounded-xl transition-all cursor-pointer group">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">25</div>
+                        <span className="font-semibold text-sm text-neutral-200">créditos</span>
+                      </div>
+                      <span className="font-bold text-emerald-400">R$ 449</span>
+                    </a>
+                    <a href="https://wa.me/5511963901079?text=Ol%C3%A1%21%20Gostaria%20de%20comprar%20o%20pacote%20de%20100%20cr%C3%A9ditos%20por%20R%241490." target="_blank" rel="noopener noreferrer" className="flex justify-between items-center bg-neutral-950 hover:bg-purple-900/20 border border-neutral-800 hover:border-purple-500/50 p-3 rounded-xl transition-all cursor-pointer group">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">100</div>
+                        <span className="font-semibold text-sm text-neutral-200">créditos</span>
+                      </div>
+                      <span className="font-bold text-emerald-400">R$ 1.490</span>
+                    </a>
+                  </div>
+                  
+                  <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl text-xs text-neutral-300 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-2 opacity-10"><Coins className="w-16 h-16" /></div>
+                    <p className="font-bold text-purple-400 mb-2 uppercase tracking-wide">Como recarregar?</p>
+                    <p className="mb-2 flex items-start gap-2">
+                      <span className="bg-purple-500/20 text-purple-400 font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0">1</span>
+                      <span>Faça um PIX para a chave celular: <strong>11963901079</strong></span>
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <span className="bg-purple-500/20 text-purple-400 font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0">2</span>
+                      <span>Envie o comprovante para o WhatsApp: <a href="https://wa.me/5511963901079" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-400 hover:underline">11963901079</a></span>
+                    </p>
+                    <p className="mt-3 text-[10px] text-neutral-500 font-medium">Seus créditos serão liberados pelo administrador assim que o comprovante for validado.</p>
+                  </div>
+                </div>
               </div>
 
               <div className="glass-card rounded-2xl p-6 border border-neutral-900/60">
@@ -676,10 +718,15 @@ export default function LojistaDashboard() {
 
                 <button
                   type="submit"
-                  disabled={submitting}
-                  className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer mt-6"
+                  disabled={submitting || stats.creditos < 1}
+                  className={`w-full font-bold py-4 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center gap-0.5 group shadow-[0_4px_25px_rgba(168,85,247,0.3)] mt-6 ${
+                    stats.creditos < 1 ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed shadow-none border border-neutral-700' : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer disabled:opacity-50'
+                  }`}
                 >
-                  {submitting ? 'Enviando...' : 'Enviar proposta'}
+                  <span>{submitting ? 'Enviando...' : 'Enviar proposta'}</span>
+                  {stats.creditos < 1 && !submitting && (
+                    <span className="text-[10px] font-medium text-rose-400">Você não possui créditos suficientes</span>
+                  )}
                 </button>
               </form>
             </motion.div>

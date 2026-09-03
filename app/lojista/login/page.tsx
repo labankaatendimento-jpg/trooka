@@ -33,12 +33,19 @@ export default function LojistaLogin() {
 
       if (data.user) {
         // Check if store is approved
-        const stores = await dbService.getStores();
-        const store = stores.find(s => s.auth_user_id === data.user.id);
+        // Using the same SSR client instance that just logged in to avoid session race conditions
+        const { data: storesData, error: storesError } = await supabase.from('stores').select('*');
+        if (storesError) {
+          await supabase.auth.signOut();
+          throw new Error('DB Fetch Error: ' + storesError.message);
+        }
+
+        const store = storesData?.find(s => s.auth_user_id === data.user.id);
         
         if (!store) {
           await supabase.auth.signOut();
-          throw new Error('Loja não encontrada.');
+          const debugData = storesData?.map(s => s.auth_user_id).join(', ');
+          throw new Error(`DEBUG (Loja não encontrada). Seu ID: ${data.user.id}. Lojas achadas: ${storesData?.length}. IDs achados: ${debugData}`);
         }
 
         if (store.status === 'pending') {

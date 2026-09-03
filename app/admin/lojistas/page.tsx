@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { dbService } from '@/services/dbService';
 import { Store } from '@/lib/mockData';
-import { Search, CheckCircle, XCircle, Store as StoreIcon, Phone, Mail, MapPin } from 'lucide-react';
+import { Search, CheckCircle, XCircle, Store as StoreIcon, Phone, Mail, MapPin, Coins } from 'lucide-react';
 
 export default function AdminLojistas() {
   const [stores, setStores] = useState<Store[]>([]);
@@ -59,6 +59,25 @@ export default function AdminLojistas() {
     }
   };
 
+  const handleAddCredits = async (id: string, currentCredits: number) => {
+    const amountStr = prompt(`Quantos créditos deseja adicionar à loja? (Saldo atual: ${currentCredits})`);
+    if (!amountStr) return;
+    
+    const amount = parseInt(amountStr, 10);
+    if (isNaN(amount) || amount <= 0) {
+      return alert('Quantidade inválida. Digite um número maior que zero.');
+    }
+    
+    try {
+      await dbService.addCreditsToStore(id, amount);
+      await loadStores();
+      alert(`Foram adicionados ${amount} créditos com sucesso!`);
+    } catch (err) {
+      console.error('Failed to add credits', err);
+      alert('Erro ao adicionar créditos.');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -76,19 +95,27 @@ export default function AdminLojistas() {
         </div>
 
         <div className="flex items-center gap-3 bg-neutral-900/50 p-1.5 rounded-xl border border-neutral-800/50">
-          {['all', 'pending', 'active', 'suspended'].map((type) => (
-            <button
-              key={type}
-              onClick={() => setFilterType(type)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-all ${
-                filterType === type 
-                  ? 'bg-neutral-800 text-white shadow-sm' 
-                  : 'text-neutral-500 hover:text-neutral-300'
-              }`}
-            >
-              {type === 'all' ? 'Todos' : type === 'pending' ? 'Lista de Espera' : type === 'active' ? 'Ativos' : 'Suspensos'}
-            </button>
-          ))}
+          {['all', 'pending', 'active', 'suspended'].map((type) => {
+            const count = type === 'all' ? stores.length : stores.filter(s => s.status === type).length;
+            return (
+              <button
+                key={type}
+                onClick={() => setFilterType(type)}
+                className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-all flex items-center gap-2 ${
+                  filterType === type 
+                    ? 'bg-neutral-800 text-white shadow-sm' 
+                    : 'text-neutral-500 hover:text-neutral-300'
+                }`}
+              >
+                <span>{type === 'all' ? 'Todos' : type === 'pending' ? 'Lista de Espera' : type === 'active' ? 'Ativos' : 'Suspensos'}</span>
+                <span className={`px-1.5 py-0.5 rounded-md text-[10px] ${
+                  filterType === type ? 'bg-neutral-700 text-white' : 'bg-neutral-800 text-neutral-400'
+                }`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -162,12 +189,25 @@ export default function AdminLojistas() {
                 </>
               )}
               {store.status === 'active' && (
-                <button 
-                  onClick={() => handleUpdateStatus(store.id, 'suspended')}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold rounded-lg transition-colors cursor-pointer"
-                >
-                  <XCircle className="w-4 h-4" /> Suspender
-                </button>
+                <div className="w-full flex gap-2 flex-col">
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => handleUpdateStatus(store.id, 'suspended')}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                    >
+                      <XCircle className="w-4 h-4" /> Suspender
+                    </button>
+                    <button 
+                      onClick={() => handleAddCredits(store.id, store.creditos || 0)}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                    >
+                      <Coins className="w-4 h-4" /> + Créditos
+                    </button>
+                  </div>
+                  <div className="text-center text-[10px] text-neutral-500 font-semibold mt-1 bg-neutral-900/50 py-1 rounded-md">
+                    Saldo atual: {store.creditos || 0} créditos
+                  </div>
+                </div>
               )}
               {store.status === 'suspended' && (
                 <button 

@@ -33,6 +33,8 @@ export async function updateSession(request: NextRequest) {
 
   const isAuthRoute = request.nextUrl.pathname.startsWith('/admin/login') || request.nextUrl.pathname.startsWith('/lojista/login');
   
+  const ADMIN_EMAILS = ['robsondejesuss16@gmail.com', 'robsondejesus16@gmail.com'];
+  
   // Protect /admin routes
   if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
     if (!user) {
@@ -40,8 +42,10 @@ export async function updateSession(request: NextRequest) {
       url.pathname = '/admin/login';
       return NextResponse.redirect(url);
     }
-    // Also protect non-admins
-    if (user.email !== 'admin@trooka.com.br' && user.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+    
+    let isAdmin = user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false;
+    
+    if (!isAdmin) {
        const url = request.nextUrl.clone();
        url.pathname = '/lojista/dashboard'; // redirect non-admins elsewhere
        return NextResponse.redirect(url);
@@ -59,7 +63,9 @@ export async function updateSession(request: NextRequest) {
 
   // Redirect if already logged in and trying to access login pages
   if (user && isAuthRoute) {
-     if (user.email === 'admin@trooka.com.br' || user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+    let isAdmin = user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false;
+    
+     if (isAdmin) {
         if (request.nextUrl.pathname.startsWith('/admin/login')) {
             const url = request.nextUrl.clone();
             url.pathname = '/admin/dashboard';
